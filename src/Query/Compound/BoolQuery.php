@@ -23,27 +23,22 @@ class BoolQuery implements BuilderInterface
 {
     use ParametersTrait;
 
-    const MUST = 'must';
-    const MUST_NOT = 'must_not';
-    const SHOULD = 'should';
-    const FILTER = 'filter';
+    final public const MUST = 'must';
+    final public const MUST_NOT = 'must_not';
+    final public const SHOULD = 'should';
+    final public const FILTER = 'filter';
 
-    /**
-     * @var array
-     */
-    private $container = [];
+    private array $container = [];
 
     /**
      * Constructor to prepare container.
-     *
-     * @param array $container
      */
     public function __construct(array $container = [])
     {
         foreach ($container as $type => $queries) {
             $queries = is_array($queries) ? $queries : [$queries];
 
-            array_walk($queries, function ($query) use ($type) {
+            array_walk($queries, function ($query) use ($type): void {
                 $this->add($query, $type);
             });
         }
@@ -68,11 +63,7 @@ class BoolQuery implements BuilderInterface
             return $queries;
         }
 
-        if (isset($this->container[$boolType])) {
-            return $this->container[$boolType];
-        }
-
-        return [];
+        return $this->container[$boolType] ?? [];
     }
 
     /**
@@ -104,7 +95,7 @@ class BoolQuery implements BuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function toArray()
+    public function toArray(): array
     {
         if (count($this->container) === 1 && isset($this->container[self::MUST])
                 && count($this->container[self::MUST]) === 1) {
@@ -125,7 +116,7 @@ class BoolQuery implements BuilderInterface
         $output = $this->processArray($output);
 
         if (empty($output)) {
-            $output = new \stdClass();
+            $output = [];
         }
 
         return [$this->getType() => $output];
@@ -134,7 +125,7 @@ class BoolQuery implements BuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function getType()
+    public function getType(): string
     {
         return 'bool';
     }

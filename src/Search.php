@@ -37,26 +37,20 @@ class Search
     /**
      * If you don’t need to track the total number of hits at all you can improve
      * query times by setting this option to false. Defaults to true.
-     *
-     * @var bool
      */
-    private $trackTotalHits;
+    private ?bool $trackTotalHits = null;
 
     /**
      * To retrieve hits from a certain offset. Defaults to 0.
-     *
-     * @var int
      */
-    private $from;
+    private ?int $from = null;
 
     /**
      * The number of hits to return. Defaults to 10. If you do not care about getting some
      * hits back but only about the number of matches and/or aggregations, setting the value
      * to 0 will help performance.
-     *
-     * @var int
      */
-    private $size;
+    private ?int $size = null;
 
     /**
      * Allows to control how the _source field is returned with every hit. By default
@@ -69,10 +63,8 @@ class Search
 
     /**
      * Allows to selectively load specific stored fields for each document represented by a search hit.
-     *
-     * @var array
      */
-    private $storedFields;
+    private ?array $storedFields = null;
 
     /**
      * Allows to return a script evaluation (based on different fields) for each hit.
@@ -80,10 +72,8 @@ class Search
      * values to be returned (the evaluated value of the script). Script fields can
      * also access the actual _source document indexed and extract specific elements
      * to be returned from it (can be an "object" type).
-     *
-     * @var array
      */
-    private $scriptFields;
+    private ?array $scriptFields = null;
 
     /**
      * Allows to return the doc value representation of a field for each hit. Doc value
@@ -91,40 +81,36 @@ class Search
      * specifies fields without docvalues it will try to load the value from the fielddata
      * cache causing the terms for that field to be loaded to memory (cached), which will
      * result in more memory consumption.
-     *
-     * @var array
      */
-    private $docValueFields;
+    private ?array $docValueFields = null;
 
     /**
      * Enables explanation for each hit on how its score was computed.
      *
      * @var bool
      */
-    private $explain;
+    private ?bool $explain = null;
 
     /**
      * Returns a version for each search hit.
      *
      * @var bool
      */
-    private $version;
+    private ?bool $version = null;
 
     /**
      * Allows to configure different boost level per index when searching across more
      * than one indices. This is very handy when hits coming from one index matter more
      * than hits coming from another index (think social graph where each user has an index).
-     *
-     * @var array
      */
-    private $indicesBoost;
+    private ?array $indicesBoost = null;
 
     /**
      * Exclude documents which have a _score less than the minimum specified in min_score.
      *
      * @var int
      */
-    private $minScore;
+    private ?int $minScore = null;
 
     /**
      * Pagination of results can be done by using the from and size but the cost becomes
@@ -135,19 +121,15 @@ class Search
      * real time user requests. The search_after parameter circumvents this problem by
      * providing a live cursor. The idea is to use the results from the previous page to
      * help the retrieval of the next page.
-     *
-     * @var array
      */
-    private $searchAfter;
+    private ?array $searchAfter = null;
 
     /**
      * URI parameters alongside Request body search.
      *
      * @link https://www.elastic.co/guide/en/elasticsearch/reference/current/search-uri-request.html
-     *
-     * @var array
      */
-    private $uriParams = [];
+    private ?array $uriParams = null;
 
     /**
      * While a search request returns a single “page” of results, the scroll API can be used to retrieve
@@ -155,20 +137,15 @@ class Search
      * as you would use a cursor on a traditional database. Scrolling is not intended for real time user
      * requests, but rather for processing large amounts of data, e.g. in order to reindex the contents
      * of one index into a new index with a different configuration.
-     *
-     * @var string
      */
-    private $scroll;
+    private ?string $scroll = null;
 
-    /**
-     * @var OrderedSerializer
-     */
-    private static $serializer;
+    private static ?OrderedSerializer $serializer = null;
 
     /**
      * @var SearchEndpointInterface[]
      */
-    private $endpoints = [];
+    private ?array $endpoints = null;
 
     /**
      * Constructor to initialize static properties
@@ -189,9 +166,9 @@ class Search
     /**
      * Initializes the serializer
      */
-    private function initializeSerializer()
+    private function initializeSerializer(): void
     {
-        if (static::$serializer === null) {
+        if (!static::$serializer instanceof OrderedSerializer) {
             static::$serializer = new OrderedSerializer(
                 [
                     new CustomReferencedNormalizer(),
@@ -206,21 +183,15 @@ class Search
      *
      * @param string $type Endpoint type.
      */
-    public function destroyEndpoint($type)
+    public function destroyEndpoint($type): void
     {
         unset($this->endpoints[$type]);
     }
 
     /**
      * Adds query to the search.
-     *
-     * @param BuilderInterface $query
-     * @param string           $boolType
-     * @param string           $key
-     *
-     * @return $this
      */
-    public function addQuery(BuilderInterface $query, $boolType = BoolQuery::MUST, $key = null)
+    public function addQuery(BuilderInterface $query, string $boolType = BoolQuery::MUST, mixed $key = null): static
     {
         $endpoint = $this->getEndpoint(QueryEndpoint::NAME);
         $endpoint->addToBool($query, $boolType, $key);
@@ -237,7 +208,7 @@ class Search
      */
     private function getEndpoint($type)
     {
-        if (!array_key_exists($type, $this->endpoints)) {
+        if (!array_key_exists($type, $this->endpoints ?? [])) {
             $this->endpoints[$type] = SearchEndpointFactory::get($type);
         }
 
@@ -259,11 +230,10 @@ class Search
     /**
      * Sets query endpoint parameters.
      *
-     * @param array $parameters
      *
      * @return $this
      */
-    public function setQueryParameters(array $parameters)
+    public function setQueryParameters(array $parameters): static
     {
         $this->setEndpointParameters(QueryEndpoint::NAME, $parameters);
 
@@ -274,11 +244,10 @@ class Search
      * Sets parameters to the endpoint.
      *
      * @param string $endpointName
-     * @param array  $parameters
      *
      * @return $this
      */
-    public function setEndpointParameters($endpointName, array $parameters)
+    public function setEndpointParameters($endpointName, array $parameters): static
     {
         /** @var AbstractSearchEndpoint $endpoint */
         $endpoint = $this->getEndpoint($endpointName);
@@ -299,7 +268,7 @@ class Search
      *
      * @return $this.
      */
-    public function addPostFilter(BuilderInterface $filter, $boolType = BoolQuery::MUST, $key = null)
+    public function addPostFilter(BuilderInterface $filter, $boolType = BoolQuery::MUST, $key = null): static
     {
         $this
             ->getEndpoint(PostFilterEndpoint::NAME)
@@ -323,11 +292,10 @@ class Search
     /**
      * Sets post filter endpoint parameters.
      *
-     * @param array $parameters
      *
      * @return $this
      */
-    public function setPostFilterParameters(array $parameters)
+    public function setPostFilterParameters(array $parameters): static
     {
         $this->setEndpointParameters(PostFilterEndpoint::NAME, $parameters);
 
@@ -337,11 +305,10 @@ class Search
     /**
      * Adds aggregation into search.
      *
-     * @param AbstractAggregation $aggregation
      *
      * @return $this
      */
-    public function addAggregation(AbstractAggregation $aggregation)
+    public function addAggregation(AbstractAggregation $aggregation): static
     {
         $this->getEndpoint(AggregationsEndpoint::NAME)->add($aggregation, $aggregation->getName());
 
@@ -361,11 +328,10 @@ class Search
     /**
      * Adds inner hit into search.
      *
-     * @param NestedInnerHit $innerHit
      *
      * @return $this
      */
-    public function addInnerHit(NestedInnerHit $innerHit)
+    public function addInnerHit(NestedInnerHit $innerHit): static
     {
         $this->getEndpoint(InnerHitsEndpoint::NAME)->add($innerHit, $innerHit->getName());
 
@@ -385,11 +351,10 @@ class Search
     /**
      * Adds sort to search.
      *
-     * @param BuilderInterface $sort
      *
      * @return $this
      */
-    public function addSort(BuilderInterface $sort)
+    public function addSort(BuilderInterface $sort): static
     {
         $this->getEndpoint(SortEndpoint::NAME)->add($sort);
 
@@ -413,7 +378,7 @@ class Search
      *
      * @return $this.
      */
-    public function addHighlight($highlight)
+    public function addHighlight(BuilderInterface $highlight): static
     {
         $this->getEndpoint(HighlightEndpoint::NAME)->add($highlight);
 
@@ -440,7 +405,7 @@ class Search
     *
     * @return $this
     */
-    public function addSuggest(NamedBuilderInterface $suggest)
+    public function addSuggest(NamedBuilderInterface $suggest): static
     {
         $this->getEndpoint(SuggestEndpoint::NAME)->add($suggest, $suggest->getName());
 
@@ -460,7 +425,7 @@ class Search
     /**
      * @return null|int
      */
-    public function getFrom()
+    public function getFrom(): ?int
     {
         return $this->from;
     }
@@ -470,24 +435,19 @@ class Search
      *
      * @return $this
      */
-    public function setFrom($from)
+    public function setFrom($from): static
     {
         $this->from = $from;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isTrackTotalHits()
+    public function isTrackTotalHits(): ?bool
     {
         return $this->trackTotalHits;
     }
 
     /**
-     * @param bool $trackTotalHits
-     *
      * @return $this
      */
     public function setTrackTotalHits(bool $trackTotalHits)
@@ -497,20 +457,12 @@ class Search
         return $this;
     }
 
-    /**
-     * @return null|int
-     */
-    public function getSize()
+    public function getSize(): ?int
     {
         return $this->size;
     }
 
-    /**
-     * @param null|int $size
-     *
-     * @return $this
-     */
-    public function setSize($size)
+    public function setSize(?int $size): static
     {
         $this->size = $size;
 
@@ -530,7 +482,7 @@ class Search
      *
      * @return $this
      */
-    public function setSource($source)
+    public function setSource($source): static
     {
         $this->source = $source;
 
@@ -550,7 +502,7 @@ class Search
      *
      * @return $this
      */
-    public function setStoredFields($storedFields)
+    public function setStoredFields($storedFields): static
     {
         $this->storedFields = $storedFields;
 
@@ -570,7 +522,7 @@ class Search
      *
      * @return $this
      */
-    public function setScriptFields($scriptFields)
+    public function setScriptFields($scriptFields): static
     {
         $this->scriptFields = $scriptFields;
 
@@ -590,7 +542,7 @@ class Search
      *
      * @return $this
      */
-    public function setDocValueFields($docValueFields)
+    public function setDocValueFields($docValueFields): static
     {
         $this->docValueFields = $docValueFields;
 
@@ -610,7 +562,7 @@ class Search
      *
      * @return $this
      */
-    public function setExplain($explain)
+    public function setExplain($explain): static
     {
         $this->explain = $explain;
 
@@ -630,7 +582,7 @@ class Search
      *
      * @return $this
      */
-    public function setVersion($version)
+    public function setVersion($version): static
     {
         $this->version = $version;
 
@@ -650,7 +602,7 @@ class Search
      *
      * @return $this
      */
-    public function setIndicesBoost($indicesBoost)
+    public function setIndicesBoost($indicesBoost): static
     {
         $this->indicesBoost = $indicesBoost;
 
@@ -670,7 +622,7 @@ class Search
      *
      * @return $this
      */
-    public function setMinScore($minScore)
+    public function setMinScore($minScore): static
     {
         $this->minScore = $minScore;
 
@@ -690,7 +642,7 @@ class Search
      *
      * @return $this
      */
-    public function setSearchAfter($searchAfter)
+    public function setSearchAfter($searchAfter): static
     {
         $this->searchAfter = $searchAfter;
 
@@ -710,7 +662,7 @@ class Search
      *
      * @return $this
      */
-    public function setScroll($scroll = '5m')
+    public function setScroll(string $scroll = '5m'): static
     {
         $this->scroll = $scroll;
 
@@ -725,7 +677,7 @@ class Search
      *
      * @return $this
      */
-    public function addUriParam($name, $value)
+    public function addUriParam($name, $value): static
     {
         if (in_array($name, [
             'q',
@@ -763,10 +715,8 @@ class Search
 
     /**
      * Returns query url parameters.
-     *
-     * @return array
      */
-    public function getUriParams()
+    public function getUriParams(): array
     {
         return $this->uriParams;
     }
@@ -774,7 +724,7 @@ class Search
     /**
      * {@inheritdoc}
      */
-    public function toArray()
+    public function toArray(): array
     {
         $output = array_filter(static::$serializer->normalize($this->endpoints));
 

@@ -36,7 +36,7 @@ class SamplerAggregation extends AbstractAggregation
      * @param string $field
      * @param int    $shardSize
      */
-    public function __construct($name, $field = null, $shardSize = null)
+    public function __construct(string $name, $field = null, $shardSize = null)
     {
         parent::__construct($name);
 
@@ -67,7 +67,7 @@ class SamplerAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getType()
+    public function getType(): string
     {
         return 'sampler';
     }
@@ -75,15 +75,13 @@ class SamplerAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getArray()
+    public function getArray(): array
     {
-        $out = array_filter(
+        return array_filter(
             [
                 'field' => $this->getField(),
                 'shard_size' => $this->getShardSize(),
             ]
         );
-
-        return $out;
     }
 }

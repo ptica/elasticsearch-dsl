@@ -11,19 +11,21 @@
 
 namespace ONGR\ElasticsearchDSL\Tests\Unit\Query\Span;
 
+use ONGR\ElasticsearchDSL\Query\Span\SpanQueryInterface;
+use PHPUnit\Framework\TestCase;
 use ONGR\ElasticsearchDSL\Query\Span\SpanOrQuery;
 
 /**
  * Unit test for SpanOrQuery.
  */
-class SpanOrQueryTest extends \PHPUnit\Framework\TestCase
+class SpanOrQueryTest extends TestCase
 {
     /**
      * Tests for toArray().
      */
-    public function testToArray()
+    public function testToArray(): void
     {
-        $mock = $this->getMockBuilder('ONGR\ElasticsearchDSL\Query\Span\SpanQueryInterface')->getMock();
+        $mock = $this->createMock(SpanQueryInterface::class);
         $mock
             ->expects($this->once())
             ->method('toArray')
@@ -31,6 +33,7 @@ class SpanOrQueryTest extends \PHPUnit\Framework\TestCase
 
         $query = new SpanOrQuery();
         $query->addQuery($mock);
+
         $result = [
             'span_or' => [
                 'clauses' => [
@@ -43,7 +46,7 @@ class SpanOrQueryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($result, $query->toArray());
 
         $result = $query->getQueries();
-        $this->assertInternalType('array', $result);
+        $this->assertIsArray($result);
         $this->assertEquals(1, count($result));
     }
 }

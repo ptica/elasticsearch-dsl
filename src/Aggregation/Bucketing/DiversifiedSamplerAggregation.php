@@ -36,7 +36,7 @@ class DiversifiedSamplerAggregation extends AbstractAggregation
      * @param string $field Elasticsearch field name
      * @param int $shardSize Shard size, by default it's 100
      */
-    public function __construct($name, $field = null, $shardSize = null)
+    public function __construct(string $name, $field = null, $shardSize = null)
     {
         parent::__construct($name);
 
@@ -53,11 +53,9 @@ class DiversifiedSamplerAggregation extends AbstractAggregation
     }
 
     /**
-     * @param mixed $shardSize
-     *
      * @return $this
      */
-    public function setShardSize($shardSize)
+    public function setShardSize(mixed $shardSize)
     {
         $this->shardSize = $shardSize;
 
@@ -67,7 +65,7 @@ class DiversifiedSamplerAggregation extends AbstractAggregation
     /**
      * @inheritdoc
      */
-    public function getType()
+    public function getType(): string
     {
         return 'diversified_sampler';
     }
@@ -75,15 +73,13 @@ class DiversifiedSamplerAggregation extends AbstractAggregation
     /**
      * @inheritdoc
      */
-    protected function getArray()
+    public function getArray(): array
     {
-        $out = array_filter(
+        return array_filter(
             [
                 'field' => $this->getField(),
                 'shard_size' => $this->getShardSize(),
             ]
         );
-
-        return $out;
     }
 }

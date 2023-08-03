@@ -27,12 +27,8 @@ class StatsAggregation extends AbstractAggregation
 
     /**
      * Inner aggregations container init.
-     *
-     * @param string $name
-     * @param string $field
-     * @param string $script
      */
-    public function __construct($name, $field = null, $script = null)
+    public function __construct(string $name, ?string $field = null, mixed $script = null)
     {
         parent::__construct($name);
 
@@ -43,7 +39,7 @@ class StatsAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getType()
+    public function getType(): string
     {
         return 'stats';
     }
@@ -51,7 +47,7 @@ class StatsAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getArray()
+    public function getArray(): array
     {
         $out = [];
         if ($this->getField()) {

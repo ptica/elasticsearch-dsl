@@ -11,30 +11,29 @@
 
 namespace ONGR\ElasticsearchDSL\Tests\Unit\Bucketing\Aggregation;
 
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use ONGR\ElasticsearchDSL\Aggregation\Bucketing\GeoHashGridAggregation;
 
 /**
  * Unit test for geohash grid aggregation.
  */
-class GeoHashGridAggregationTest extends \PHPUnit\Framework\TestCase
+class GeoHashGridAggregationTest extends TestCase
 {
     /**
      * Test if exception is thrown.
-     *
-     * @expectedException \LogicException
      */
-    public function testGeoHashGridAggregationException()
+    public function testGeoHashGridAggregationException(): void
     {
+        $this->expectException(\LogicException::class);
         $agg = new GeoHashGridAggregation('test_agg');
         $agg->getArray();
     }
 
     /**
      * Data provider for testGeoHashGridAggregationGetArray().
-     *
-     * @return array
      */
-    public function getArrayDataProvider()
+    public static function getArrayDataProvider(): array
     {
         $out = [];
 
@@ -60,12 +59,10 @@ class GeoHashGridAggregationTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getArray method.
      *
-     * @param array $filterData
      * @param array $expected
-     *
-     * @dataProvider getArrayDataProvider
      */
-    public function testGeoHashGridAggregationGetArray($filterData, $expected)
+    #[DataProvider('getArrayDataProvider')]
+    public function testGeoHashGridAggregationGetArray(array $filterData, mixed $expected): void
     {
         $aggregation = new GeoHashGridAggregation('foo');
         $aggregation->setPrecision($filterData['precision']);
@@ -80,7 +77,7 @@ class GeoHashGridAggregationTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getType method.
      */
-    public function testGeoHashGridAggregationGetType()
+    public function testGeoHashGridAggregationGetType(): void
     {
         $aggregation = new GeoHashGridAggregation('foo');
         $result = $aggregation->getType();

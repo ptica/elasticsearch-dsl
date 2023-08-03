@@ -11,16 +11,16 @@
 
 namespace ONGR\ElasticsearchDSL\Tests\Unit\Query\Specialized;
 
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use ONGR\ElasticsearchDSL\Query\Specialized\ScriptQuery;
 
-class ScriptQueryTest extends \PHPUnit\Framework\TestCase
+class ScriptQueryTest extends TestCase
 {
     /**
      * Data provider for testToArray().
-     *
-     * @return array
      */
-    public function getArrayDataProvider()
+    public static function getArrayDataProvider(): array
     {
         return [
             'simple_script' => [
@@ -42,10 +42,9 @@ class ScriptQueryTest extends \PHPUnit\Framework\TestCase
      * @param string $script     Script
      * @param array  $parameters Optional parameters
      * @param array  $expected   Expected values
-     *
-     * @dataProvider getArrayDataProvider
      */
-    public function testToArray($script, $parameters, $expected)
+    #[DataProvider('getArrayDataProvider')]
+    public function testToArray($script, $parameters, $expected): void
     {
         $filter = new ScriptQuery($script, $parameters);
         $result = $filter->toArray();

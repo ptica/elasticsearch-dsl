@@ -16,29 +16,20 @@ namespace ONGR\ElasticsearchDSL;
  */
 trait ParametersTrait
 {
-    /**
-     * @var array
-     */
-    private $parameters = [];
+    private array $parameters = [];
 
     /**
      * Checks if parameter exists.
-     *
-     * @param string $name
-     *
-     * @return bool
      */
-    public function hasParameter($name)
+    public function hasParameter(string $name): bool
     {
         return isset($this->parameters[$name]);
     }
 
     /**
      * Removes parameter.
-     *
-     * @param string $name
      */
-    public function removeParameter($name)
+    public function removeParameter(string $name): void
     {
         if ($this->hasParameter($name)) {
             unset($this->parameters[$name]);
@@ -47,41 +38,26 @@ trait ParametersTrait
 
     /**
      * Returns one parameter by it's name.
-     *
-     * @param string $name
-     *
-     * @return array|string|int|float|bool|\stdClass
      */
-    public function getParameter($name)
+    public function getParameter(string $name): mixed
     {
-        return $this->parameters[$name];
+        return $this->parameters[$name] ?? null;
     }
 
     /**
      * Returns an array of all parameters.
-     *
-     * @return array
      */
-    public function getParameters()
+    public function getParameters(): array
     {
         return $this->parameters;
     }
 
-    /**
-     * @param string                 $name
-     * @param array|string|int|float|bool|\stdClass $value
-     */
-    public function addParameter($name, $value)
+    public function addParameter(string $name, mixed $value): void
     {
         $this->parameters[$name] = $value;
     }
 
-    /**
-     * @param array $parameters
-     *
-     * @return $this
-     */
-    public function setParameters(array $parameters)
+    public function setParameters(array $parameters): static
     {
         $this->parameters = $parameters;
 
@@ -90,12 +66,8 @@ trait ParametersTrait
 
     /**
      * Returns given array merged with parameters.
-     *
-     * @param array $array
-     *
-     * @return array
      */
-    protected function processArray(array $array = [])
+    protected function processArray(array $array = []): array
     {
         return array_merge($array, $this->parameters);
     }

@@ -113,7 +113,7 @@ class TemplateQuery implements BuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function getType()
+    public function getType(): string
     {
         return 'template';
     }
@@ -121,7 +121,7 @@ class TemplateQuery implements BuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function toArray()
+    public function toArray(): array
     {
         $output = array_filter(
             [

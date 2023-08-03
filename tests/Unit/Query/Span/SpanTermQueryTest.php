@@ -11,17 +11,18 @@
 
 namespace ONGR\ElasticsearchDSL\Tests\Unit\Query\Span;
 
+use PHPUnit\Framework\TestCase;
 use ONGR\ElasticsearchDSL\Query\Span\SpanTermQuery;
 
 /**
  * Unit test for SpanTermQuery.
  */
-class SpanTermQueryTest extends \PHPUnit\Framework\TestCase
+class SpanTermQueryTest extends TestCase
 {
     /**
      * Tests for toArray().
      */
-    public function testToArray()
+    public function testToArray(): void
     {
         $query = new SpanTermQuery('user', 'bob');
         $expected = [
@@ -34,7 +35,7 @@ class SpanTermQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests for toArray() with parameters.
      */
-    public function testToArrayWithParameters()
+    public function testToArrayWithParameters(): void
     {
         $query = new SpanTermQuery('user', 'bob', ['boost' => 2]);
         $expected = [

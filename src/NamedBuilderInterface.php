@@ -21,5 +21,5 @@ interface NamedBuilderInterface extends BuilderInterface
      *
      * @return string
      */
-    public function getName();
+    public function getName(): string;
 }

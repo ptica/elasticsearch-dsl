@@ -32,7 +32,7 @@ class TermsAggregation extends AbstractAggregation
      * @param string $field
      * @param string $script
      */
-    public function __construct($name, $field = null, $script = null)
+    public function __construct(string $name, $field = null, $script = null)
     {
         parent::__construct($name);
 
@@ -43,7 +43,7 @@ class TermsAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getType()
+    public function getType(): string
     {
         return 'terms';
     }
@@ -51,15 +51,13 @@ class TermsAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getArray()
+    public function getArray(): array
     {
-        $data = array_filter(
+        return array_filter(
             [
                 'field' => $this->getField(),
                 'script' => $this->getScript(),
             ]
         );
-
-        return $data;
     }
 }

@@ -24,20 +24,11 @@ class Highlight implements BuilderInterface
     /**
      * @var array Holds fields for highlight.
      */
-    private $fields = [];
+    private array $fields = [];
 
-    /**
-     * @var array
-     */
-    private $tags;
+    private ?array $tags = null;
 
-    /**
-     * @param string $name   Field name to highlight.
-     * @param array  $params
-     *
-     * @return $this
-     */
-    public function addField($name, array $params = [])
+    public function addField(string $name, array $params = []): static
     {
         $this->fields[$name] = $params;
 
@@ -46,13 +37,9 @@ class Highlight implements BuilderInterface
 
     /**
      * Sets html tag and its class used in highlighting.
-     *
-     * @param array $preTags
-     * @param array $postTags
-     *
      * @return $this
      */
-    public function setTags(array $preTags, array $postTags)
+    public function setTags(array $preTags, array $postTags): static
     {
         $this->tags['pre_tags'] = $preTags;
         $this->tags['post_tags'] = $postTags;
@@ -63,7 +50,7 @@ class Highlight implements BuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function getType()
+    public function getType(): string
     {
         return 'highlight';
     }
@@ -71,7 +58,7 @@ class Highlight implements BuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function toArray()
+    public function toArray(): array
     {
         $output = [];
 
@@ -82,7 +69,7 @@ class Highlight implements BuilderInterface
         $output = $this->processArray($output);
 
         foreach ($this->fields as $field => $params) {
-            $output['fields'][$field] = count($params) ? $params : new \stdClass();
+            $output['fields'][$field] = count($params) ? $params : [];
         }
 
         return $output;

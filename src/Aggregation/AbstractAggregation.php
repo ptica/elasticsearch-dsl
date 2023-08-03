@@ -29,29 +29,26 @@ abstract class AbstractAggregation implements NamedBuilderInterface
      */
     private $field;
 
-    /**
-     * @var BuilderBag
-     */
-    private $aggregations;
+    private ?BuilderBag $aggregations = null;
 
     /**
      * Abstract supportsNesting method.
      *
      * @return bool
      */
-    abstract protected function supportsNesting();
+    abstract protected function supportsNesting(): bool;
 
     /**
      * @return array|\stdClass
      */
-    abstract protected function getArray();
+    abstract public function getArray(): array;
 
     /**
      * Inner aggregations container init.
      *
      * @param string $name
      */
-    public function __construct($name)
+    public function __construct(string $name)
     {
         $this->setName($name);
     }
@@ -79,13 +76,12 @@ abstract class AbstractAggregation implements NamedBuilderInterface
     /**
      * Adds a sub-aggregation.
      *
-     * @param AbstractAggregation $abstractAggregation
      *
      * @return $this
      */
     public function addAggregation(AbstractAggregation $abstractAggregation)
     {
-        if (!$this->aggregations) {
+        if (!$this->aggregations instanceof BuilderBag) {
             $this->aggregations = $this->createBuilderBag();
         }
 
@@ -101,7 +97,7 @@ abstract class AbstractAggregation implements NamedBuilderInterface
      */
     public function getAggregations()
     {
-        if ($this->aggregations) {
+        if ($this->aggregations instanceof BuilderBag) {
             return $this->aggregations->all();
         } else {
             return [];
@@ -126,11 +122,11 @@ abstract class AbstractAggregation implements NamedBuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function toArray()
+    public function toArray(): array
     {
         $array = $this->getArray();
         $result = [
-            $this->getType() => is_array($array) ? $this->processArray($array) : $array,
+            $this->getType() => $this->processArray($array),
         ];
 
         if ($this->supportsNesting()) {

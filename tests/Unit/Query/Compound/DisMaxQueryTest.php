@@ -11,16 +11,18 @@
 
 namespace ONGR\ElasticsearchDSL\Tests\Unit\Query\Compound;
 
+use ONGR\ElasticsearchDSL\BuilderInterface;
+use PHPUnit\Framework\TestCase;
 use ONGR\ElasticsearchDSL\Query\Compound\DisMaxQuery;
 
-class DisMaxQueryTest extends \PHPUnit\Framework\TestCase
+class DisMaxQueryTest extends TestCase
 {
     /**
      * Tests toArray().
      */
-    public function testToArray()
+    public function testToArray(): void
     {
-        $mock = $this->getMockBuilder('ONGR\ElasticsearchDSL\BuilderInterface')->getMock();
+        $mock = $this->createMock(BuilderInterface::class);
         $mock
             ->expects($this->any())
             ->method('toArray')
@@ -29,6 +31,7 @@ class DisMaxQueryTest extends \PHPUnit\Framework\TestCase
         $query = new DisMaxQuery(['boost' => 1.2]);
         $query->addQuery($mock);
         $query->addQuery($mock);
+
         $expected = [
             'dis_max' => [
                 'queries' => [

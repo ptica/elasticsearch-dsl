@@ -11,20 +11,21 @@
 
 namespace ONGR\ElasticsearchDSL\Tests\Unit\Bucketing\Aggregation;
 
+use ONGR\ElasticsearchDSL\Aggregation\AbstractAggregation;
+use PHPUnit\Framework\TestCase;
 use ONGR\ElasticsearchDSL\Aggregation\Bucketing\DateHistogramAggregation;
 
 /**
  * Unit test for children aggregation.
  */
-class DateHistogramAggregationTest extends \PHPUnit\Framework\TestCase
+class DateHistogramAggregationTest extends TestCase
 {
     /**
      * Tests if ChildrenAggregation#getArray throws exception when expected.
-     *
-     * @expectedException \LogicException
      */
-    public function testGetArrayException()
+    public function testGetArrayException(): void
     {
+        $this->expectException(\LogicException::class);
         $aggregation = new DateHistogramAggregation('foo');
         $aggregation->getArray();
     }
@@ -32,7 +33,7 @@ class DateHistogramAggregationTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getType method.
      */
-    public function testDateHistogramAggregationGetType()
+    public function testDateHistogramAggregationGetType(): void
     {
         $aggregation = new DateHistogramAggregation('foo');
         $result = $aggregation->getType();
@@ -42,15 +43,16 @@ class DateHistogramAggregationTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getArray method.
      */
-    public function testChildrenAggregationGetArray()
+    public function testChildrenAggregationGetArray(): void
     {
-        $mock = $this->getMockBuilder('ONGR\ElasticsearchDSL\Aggregation\AbstractAggregation')
+        $mock = $this->getMockBuilder(AbstractAggregation::class)
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
         $aggregation = new DateHistogramAggregation('foo');
         $aggregation->addAggregation($mock);
         $aggregation->setField('date');
         $aggregation->setInterval('month');
+
         $result = $aggregation->getArray();
         $expected = ['field' => 'date', 'interval' => 'month'];
         $this->assertEquals($expected, $result);

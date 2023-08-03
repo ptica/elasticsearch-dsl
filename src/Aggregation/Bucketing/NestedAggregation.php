@@ -34,7 +34,7 @@ class NestedAggregation extends AbstractAggregation
      * @param string $name
      * @param string $path
      */
-    public function __construct($name, $path = null)
+    public function __construct(string $name, $path = null)
     {
         parent::__construct($name);
 
@@ -66,7 +66,7 @@ class NestedAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getType()
+    public function getType(): string
     {
         return 'nested';
     }
@@ -74,7 +74,7 @@ class NestedAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getArray()
+    public function getArray(): array
     {
         return ['path' => $this->getPath()];
     }

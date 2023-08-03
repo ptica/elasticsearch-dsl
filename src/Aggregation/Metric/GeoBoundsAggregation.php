@@ -23,19 +23,12 @@ class GeoBoundsAggregation extends AbstractAggregation
 {
     use MetricTrait;
 
-    /**
-     * @var bool
-     */
-    private $wrapLongitude = true;
+    private bool $wrapLongitude = true;
 
     /**
      * Inner aggregations container init.
-     *
-     * @param string $name
-     * @param string $field
-     * @param bool   $wrapLongitude
      */
-    public function __construct($name, $field = null, $wrapLongitude = true)
+    public function __construct(string $name, ?string $field = null, bool $wrapLongitude = true)
     {
         parent::__construct($name);
 
@@ -43,20 +36,15 @@ class GeoBoundsAggregation extends AbstractAggregation
         $this->setWrapLongitude($wrapLongitude);
     }
 
-    /**
-     * @return bool
-     */
-    public function isWrapLongitude()
+    public function isWrapLongitude(): bool
     {
         return $this->wrapLongitude;
     }
 
     /**
-     * @param bool $wrapLongitude
-     *
      * @return $this
      */
-    public function setWrapLongitude($wrapLongitude)
+    public function setWrapLongitude(bool $wrapLongitude): static
     {
         $this->wrapLongitude = $wrapLongitude;
 
@@ -66,7 +54,7 @@ class GeoBoundsAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getArray()
+    public function getArray(): array
     {
         $data = [];
         if ($this->getField()) {
@@ -83,7 +71,7 @@ class GeoBoundsAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getType()
+    public function getType(): string
     {
         return 'geo_bounds';
     }

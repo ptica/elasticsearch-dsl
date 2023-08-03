@@ -11,23 +11,24 @@
 
 namespace ONGR\ElasticsearchDSL\Tests\Unit\Query;
 
+use PHPUnit\Framework\TestCase;
 use ONGR\ElasticsearchDSL\Query\MatchAllQuery;
 
-class MatchAllQueryTest extends \PHPUnit\Framework\TestCase
+class MatchAllQueryTest extends TestCase
 {
     /**
      * Tests toArray().
      */
-    public function testToArrayWhenThereAreNoParams()
+    public function testToArrayWhenThereAreNoParams(): void
     {
         $query = new MatchAllQuery();
-        $this->assertEquals(['match_all' => new \stdClass()], $query->toArray());
+        $this->assertEquals(['match_all' => []], $query->toArray());
     }
 
     /**
      * Tests toArray().
      */
-    public function testToArrayWithParams()
+    public function testToArrayWithParams(): void
     {
         $params = ['boost' => 5];
         $query = new MatchAllQuery($params);

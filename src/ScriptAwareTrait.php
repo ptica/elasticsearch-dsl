@@ -16,25 +16,14 @@ namespace ONGR\ElasticsearchDSL;
  */
 trait ScriptAwareTrait
 {
-    /**
-     * @var string
-     */
-    private $script;
+    private mixed $script = null;
 
-    /**
-     * @return string
-     */
-    public function getScript()
+    public function getScript(): mixed
     {
         return $this->script;
     }
 
-    /**
-     * @param string $script
-     *
-     * @return $this
-     */
-    public function setScript($script)
+    public function setScript($script): static
     {
         $this->script = $script;
 

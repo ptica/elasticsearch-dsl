@@ -11,19 +11,21 @@
 
 namespace ONGR\ElasticsearchDSL\Tests\Unit\Query\Span;
 
+use ONGR\ElasticsearchDSL\BuilderInterface;
+use PHPUnit\Framework\TestCase;
 use ONGR\ElasticsearchDSL\Query\Span\SpanMultiTermQuery;
 
 /**
  * Unit test for SpanMultiTermQuery.
  */
-class SpanMultiTermQueryTest extends \PHPUnit\Framework\TestCase
+class SpanMultiTermQueryTest extends TestCase
 {
     /**
      * Test for toArray().
      */
-    public function testToArray()
+    public function testToArray(): void
     {
-        $mock = $this->getMockBuilder('ONGR\ElasticsearchDSL\BuilderInterface')->getMock();
+        $mock = $this->createMock(BuilderInterface::class);
         $mock
             ->expects($this->once())
             ->method('toArray')

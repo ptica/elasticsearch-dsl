@@ -43,6 +43,7 @@ class ScriptedMetricAggregation extends AbstractAggregation
      * @var mixed
      */
     private $reduceScript;
+
     /**
      * ScriptedMetricAggregation constructor.
      * @param string $name
@@ -58,7 +59,7 @@ class ScriptedMetricAggregation extends AbstractAggregation
         $combineScript = null,
         $reduceScript = null
     ) {
-    
+
         parent::__construct($name);
 
         $this->setInitScript($initScript);
@@ -70,7 +71,7 @@ class ScriptedMetricAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getType()
+    public function getType(): string
     {
         return 'scripted_metric';
     }
@@ -84,11 +85,9 @@ class ScriptedMetricAggregation extends AbstractAggregation
     }
 
     /**
-     * @param mixed $initScript
-     *
      * @return $this
      */
-    public function setInitScript($initScript)
+    public function setInitScript(mixed $initScript)
     {
         $this->initScript = $initScript;
 
@@ -104,11 +103,9 @@ class ScriptedMetricAggregation extends AbstractAggregation
     }
 
     /**
-     * @param mixed $mapScript
-     *
      * @return $this
      */
-    public function setMapScript($mapScript)
+    public function setMapScript(mixed $mapScript)
     {
         $this->mapScript = $mapScript;
 
@@ -124,11 +121,9 @@ class ScriptedMetricAggregation extends AbstractAggregation
     }
 
     /**
-     * @param mixed $combineScript
-     *
      * @return $this
      */
-    public function setCombineScript($combineScript)
+    public function setCombineScript(mixed $combineScript)
     {
         $this->combineScript = $combineScript;
 
@@ -144,11 +139,9 @@ class ScriptedMetricAggregation extends AbstractAggregation
     }
 
     /**
-     * @param mixed $reduceScript
-     *
      * @return $this
      */
-    public function setReduceScript($reduceScript)
+    public function setReduceScript(mixed $reduceScript)
     {
         $this->reduceScript = $reduceScript;
 
@@ -158,9 +151,9 @@ class ScriptedMetricAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getArray()
+    public function getArray(): array
     {
-        $out = array_filter(
+        return array_filter(
             [
                 'init_script' => $this->getInitScript(),
                 'map_script' => $this->getMapScript(),
@@ -168,7 +161,5 @@ class ScriptedMetricAggregation extends AbstractAggregation
                 'reduce_script' => $this->getReduceScript(),
             ]
         );
-
-        return $out;
     }
 }

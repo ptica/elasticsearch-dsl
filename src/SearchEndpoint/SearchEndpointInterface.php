@@ -40,7 +40,7 @@ interface SearchEndpointInterface extends NormalizableInterface
      *
      * @return string Key of added builder.
      */
-    public function addToBool(BuilderInterface $builder, $boolType = null, $key = null);
+    public function addToBool(BuilderInterface $builder, ?string $boolType = null, mixed $key = null);
 
     /**
      * Removes contained builder.

@@ -19,7 +19,7 @@ class BuilderBag
     /**
      * @var BuilderInterface[]
      */
-    private $bag = [];
+    private array $bag = [];
 
     /**
      * @param BuilderInterface[] $builders
@@ -34,17 +34,11 @@ class BuilderBag
     /**
      * Adds a builder.
      *
-     * @param BuilderInterface $builder
-     *
      * @return string
      */
     public function add(BuilderInterface $builder)
     {
-        if (method_exists($builder, 'getName')) {
-            $name = $builder->getName();
-        } else {
-            $name = bin2hex(random_bytes(30));
-        }
+        $name = method_exists($builder, 'getName') ? $builder->getName() : bin2hex(random_bytes(30));
 
         $this->bag[$name] = $builder;
 
@@ -68,7 +62,7 @@ class BuilderBag
      *
      * @param string $name Builder name.
      */
-    public function remove($name)
+    public function remove($name): void
     {
         unset($this->bag[$name]);
     }
@@ -76,7 +70,7 @@ class BuilderBag
     /**
      * Clears contained builders.
      */
-    public function clear()
+    public function clear(): void
     {
         $this->bag = [];
     }
@@ -100,21 +94,19 @@ class BuilderBag
      *
      * @return BuilderInterface[]
      */
-    public function all($type = null)
+    public function all($type = null): array
     {
         return array_filter(
             $this->bag,
             /** @var BuilderInterface $builder */
-            function (BuilderInterface $builder) use ($type) {
-                return $type === null || $builder->getType() == $type;
-            }
+            static fn(BuilderInterface $builder): bool => $type === null || $builder->getType() == $type
         );
     }
 
     /**
      * {@inheritdoc}
      */
-    public function toArray()
+    public function toArray(): array
     {
         $output = [];
         foreach ($this->all() as $builder) {

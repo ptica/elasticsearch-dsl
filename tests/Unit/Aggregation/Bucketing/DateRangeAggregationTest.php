@@ -11,30 +11,31 @@
 
 namespace ONGR\ElasticsearchDSL\Tests\Unit\Bucketing\Aggregation;
 
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use ONGR\ElasticsearchDSL\Aggregation\Bucketing\DateRangeAggregation;
 
-class DateRangeAggregationTest extends \PHPUnit\Framework\TestCase
+class DateRangeAggregationTest extends TestCase
 {
     /**
      * Test if exception is thrown.
-     *
-     * @expectedException \LogicException
-     * @expectedExceptionMessage Date range aggregation must have field, format set and range added.
      */
-    public function testIfExceptionIsThrownWhenNoParametersAreSet()
+    public function testIfExceptionIsThrownWhenNoParametersAreSet(): void
     {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Date range aggregation must have field, format set and range added.');
         $agg = new DateRangeAggregation('test_agg');
         $agg->getArray();
     }
 
     /**
      * Test if exception is thrown when both range parameters are null.
-     *
-     * @expectedException \LogicException
-     * @expectedExceptionMessage Either from or to must be set. Both cannot be null.
      */
-    public function testIfExceptionIsThrownWhenBothRangesAreNull()
+    public function testIfExceptionIsThrownWhenBothRangesAreNull(): void
     {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Either from or to must be set. Both cannot be null.');
         $agg = new DateRangeAggregation('test_agg');
         $agg->addRange(null, null);
     }
@@ -42,12 +43,13 @@ class DateRangeAggregationTest extends \PHPUnit\Framework\TestCase
     /**
      * Test getArray method.
      */
-    public function testDateRangeAggregationGetArray()
+    public function testDateRangeAggregationGetArray(): void
     {
         $agg = new DateRangeAggregation('foo', 'baz');
         $agg->addRange(10, 20);
         $agg->setFormat('bar');
         $agg->setKeyed(true);
+
         $result = $agg->getArray();
         $expected = [
             'format' => 'bar',
@@ -61,7 +63,7 @@ class DateRangeAggregationTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getType method.
      */
-    public function testDateRangeAggregationGetType()
+    public function testDateRangeAggregationGetType(): void
     {
         $aggregation = new DateRangeAggregation('foo');
         $result = $aggregation->getType();
@@ -70,10 +72,8 @@ class DateRangeAggregationTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Data provider for testDateRangeAggregationConstructor.
-     *
-     * @return array
      */
-    public function testDateRangeAggregationConstructorProvider()
+    public static function dateRangeAggregationConstructorProvider(): array
     {
         return [
             // Case #0. Minimum arguments.
@@ -110,15 +110,13 @@ class DateRangeAggregationTest extends \PHPUnit\Framework\TestCase
      *
      * @param string $field
      * @param string $format
-     * @param array  $ranges
-     *
-     * @dataProvider testDateRangeAggregationConstructorProvider
      */
-    public function testDateRangeAggregationConstructor($field = null, $format = null, array $ranges = null)
+    #[DataProvider('dateRangeAggregationConstructorProvider')]
+    public function testDateRangeAggregationConstructor($field = null, $format = null, array $ranges = null): void
     {
-        /** @var DateRangeAggregation|\PHPUnit_Framework_MockObject_MockObject $aggregation */
-        $aggregation = $this->getMockBuilder('ONGR\ElasticsearchDSL\Aggregation\Bucketing\DateRangeAggregation')
-            ->setMethods(['setField', 'setFormat', 'addRange'])
+        /** @var DateRangeAggregation|MockObject $aggregation */
+        $aggregation = $this->getMockBuilder(DateRangeAggregation::class)
+            ->onlyMethods(['setField', 'setFormat', 'addRange'])
             ->disableOriginalConstructor()
             ->getMock();
         $aggregation->expects($this->once())->method('setField')->with($field);

@@ -11,17 +11,19 @@
 
 namespace ONGR\ElasticsearchDSL\Tests\Unit\Bucketing\Aggregation;
 
+use ONGR\ElasticsearchDSL\Aggregation\AbstractAggregation;
+use PHPUnit\Framework\TestCase;
 use ONGR\ElasticsearchDSL\Aggregation\Bucketing\SignificantTermsAggregation;
 
 /**
  * Unit test for children aggregation.
  */
-class SignificantTermsAggregationTest extends \PHPUnit\Framework\TestCase
+class SignificantTermsAggregationTest extends TestCase
 {
     /**
      * Tests getType method.
      */
-    public function testSignificantTermsAggregationGetType()
+    public function testSignificantTermsAggregationGetType(): void
     {
         $aggregation = new SignificantTermsAggregation('foo');
         $result = $aggregation->getType();
@@ -31,13 +33,14 @@ class SignificantTermsAggregationTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getArray method.
      */
-    public function testSignificantTermsAggregationGetArray()
+    public function testSignificantTermsAggregationGetArray(): void
     {
-        $mock = $this->getMockBuilder('ONGR\ElasticsearchDSL\Aggregation\AbstractAggregation')
+        $mock = $this->getMockBuilder(AbstractAggregation::class)
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
         $aggregation = new SignificantTermsAggregation('foo', 'title');
         $aggregation->addAggregation($mock);
+
         $result = $aggregation->getArray();
         $expected = ['field' => 'title'];
         $this->assertEquals($expected, $result);

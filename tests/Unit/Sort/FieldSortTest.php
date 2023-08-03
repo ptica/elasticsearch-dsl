@@ -11,17 +11,18 @@
 
 namespace ONGR\ElasticsearchDSL\Tests\Unit\Sort;
 
+use PHPUnit\Framework\TestCase;
 use ONGR\ElasticsearchDSL\Query\TermLevel\TermQuery;
 use ONGR\ElasticsearchDSL\Sort\FieldSort;
 use ONGR\ElasticsearchDSL\Sort\NestedSort;
 
-class FieldSortTest extends \PHPUnit\Framework\TestCase
+class FieldSortTest extends TestCase
 {
     /**
      * Test for toArray() method.
      *
      */
-    public function testToArray()
+    public function testToArray(): void
     {
         $nestedFilter = new NestedSort('somePath', new TermQuery('somePath.id', 10));
         $sort = new FieldSort('someField', 'asc');

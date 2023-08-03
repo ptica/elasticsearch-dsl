@@ -25,11 +25,8 @@ class GeoCentroidAggregation extends AbstractAggregation
 
     /**
      * Inner aggregations container init.
-     *
-     * @param string $name
-     * @param string $field
      */
-    public function __construct($name, $field = null)
+    public function __construct(string $name, ?string $field = null)
     {
         parent::__construct($name);
 
@@ -39,7 +36,7 @@ class GeoCentroidAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getArray()
+    public function getArray(): array
     {
         $data = [];
         if ($this->getField()) {
@@ -54,7 +51,7 @@ class GeoCentroidAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getType()
+    public function getType(): string
     {
         return 'geo_centroid';
     }

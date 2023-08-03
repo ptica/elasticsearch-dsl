@@ -11,21 +11,22 @@
 
 namespace ONGR\ElasticsearchDSL\Tests\Unit\Unit\SearchEndpoint;
 
+use PHPUnit\Framework\TestCase;
 use ONGR\ElasticsearchDSL\Aggregation\Bucketing\MissingAggregation;
 use ONGR\ElasticsearchDSL\SearchEndpoint\AggregationsEndpoint;
 
 /**
  * Class AggregationsEndpointTest.
  */
-class AggregationsEndpointTest extends \PHPUnit\Framework\TestCase
+class AggregationsEndpointTest extends TestCase
 {
     /**
      * Tests constructor.
      */
-    public function testItCanBeInstantiated()
+    public function testItCanBeInstantiated(): void
     {
         $this->assertInstanceOf(
-            'ONGR\ElasticsearchDSL\SearchEndpoint\AggregationsEndpoint',
+            AggregationsEndpoint::class,
             new AggregationsEndpoint()
         );
     }
@@ -33,12 +34,13 @@ class AggregationsEndpointTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests if endpoint returns builders.
      */
-    public function testEndpointGetter()
+    public function testEndpointGetter(): void
     {
         $aggName = 'acme_agg';
         $agg = new MissingAggregation('acme');
         $endpoint = new AggregationsEndpoint();
         $endpoint->add($agg, $aggName);
+
         $builders = $endpoint->getAll();
 
         $this->assertCount(1, $builders);

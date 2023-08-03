@@ -23,29 +23,11 @@ class DateRangeAggregation extends AbstractAggregation
 {
     use BucketingTrait;
 
-    /**
-     * @var string
-     */
-    private $format;
+    private ?string $format;
+    private array $ranges = [];
+    private bool $keyed = false;
 
-    /**
-     * @var array
-     */
-    private $ranges = [];
-
-    /**
-     * @var bool
-     */
-    private $keyed = false;
-
-    /**
-     * @param string $name
-     * @param string $field
-     * @param string $format
-     * @param array  $ranges
-     * @param bool   $keyed
-     */
-    public function __construct($name, $field = null, $format = null, array $ranges = [], $keyed = false)
+    public function __construct(string $name, ?string $field = null, ?string $format = null, array $ranges = [], bool $keyed = false)
     {
         parent::__construct($name);
 
@@ -53,9 +35,9 @@ class DateRangeAggregation extends AbstractAggregation
         $this->setFormat($format);
         $this->setKeyed($keyed);
         foreach ($ranges as $range) {
-            $from = isset($range['from']) ? $range['from'] : null;
-            $to = isset($range['to']) ? $range['to'] : null;
-            $key = isset($range['key']) ? $range['key'] : null;
+            $from = $range['from'] ?? null;
+            $to = $range['to'] ?? null;
+            $key = $range['key'] ?? null;
             $this->addRange($from, $to, $key);
         }
     }
@@ -63,29 +45,21 @@ class DateRangeAggregation extends AbstractAggregation
     /**
      * Sets if result buckets should be keyed.
      *
-     * @param bool $keyed
-     *
      * @return DateRangeAggregation
      */
-    public function setKeyed($keyed)
+    public function setKeyed(bool $keyed): static
     {
         $this->keyed = $keyed;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getFormat()
+    public function getFormat(): ?string
     {
         return $this->format;
     }
 
-    /**
-     * @param string $format
-     */
-    public function setFormat($format)
+    public function setFormat(?string $format): void
     {
         $this->format = $format;
     }
@@ -101,7 +75,7 @@ class DateRangeAggregation extends AbstractAggregation
      *
      * @throws \LogicException
      */
-    public function addRange($from = null, $to = null, $key = null)
+    public function addRange(mixed $from = null, mixed $to = null, mixed $key = null): static
     {
         $range = array_filter(
             [
@@ -109,9 +83,7 @@ class DateRangeAggregation extends AbstractAggregation
                 'to' => $to,
                 'key' => $key,
             ],
-            function ($v) {
-                return !is_null($v);
-            }
+            static fn($v): bool => !is_null($v)
         );
 
         if (empty($range)) {
@@ -126,25 +98,24 @@ class DateRangeAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getArray()
+    public function getArray(): array
     {
         if ($this->getField() && $this->getFormat() && !empty($this->ranges)) {
-            $data = [
+            return [
                 'format' => $this->getFormat(),
                 'field' => $this->getField(),
                 'ranges' => $this->ranges,
                 'keyed' => $this->keyed,
             ];
-
-            return $data;
         }
+
         throw new \LogicException('Date range aggregation must have field, format set and range added.');
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getType()
+    public function getType(): string
     {
         return 'date_range';
     }

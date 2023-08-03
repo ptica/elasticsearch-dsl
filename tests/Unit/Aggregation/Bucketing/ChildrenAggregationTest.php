@@ -11,20 +11,21 @@
 
 namespace ONGR\ElasticsearchDSL\Tests\Unit\Bucketing\Aggregation;
 
+use ONGR\ElasticsearchDSL\Aggregation\AbstractAggregation;
+use PHPUnit\Framework\TestCase;
 use ONGR\ElasticsearchDSL\Aggregation\Bucketing\ChildrenAggregation;
 
 /**
  * Unit test for children aggregation.
  */
-class ChildrenAggregationTest extends \PHPUnit\Framework\TestCase
+class ChildrenAggregationTest extends TestCase
 {
     /**
      * Tests if ChildrenAggregation#getArray throws exception when expected.
-     *
-     * @expectedException \LogicException
      */
-    public function testGetArrayException()
+    public function testGetArrayException(): void
     {
+        $this->expectException(\LogicException::class);
         $aggregation = new ChildrenAggregation('foo');
         $aggregation->getArray();
     }
@@ -32,7 +33,7 @@ class ChildrenAggregationTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getType method.
      */
-    public function testChildrenAggregationGetType()
+    public function testChildrenAggregationGetType(): void
     {
         $aggregation = new ChildrenAggregation('foo');
         $result = $aggregation->getType();
@@ -42,14 +43,15 @@ class ChildrenAggregationTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getArray method.
      */
-    public function testChildrenAggregationGetArray()
+    public function testChildrenAggregationGetArray(): void
     {
-        $mock = $this->getMockBuilder('ONGR\ElasticsearchDSL\Aggregation\AbstractAggregation')
+        $mock = $this->getMockBuilder(AbstractAggregation::class)
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
         $aggregation = new ChildrenAggregation('foo');
         $aggregation->addAggregation($mock);
         $aggregation->setChildren('question');
+
         $result = $aggregation->getArray();
         $expected = ['type' => 'question'];
         $this->assertEquals($expected, $result);

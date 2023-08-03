@@ -47,7 +47,7 @@ class GeoHashGridAggregation extends AbstractAggregation
      * @param int    $size
      * @param int    $shardSize
      */
-    public function __construct($name, $field = null, $precision = null, $size = null, $shardSize = null)
+    public function __construct(string $name, $field = null, $precision = null, $size = null, $shardSize = null)
     {
         parent::__construct($name);
 
@@ -120,7 +120,7 @@ class GeoHashGridAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getArray()
+    public function getArray(): array
     {
         $data = [];
 
@@ -148,7 +148,7 @@ class GeoHashGridAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getType()
+    public function getType(): string
     {
         return 'geohash_grid';
     }

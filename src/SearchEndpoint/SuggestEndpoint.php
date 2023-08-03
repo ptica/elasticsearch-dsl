@@ -22,19 +22,17 @@ class SuggestEndpoint extends AbstractSearchEndpoint
     /**
      * Endpoint name
      */
-    const NAME = 'suggest';
+    final public const NAME = 'suggest';
 
     /**
      * {@inheritdoc}
      */
-    public function normalize(NormalizerInterface $normalizer, $format = null, array $context = [])
+    public function normalize(NormalizerInterface $normalizer, $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
         $output = [];
-        if (count($this->getAll()) > 0) {
-            /** @var TermSuggest $suggest */
-            foreach ($this->getAll() as $suggest) {
-                $output = array_merge($output, $suggest->toArray());
-            }
+        /** @var TermSuggest $suggest */
+        foreach ($this->getAll() as $suggest) {
+            $output = array_merge($output, $suggest->toArray());
         }
 
         return $output;

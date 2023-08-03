@@ -23,19 +23,16 @@ class GeoShapeQuery implements BuilderInterface
 {
     use ParametersTrait;
 
-    const INTERSECTS = 'intersects';
-    const DISJOINT = 'disjoint';
-    const WITHIN = 'within';
-    const CONTAINS = 'contains';
+    final public const INTERSECTS = 'intersects';
 
-    /**
-     * @var array
-     */
-    private $fields = [];
+    final public const DISJOINT = 'disjoint';
 
-    /**
-     * @param array $parameters
-     */
+    final public const WITHIN = 'within';
+
+    final public const CONTAINS = 'contains';
+
+    private array $fields = [];
+
     public function __construct(array $parameters = [])
     {
         $this->setParameters($parameters);
@@ -44,7 +41,7 @@ class GeoShapeQuery implements BuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function getType()
+    public function getType(): string
     {
         return 'geo_shape';
     }
@@ -58,7 +55,7 @@ class GeoShapeQuery implements BuilderInterface
      * @param string $relation    Spatial relation.
      * @param array  $parameters  Additional parameters.
      */
-    public function addShape($field, $type, array $coordinates, $relation = self::INTERSECTS, array $parameters = [])
+    public function addShape($field, $type, array $coordinates, $relation = self::INTERSECTS, array $parameters = []): void
     {
         // TODO: remove this in the next major version
         if (is_array($relation)) {
@@ -100,7 +97,7 @@ class GeoShapeQuery implements BuilderInterface
         $path,
         $relation = self::INTERSECTS,
         array $parameters = []
-    ) {
+    ): void {
         // TODO: remove this in the next major version
         if (is_array($relation)) {
             $parameters = $relation;
@@ -127,7 +124,7 @@ class GeoShapeQuery implements BuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function toArray()
+    public function toArray(): array
     {
         $output = $this->processArray($this->fields);
 

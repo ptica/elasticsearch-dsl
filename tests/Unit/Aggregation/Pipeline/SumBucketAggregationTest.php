@@ -11,17 +11,18 @@
 
 namespace ONGR\ElasticsearchDSL\Tests\Unit\Aggregation\Pipeline;
 
+use PHPUnit\Framework\TestCase;
 use ONGR\ElasticsearchDSL\Aggregation\Pipeline\SumBucketAggregation;
 
 /**
  * Unit test for sum bucket aggregation.
  */
-class SumBucketAggregationTest extends \PHPUnit\Framework\TestCase
+class SumBucketAggregationTest extends TestCase
 {
     /**
      * Tests toArray method.
      */
-    public function testToArray()
+    public function testToArray(): void
     {
         $aggregation = new SumBucketAggregation('acme', 'test');
 

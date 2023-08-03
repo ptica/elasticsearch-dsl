@@ -11,27 +11,26 @@
 
 namespace ONGR\ElasticsearchDSL\Tests\Unit\Query\Geo;
 
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use ONGR\ElasticsearchDSL\Query\Geo\GeoBoundingBoxQuery;
 
-class GeoBoundingBoxQueryTest extends \PHPUnit\Framework\TestCase
+class GeoBoundingBoxQueryTest extends TestCase
 {
     /**
      * Test if exception is thrown when geo points are not set.
-     *
-     * @expectedException \LogicException
      */
-    public function testGeoBoundBoxQueryException()
+    public function testGeoBoundBoxQueryException(): void
     {
+        $this->expectException(\LogicException::class);
         $query = new GeoBoundingBoxQuery('location', []);
         $query->toArray();
     }
 
     /**
      * Data provider for testToArray().
-     *
-     * @return array
      */
-    public function getArrayDataProvider()
+    public static function getArrayDataProvider(): array
     {
         return [
             // Case #1 (2 values).
@@ -112,10 +111,9 @@ class GeoBoundingBoxQueryTest extends \PHPUnit\Framework\TestCase
      * @param array  $values     Bounding box values.
      * @param array  $parameters Optional parameters.
      * @param array  $expected   Expected result.
-     *
-     * @dataProvider getArrayDataProvider
      */
-    public function testToArray($field, $values, $parameters, $expected)
+    #[DataProvider('getArrayDataProvider')]
+    public function testToArray($field, $values, $parameters, $expected): void
     {
         $query = new GeoBoundingBoxQuery($field, $values, $parameters);
         $result = $query->toArray();

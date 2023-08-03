@@ -22,7 +22,7 @@ class OrderedSerializer extends Serializer
     /**
      * {@inheritdoc}
      */
-    public function normalize($data, $format = null, array $context = [])
+    public function normalize($data, string $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         return parent::normalize(
             is_array($data) ? $this->order($data) : $data,
@@ -34,7 +34,7 @@ class OrderedSerializer extends Serializer
     /**
      * {@inheritdoc}
      */
-    public function denormalize($data, $type, $format = null, array $context = [])
+    public function denormalize($data, string $type, string $format = null, array $context = []): mixed
     {
         return parent::denormalize(
             is_array($data) ? $this->order($data) : $data,
@@ -46,21 +46,15 @@ class OrderedSerializer extends Serializer
 
     /**
      * Orders objects if can be done.
-     *
-     * @param array $data Data to order.
-     *
-     * @return array
      */
-    private function order(array $data)
+    private function order(array $data): array
     {
         $filteredData = $this->filterOrderable($data);
 
         if (!empty($filteredData)) {
             uasort(
                 $filteredData,
-                function (OrderedNormalizerInterface $a, OrderedNormalizerInterface $b) {
-                    return $a->getOrder() > $b->getOrder();
-                }
+                static fn(OrderedNormalizerInterface $a, OrderedNormalizerInterface $b): bool => $a->getOrder() > $b->getOrder()
             );
 
             return array_merge($filteredData, array_diff_key($data, $filteredData));
@@ -73,16 +67,12 @@ class OrderedSerializer extends Serializer
      * Filters out data which can be ordered.
      *
      * @param array $array Data to filter out.
-     *
-     * @return array
      */
-    private function filterOrderable($array)
+    private function filterOrderable(array $array): array
     {
         return array_filter(
             $array,
-            function ($value) {
-                return $value instanceof OrderedNormalizerInterface;
-            }
+            static fn($value): bool => $value instanceof OrderedNormalizerInterface
         );
     }
 }

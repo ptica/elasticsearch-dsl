@@ -27,25 +27,15 @@ class CompositeAggregation extends AbstractAggregation
     /**
      * @var BuilderInterface[]
      */
-    private $sources = [];
+    private array $sources = [];
 
-    /**
-     * @var int
-     */
-    private $size;
-
-    /**
-     * @var array
-     */
-    private $after;
+    private ?int $size = null;
+    private ?array $after = null;
 
     /**
      * Inner aggregations container init.
-     *
-     * @param string             $name
-     * @param AbstractAggregation[] $sources
      */
-    public function __construct($name, $sources = [])
+    public function __construct(string $name, array $sources = [])
     {
         parent::__construct($name);
 
@@ -55,13 +45,9 @@ class CompositeAggregation extends AbstractAggregation
     }
 
     /**
-     * @param AbstractAggregation $agg
-     *
      * @throws \LogicException
-     *
-     * @return self
      */
-    public function addSource(AbstractAggregation $agg)
+    public function addSource(AbstractAggregation $agg): static
     {
         $array = $agg->getArray();
 
@@ -77,7 +63,7 @@ class CompositeAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getArray()
+    public function getArray(): array
     {
         $array = [
             'sources' => $this->sources,
@@ -97,55 +83,31 @@ class CompositeAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getType()
+    public function getType(): string
     {
         return 'composite';
     }
 
-    /**
-     * Sets size
-     *
-     * @param int $size Size
-     *
-     * @return $this
-     */
-    public function setSize($size)
+    public function setSize(int $size): static
     {
         $this->size = $size;
 
         return $this;
     }
 
-    /**
-     * Returns size
-     *
-     * @return int
-     */
-    public function getSize()
+    public function getSize(): ?int
     {
         return $this->size;
     }
 
-    /**
-     * Sets after
-     *
-     * @param array $after After
-     *
-     * @return $this
-     */
-    public function setAfter(array $after)
+    public function setAfter(array $after): static
     {
         $this->after = $after;
 
         return $this;
     }
 
-    /**
-     * Returns after
-     *
-     * @return array
-     */
-    public function getAfter()
+    public function getAfter(): ?array
     {
         return $this->after;
     }

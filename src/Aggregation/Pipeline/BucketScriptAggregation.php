@@ -18,17 +18,9 @@ namespace ONGR\ElasticsearchDSL\Aggregation\Pipeline;
  */
 class BucketScriptAggregation extends AbstractPipelineAggregation
 {
-    /**
-     * @var string
-     */
-    private $script;
+    private mixed $script;
 
-    /**
-     * @param string $name
-     * @param array  $bucketsPath
-     * @param string $script
-     */
-    public function __construct($name, $bucketsPath, $script = null)
+    public function __construct(string $name, $bucketsPath, mixed $script = null)
     {
         parent::__construct($name, $bucketsPath);
         $this->setScript($script);
@@ -37,17 +29,12 @@ class BucketScriptAggregation extends AbstractPipelineAggregation
     /**
      * @return string
      */
-    public function getScript()
+    public function getScript(): mixed
     {
         return $this->script;
     }
 
-    /**
-     * @param string $script
-     *
-     * @return $this
-     */
-    public function setScript($script)
+    public function setScript(mixed $script): static
     {
         $this->script = $script;
 
@@ -57,7 +44,7 @@ class BucketScriptAggregation extends AbstractPipelineAggregation
     /**
      * {@inheritdoc}
      */
-    public function getType()
+    public function getType(): string
     {
         return 'bucket_script';
     }
@@ -65,7 +52,7 @@ class BucketScriptAggregation extends AbstractPipelineAggregation
     /**
      * {@inheritdoc}
      */
-    public function getArray()
+    public function getArray(): array
     {
         if (!$this->getScript()) {
             throw new \LogicException(
@@ -76,11 +63,9 @@ class BucketScriptAggregation extends AbstractPipelineAggregation
             );
         }
 
-        $out = [
+        return [
             'buckets_path' => $this->getBucketsPath(),
             'script' => $this->getScript(),
         ];
-
-        return $out;
     }
 }

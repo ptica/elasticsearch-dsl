@@ -11,14 +11,15 @@
 
 namespace ONGR\ElasticsearchDSL\Tests\Unit\Query\TermLevel;
 
+use PHPUnit\Framework\TestCase;
 use ONGR\ElasticsearchDSL\Query\TermLevel\IdsQuery;
 
-class IdsQueryTest extends \PHPUnit\Framework\TestCase
+class IdsQueryTest extends TestCase
 {
     /**
      * Tests toArray().
      */
-    public function testToArray()
+    public function testToArray(): void
     {
         $query = new IdsQuery(['foo', 'bar']);
         $expected = [

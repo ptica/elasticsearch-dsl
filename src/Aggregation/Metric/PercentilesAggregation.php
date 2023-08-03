@@ -44,7 +44,7 @@ class PercentilesAggregation extends AbstractAggregation
      * @param string $script
      * @param int    $compression
      */
-    public function __construct($name, $field = null, $percents = null, $script = null, $compression = null)
+    public function __construct(string $name, $field = null, $percents = null, $script = null, $compression = null)
     {
         parent::__construct($name);
 
@@ -97,7 +97,7 @@ class PercentilesAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getType()
+    public function getType(): string
     {
         return 'percentiles';
     }
@@ -105,7 +105,7 @@ class PercentilesAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getArray()
+    public function getArray(): array
     {
         $out = array_filter(
             [
@@ -114,9 +114,7 @@ class PercentilesAggregation extends AbstractAggregation
                 'field' => $this->getField(),
                 'script' => $this->getScript(),
             ],
-            function ($val) {
-                return ($val || is_numeric($val));
-            }
+            static fn($val): bool => $val || is_numeric($val)
         );
 
         $this->isRequiredParametersSet($out);
@@ -125,11 +123,9 @@ class PercentilesAggregation extends AbstractAggregation
     }
 
     /**
-     * @param array $a
-     *
      * @throws \LogicException
      */
-    private function isRequiredParametersSet($a)
+    private function isRequiredParametersSet(array $a)
     {
         if (!array_key_exists('field', $a) && !array_key_exists('script', $a)) {
             throw new \LogicException('Percentiles aggregation must have field or script set.');

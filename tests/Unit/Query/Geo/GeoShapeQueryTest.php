@@ -11,14 +11,15 @@
 
 namespace ONGR\ElasticsearchDSL\Tests\Unit\Query\Geo;
 
+use PHPUnit\Framework\TestCase;
 use ONGR\ElasticsearchDSL\Query\Geo\GeoShapeQuery;
 
-class GeoShapeQueryTest extends \PHPUnit\Framework\TestCase
+class GeoShapeQueryTest extends TestCase
 {
     /**
      * Tests toArray() method.
      */
-    public function testToArray()
+    public function testToArray(): void
     {
         $filter = new GeoShapeQuery(['param1' => 'value1']);
         $filter->addShape('location', 'envelope', [[13, 53], [14, 52]], GeoShapeQuery::INTERSECTS);
@@ -42,7 +43,7 @@ class GeoShapeQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Test for toArray() in case of pre-indexed shape.
      */
-    public function testToArrayIndexed()
+    public function testToArrayIndexed(): void
     {
         $filter = new GeoShapeQuery(['param1' => 'value1']);
         $filter->addPreIndexedShape('location', 'DEU', 'countries', 'shapes', 'location', GeoShapeQuery::WITHIN);
