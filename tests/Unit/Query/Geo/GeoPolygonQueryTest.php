@@ -11,16 +11,16 @@
 
 namespace ONGR\ElasticsearchDSL\Tests\Unit\Query\Geo;
 
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use ONGR\ElasticsearchDSL\Query\Geo\GeoPolygonQuery;
 
-class GeoPolygonQueryTest extends \PHPUnit\Framework\TestCase
+class GeoPolygonQueryTest extends TestCase
 {
     /**
      * Data provider to testToArray.
-     *
-     * @return array
      */
-    public function getArrayDataProvider()
+    public static function getArrayDataProvider(): array
     {
         return [
             // Case #1.
@@ -76,10 +76,9 @@ class GeoPolygonQueryTest extends \PHPUnit\Framework\TestCase
      * @param array  $points     Polygon's points.
      * @param array  $parameters Optional parameters.
      * @param array  $expected   Expected result.
-     *
-     * @dataProvider getArrayDataProvider
      */
-    public function testToArray($field, $points, $parameters, $expected)
+    #[DataProvider('getArrayDataProvider')]
+    public function testToArray($field, $points, $parameters, $expected): void
     {
         $filter = new GeoPolygonQuery($field, $points, $parameters);
         $result = $filter->toArray();

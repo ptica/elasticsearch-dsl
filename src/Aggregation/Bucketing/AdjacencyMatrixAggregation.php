@@ -22,14 +22,14 @@ use ONGR\ElasticsearchDSL\BuilderInterface;
  */
 class AdjacencyMatrixAggregation extends AbstractAggregation
 {
-    const FILTERS = 'filters';
+    final public const FILTERS = 'filters';
 
     use BucketingTrait;
 
     /**
      * @var BuilderInterface[]
      */
-    private $filters = [
+    private array $filters = [
         self::FILTERS => []
     ];
 
@@ -39,7 +39,7 @@ class AdjacencyMatrixAggregation extends AbstractAggregation
      * @param string             $name
      * @param BuilderInterface[] $filters
      */
-    public function __construct($name, $filters = [])
+    public function __construct(string $name, array $filters = [])
     {
         parent::__construct($name);
 
@@ -49,14 +49,9 @@ class AdjacencyMatrixAggregation extends AbstractAggregation
     }
 
     /**
-     * @param string           $name
-     * @param BuilderInterface $filter
-     *
      * @throws \LogicException
-     *
-     * @return self
      */
-    public function addFilter($name, BuilderInterface $filter)
+    public function addFilter(string $name, BuilderInterface $filter): static
     {
         $this->filters[self::FILTERS][$name] = $filter->toArray();
 
@@ -66,7 +61,7 @@ class AdjacencyMatrixAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getArray()
+    public function getArray(): array
     {
         return $this->filters;
     }
@@ -74,7 +69,7 @@ class AdjacencyMatrixAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getType()
+    public function getType(): string
     {
         return 'adjacency_matrix';
     }

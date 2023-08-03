@@ -18,7 +18,7 @@ abstract class AbstractPipelineAggregation extends AbstractAggregation
      * @param string $name
      * @param $bucketsPath
      */
-    public function __construct($name, $bucketsPath = null)
+    public function __construct(string $name, $bucketsPath = null)
     {
         parent::__construct($name);
         $this->setBucketsPath($bucketsPath);
@@ -47,7 +47,7 @@ abstract class AbstractPipelineAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getArray()
+    public function getArray(): array
     {
         return ['buckets_path' => $this->getBucketsPath()];
     }

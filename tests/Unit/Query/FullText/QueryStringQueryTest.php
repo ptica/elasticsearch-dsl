@@ -11,14 +11,15 @@
 
 namespace ONGR\ElasticsearchDSL\Tests\Unit\Query\FullText;
 
+use PHPUnit\Framework\TestCase;
 use ONGR\ElasticsearchDSL\Query\FullText\QueryStringQuery;
 
-class QueryStringQueryTest extends \PHPUnit\Framework\TestCase
+class QueryStringQueryTest extends TestCase
 {
     /**
      * Tests toArray().
      */
-    public function testToArray()
+    public function testToArray(): void
     {
         $query = new QueryStringQuery('this AND that OR thus');
         $expected = [

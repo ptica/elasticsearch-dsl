@@ -11,16 +11,16 @@
 
 namespace ONGR\ElasticsearchDSL\Tests\Unit\Bucketing\Aggregation;
 
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use ONGR\ElasticsearchDSL\Aggregation\Bucketing\GlobalAggregation;
 
-class GlobalAggregationTest extends \PHPUnit\Framework\TestCase
+class GlobalAggregationTest extends TestCase
 {
     /**
      * Data provider for testToArray().
-     *
-     * @return array
      */
-    public function getToArrayData()
+    public static function getToArrayData(): array
     {
         $out = [];
 
@@ -28,7 +28,7 @@ class GlobalAggregationTest extends \PHPUnit\Framework\TestCase
         $aggregation = new GlobalAggregation('test_agg');
 
         $result = [
-            'global' => new \stdClass(),
+            'global' => [],
         ];
 
         $out[] = [
@@ -42,7 +42,7 @@ class GlobalAggregationTest extends \PHPUnit\Framework\TestCase
         $aggregation->addAggregation($aggregation2);
 
         $result = [
-            'global' => new \stdClass(),
+            'global' => [],
             'aggregations' => [
                 $aggregation2->getName() => $aggregation2->toArray(),
             ],
@@ -61,24 +61,22 @@ class GlobalAggregationTest extends \PHPUnit\Framework\TestCase
      *
      * @param GlobalAggregation $aggregation
      * @param array             $expectedResult
-     *
-     * @dataProvider getToArrayData
      */
-    public function testToArray($aggregation, $expectedResult)
+    #[DataProvider('getToArrayData')]
+    public function testToArray($aggregation, $expectedResult): void
     {
         $this->assertEquals(
-            json_encode($expectedResult),
-            json_encode($aggregation->toArray())
+            json_encode($expectedResult, JSON_THROW_ON_ERROR),
+            json_encode($aggregation->toArray(), JSON_THROW_ON_ERROR)
         );
     }
 
     /**
      * Test for setField method on global aggregation.
-     *
-     * @expectedException \LogicException
      */
-    public function testSetField()
+    public function testSetField(): never
     {
+        $this->expectException(\LogicException::class);
         $aggregation = new GlobalAggregation('test_agg');
         $aggregation->setField('test_field');
     }

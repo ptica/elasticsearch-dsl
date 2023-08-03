@@ -11,21 +11,23 @@
 
 namespace ONGR\ElasticsearchDSL\Tests\Unit\Metric\Aggregation;
 
+use PHPUnit\Framework\TestCase;
 use ONGR\ElasticsearchDSL\Aggregation\Metric\CardinalityAggregation;
 
 /**
  * Unit test for cardinality aggregation.
  */
-class CardinalityAggregationTest extends \PHPUnit\Framework\TestCase
+class CardinalityAggregationTest extends TestCase
 {
     /**
      * Tests getArray method.
      */
-    public function testGetArray()
+    public function testGetArray(): void
     {
         $aggregation = new CardinalityAggregation('bar');
 
         $aggregation->setScript('foo');
+
         $result = $aggregation->getArray();
 
         $this->assertArrayHasKey('script', $result, 'key=script when script is set');
@@ -52,12 +54,11 @@ class CardinalityAggregationTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Tests if CardinalityAggregation#getArray throws exception when expected.
-     *
-     * @expectedException \LogicException
-     * @expectedExceptionMessage Cardinality aggregation must have field or script set.
      */
-    public function testGetArrayException()
+    public function testGetArrayException(): void
     {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Cardinality aggregation must have field or script set.');
         $aggregation = new CardinalityAggregation('bar');
         $aggregation->getArray();
     }
@@ -65,7 +66,7 @@ class CardinalityAggregationTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getType method.
      */
-    public function testCardinallyAggregationGetType()
+    public function testCardinallyAggregationGetType(): void
     {
         $aggregation = new CardinalityAggregation('foo');
         $result = $aggregation->getType();

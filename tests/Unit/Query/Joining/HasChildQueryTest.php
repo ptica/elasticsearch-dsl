@@ -11,16 +11,18 @@
 
 namespace ONGR\ElasticsearchDSL\Tests\Unit\Query\Joining;
 
+use ONGR\ElasticsearchDSL\BuilderInterface;
+use PHPUnit\Framework\TestCase;
 use ONGR\ElasticsearchDSL\Query\Joining\HasChildQuery;
 
-class HasChildQueryTest extends \PHPUnit\Framework\TestCase
+class HasChildQueryTest extends TestCase
 {
     /**
      * Tests whether __constructor calls setParameters method.
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
-        $parentQuery = $this->getMockBuilder('ONGR\ElasticsearchDSL\BuilderInterface')->getMock();
+        $parentQuery = $this->createMock(BuilderInterface::class);
         $query = new HasChildQuery('test_type', $parentQuery, ['test_parameter1']);
         $this->assertEquals(['test_parameter1'], $query->getParameters());
     }

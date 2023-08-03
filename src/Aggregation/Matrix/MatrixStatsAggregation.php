@@ -17,9 +17,9 @@ use ONGR\ElasticsearchDSL\Aggregation\Type\MetricTrait;
 /**
  * Class representing Max Aggregation.
  *
- * @link https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-metrics-max-aggregation.html
+ * @link https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-matrix-stats-aggregation.html
  */
-class MaxAggregation extends AbstractAggregation
+class MatrixStatsAggregation extends AbstractAggregation
 {
     use MetricTrait;
 
@@ -29,11 +29,6 @@ class MaxAggregation extends AbstractAggregation
     private $mode;
 
     /**
-     * @var array Defines how documents that are missing a value should be treated.
-     */
-    private $missing;
-
-    /**
      * Inner aggregations container init.
      *
      * @param string $name
@@ -41,13 +36,12 @@ class MaxAggregation extends AbstractAggregation
      * @param array $missing
      * @param string $mode
      */
-    public function __construct($name, $field, $missing = null, $mode = null)
+    public function __construct(string $name, $field, private $missing = null, $mode = null)
     {
         parent::__construct($name);
 
         $this->setField($field);
         $this->setMode($mode);
-        $this->missing = $missing;
     }
 
     /**
@@ -93,12 +87,12 @@ class MaxAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getType()
+    public function getType(): string
     {
         return 'matrix_stats';
     }
 
-    protected function getArray()
+    public function getArray(): array
     {
         $out = [];
         if ($this->getField()) {

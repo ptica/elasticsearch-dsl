@@ -11,18 +11,19 @@
 
 namespace ONGR\ElasticsearchDSL\Tests\Unit\Bucketing\Aggregation;
 
+use PHPUnit\Framework\TestCase;
 use ONGR\ElasticsearchDSL\Aggregation\Bucketing\SamplerAggregation;
 use ONGR\ElasticsearchDSL\Aggregation\Bucketing\TermsAggregation;
 
 /**
  * Unit test for children aggregation.
  */
-class SamplerAggregationTest extends \PHPUnit\Framework\TestCase
+class SamplerAggregationTest extends TestCase
 {
     /**
      * Tests getType method.
      */
-    public function testGetType()
+    public function testGetType(): void
     {
         $aggregation = new SamplerAggregation('foo');
         $result = $aggregation->getType();
@@ -32,7 +33,7 @@ class SamplerAggregationTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests toArray method.
      */
-    public function testToArray()
+    public function testToArray(): void
     {
         $termAggregation = new TermsAggregation('acme');
 
@@ -40,6 +41,7 @@ class SamplerAggregationTest extends \PHPUnit\Framework\TestCase
         $aggregation->addAggregation($termAggregation);
         $aggregation->setField('name');
         $aggregation->setShardSize(200);
+
         $result = $aggregation->toArray();
         $expected = [
             'sampler' => [
@@ -56,7 +58,7 @@ class SamplerAggregationTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getArray method without provided shard size.
      */
-    public function testGetArrayNoShardSize()
+    public function testGetArrayNoShardSize(): void
     {
         $aggregation = new SamplerAggregation('foo', 'bar');
         $this->assertEquals(['field' => 'bar'], $aggregation->getArray());

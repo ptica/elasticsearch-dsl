@@ -1,5 +1,5 @@
 {
-    "name": "ongr/elasticsearch-dsl",
+    "name": "bistrosk/elasticsearch-dsl",
     "description": "Elasticsearch DSL library",
     "type": "library",
     "homepage": "http://ongr.io",
@@ -11,13 +11,13 @@
         }
     ],
     "require": {
-        "php": "^7.0",
-        "symfony/serializer": "^3.0|^4.0",
+        "php": ">=8.1",
+        "symfony/serializer": "^6.0",
         "paragonie/random_compat": "*"
     },
     "require-dev": {
-        "elasticsearch/elasticsearch": "^7.0",
-        "phpunit/phpunit": "~6.0",
+        "elasticsearch/elasticsearch": "^8.0",
+        "phpunit/phpunit": "~10.0",
         "squizlabs/php_codesniffer": "^3.0"
     },
     "suggest": {
@@ -34,9 +34,15 @@
         }
     },
     "minimum-stability": "dev",
+    "prefer-stable": true,
     "extra": {
         "branch-alias": {
-            "dev-master": "7.0-dev"
+            "dev-master": "8.0-dev"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
         }
     }
 }

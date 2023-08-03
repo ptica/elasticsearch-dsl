@@ -11,16 +11,16 @@
 
 namespace ONGR\ElasticsearchDSL\Tests\Unit\Query\Geo;
 
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use ONGR\ElasticsearchDSL\Query\Geo\GeoDistanceQuery;
 
-class GeoDistanceQueryTest extends \PHPUnit\Framework\TestCase
+class GeoDistanceQueryTest extends TestCase
 {
     /**
      * Data provider for testToArray().
-     *
-     * @return array
      */
-    public function getArrayDataProvider()
+    public static function getArrayDataProvider(): array
     {
         return [
             // Case #1.
@@ -50,10 +50,9 @@ class GeoDistanceQueryTest extends \PHPUnit\Framework\TestCase
      * @param array  $location   Location.
      * @param array  $parameters Optional parameters.
      * @param array  $expected   Expected result.
-     *
-     * @dataProvider getArrayDataProvider
      */
-    public function testToArray($field, $distance, $location, $parameters, $expected)
+    #[DataProvider('getArrayDataProvider')]
+    public function testToArray($field, $distance, $location, $parameters, $expected): void
     {
         $query = new GeoDistanceQuery($field, $distance, $location, $parameters);
         $result = $query->toArray();

@@ -11,17 +11,18 @@
 
 namespace ONGR\ElasticsearchDSL\Tests\Unit\Aggregation\Pipeline;
 
+use PHPUnit\Framework\TestCase;
 use ONGR\ElasticsearchDSL\Aggregation\Pipeline\DerivativeAggregation;
 
 /**
  * Unit test for derivative aggregation.
  */
-class DerivativeAggregationTest extends \PHPUnit\Framework\TestCase
+class DerivativeAggregationTest extends TestCase
 {
     /**
      * Tests toArray method.
      */
-    public function testToArray()
+    public function testToArray(): void
     {
         $aggregation = new DerivativeAggregation('foo', 'foo>bar');
         $aggregation->addParameter('gap_policy', 'skip');

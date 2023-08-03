@@ -34,7 +34,7 @@ class MatchAllQuery implements BuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function getType()
+    public function getType(): string
     {
         return 'match_all';
     }
@@ -42,9 +42,9 @@ class MatchAllQuery implements BuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function toArray()
+    public function toArray(): array
     {
         $params = $this->getParameters();
-        return [$this->getType() => !empty($params) ? $params : new \stdClass()];
+        return [$this->getType() => !empty($params) ? $params : []];
     }
 }

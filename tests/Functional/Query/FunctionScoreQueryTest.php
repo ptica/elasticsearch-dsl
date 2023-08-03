@@ -21,7 +21,7 @@ class FunctionScoreQueryTest extends AbstractElasticsearchTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getDataArray()
+    protected function getDataArray(): array
     {
         return [
             'product' => [
@@ -44,7 +44,7 @@ class FunctionScoreQueryTest extends AbstractElasticsearchTestCase
     /**
      * Match all test
      */
-    public function testRandomScore()
+    public function testRandomScore(): void
     {
         $fquery = new FunctionScoreQuery(new MatchAllQuery());
         $fquery->addRandomFunction();
@@ -52,12 +52,13 @@ class FunctionScoreQueryTest extends AbstractElasticsearchTestCase
 
         $search = new Search();
         $search->addQuery($fquery);
+
         $results = $this->executeSearch($search);
 
-        $this->assertEquals(count($this->getDataArray()['product']), count($results));
+        $this->assertEquals(is_countable($this->getDataArray()['product']) ? count($this->getDataArray()['product']) : 0, count($results));
     }
 
-    public function testScriptScore()
+    public function testScriptScore(): void
     {
         $fquery = new FunctionScoreQuery(new MatchAllQuery());
         $fquery->addScriptScoreFunction(
@@ -76,6 +77,7 @@ class FunctionScoreQueryTest extends AbstractElasticsearchTestCase
 
         $search = new Search();
         $search->addQuery($fquery);
+
         $results = $this->executeSearch($search);
 
         foreach ($results as $document) {

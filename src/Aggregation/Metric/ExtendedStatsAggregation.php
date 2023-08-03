@@ -33,7 +33,7 @@ class ExtendedStatsAggregation extends AbstractAggregation
      * @param int    $sigma
      * @param string $script
      */
-    public function __construct($name, $field = null, $sigma = null, $script = null)
+    public function __construct(string $name, $field = null, $sigma = null, $script = null)
     {
         parent::__construct($name);
 
@@ -70,7 +70,7 @@ class ExtendedStatsAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getType()
+    public function getType(): string
     {
         return 'extended_stats';
     }
@@ -78,19 +78,15 @@ class ExtendedStatsAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getArray()
+    public function getArray(): array
     {
-        $out = array_filter(
+        return array_filter(
             [
                 'field' => $this->getField(),
                 'script' => $this->getScript(),
                 'sigma' => $this->getSigma(),
             ],
-            function ($val) {
-                return ($val || is_numeric($val));
-            }
+            static fn($val): bool => $val || is_numeric($val)
         );
-
-        return $out;
     }
 }

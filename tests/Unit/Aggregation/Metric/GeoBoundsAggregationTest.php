@@ -11,20 +11,20 @@
 
 namespace ONGR\ElasticsearchDSL\Tests\Unit\Metric\Aggregation;
 
+use PHPUnit\Framework\TestCase;
 use ONGR\ElasticsearchDSL\Aggregation\Metric\GeoBoundsAggregation;
 
 /**
  * Unit test for geo bounds aggregation.
  */
-class GeoBoundsAggregationTest extends \PHPUnit\Framework\TestCase
+class GeoBoundsAggregationTest extends TestCase
 {
     /**
      * Test if exception is thrown.
-     *
-     * @expectedException \LogicException
      */
-    public function testGeoBoundsAggregationException()
+    public function testGeoBoundsAggregationException(): void
     {
+        $this->expectException(\LogicException::class);
         $agg = new GeoBoundsAggregation('test_agg');
         $agg->getArray();
     }
@@ -32,7 +32,7 @@ class GeoBoundsAggregationTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getType method.
      */
-    public function testGeoBoundsAggregationGetType()
+    public function testGeoBoundsAggregationGetType(): void
     {
         $agg = new GeoBoundsAggregation('foo');
         $result = $agg->getType();
@@ -42,11 +42,12 @@ class GeoBoundsAggregationTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getArray method.
      */
-    public function testGeoBoundsAggregationGetArray()
+    public function testGeoBoundsAggregationGetArray(): void
     {
         $agg = new GeoBoundsAggregation('foo');
         $agg->setField('bar');
         $agg->setWrapLongitude(true);
+
         $result = [
             'geo_bounds' => [
                 'field' => 'bar',

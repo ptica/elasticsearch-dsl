@@ -11,8 +11,8 @@
 
 namespace ONGR\ElasticsearchDSL\Tests\Functional;
 
-use Elasticsearch\Client;
-use Elasticsearch\ClientBuilder;
+use Elastic\Elasticsearch\Client;
+use Elastic\Elasticsearch\ClientBuilder;
 use ONGR\ElasticsearchDSL\Search;
 use PHPUnit\Framework\TestCase;
 
@@ -21,7 +21,7 @@ abstract class AbstractElasticsearchTestCase extends TestCase
     /**
      * Test index name in the elasticsearch.
      */
-    const INDEX_NAME = 'elasticsaerch-dsl-test';
+    final public const INDEX_NAME = 'elasticsaerch-dsl-test';
 
     /**
      * @var Client
@@ -31,7 +31,7 @@ abstract class AbstractElasticsearchTestCase extends TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -109,7 +109,7 @@ abstract class AbstractElasticsearchTestCase extends TestCase
     /**
      * {@inheritdoc}
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
         $this->deleteIndex();
@@ -143,7 +143,7 @@ abstract class AbstractElasticsearchTestCase extends TestCase
             foreach ($response['hits']['hits'] as $document) {
                 $documents[$document['_id']] = $document['_source'];
             }
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return $documents;
         }
 
@@ -153,11 +153,11 @@ abstract class AbstractElasticsearchTestCase extends TestCase
     /**
      * Deletes index from elasticsearch.
      */
-    private function deleteIndex()
+    private function deleteIndex(): void
     {
         try {
             $this->client->indices()->delete(['index' => self::INDEX_NAME]);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // Do nothing.
         }
     }

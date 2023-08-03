@@ -11,17 +11,18 @@
 
 namespace ONGR\ElasticsearchDSL\Tests\Unit\Aggregation\Pipeline;
 
+use PHPUnit\Framework\TestCase;
 use ONGR\ElasticsearchDSL\Aggregation\Pipeline\PercentilesBucketAggregation;
 
 /**
  * Unit test for percentiles bucket aggregation.
  */
-class PercentilesBucketAggregationTest extends \PHPUnit\Framework\TestCase
+class PercentilesBucketAggregationTest extends TestCase
 {
     /**
      * Tests toArray method.
      */
-    public function testToArray()
+    public function testToArray(): void
     {
         $aggregation = new PercentilesBucketAggregation('acme', 'test');
         $aggregation->setPercents([25.0, 50.0, 75.0]);

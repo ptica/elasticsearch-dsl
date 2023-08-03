@@ -25,7 +25,7 @@ abstract class AbstractSearchEndpoint extends AbstractNormalizable implements Se
     /**
      * @var BuilderInterface[]
      */
-    private $container = [];
+    private array $container = [];
 
     /**
      * {@inheritdoc}
@@ -48,7 +48,7 @@ abstract class AbstractSearchEndpoint extends AbstractNormalizable implements Se
     /**
      * {@inheritdoc}
      */
-    public function addToBool(BuilderInterface $builder, $boolType = null, $key = null)
+    public function addToBool(BuilderInterface $builder, ?string $boolType = null, mixed $key = null)
     {
         throw new \BadFunctionCallException(sprintf("Endpoint %s doesn't support bool statements", static::NAME));
     }
@@ -69,10 +69,8 @@ abstract class AbstractSearchEndpoint extends AbstractNormalizable implements Se
      * Checks if builder with specific key exists.
      *
      * @param string $key Key to check if it exists in container.
-     *
-     * @return bool
      */
-    public function has($key)
+    public function has($key): bool
     {
         return array_key_exists($key, $this->container);
     }

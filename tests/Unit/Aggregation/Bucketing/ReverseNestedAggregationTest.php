@@ -11,15 +11,16 @@
 
 namespace ONGR\ElasticsearchDSL\Tests\Unit\Bucketing\Aggregation;
 
+use PHPUnit\Framework\TestCase;
 use ONGR\ElasticsearchDSL\Aggregation\Bucketing\ReverseNestedAggregation;
 use ONGR\ElasticsearchDSL\Aggregation\Bucketing\TermsAggregation;
 
-class ReverseNestedAggregationTest extends \PHPUnit\Framework\TestCase
+class ReverseNestedAggregationTest extends TestCase
 {
     /**
      * Test for reverse_nested aggregation toArray() method exception.
      */
-    public function testToArray()
+    public function testToArray(): void
     {
         $termAggregation = new TermsAggregation('acme');
 
@@ -40,7 +41,7 @@ class ReverseNestedAggregationTest extends \PHPUnit\Framework\TestCase
     /**
      * Test for reverse_nested aggregation toArray() without path.
      */
-    public function testToArrayNoPath()
+    public function testToArrayNoPath(): void
     {
         $termAggregation = new TermsAggregation('acme');
 
@@ -48,15 +49,15 @@ class ReverseNestedAggregationTest extends \PHPUnit\Framework\TestCase
         $aggregation->addAggregation($termAggregation);
 
         $expectedResult = [
-            'reverse_nested' => new \stdClass(),
+            'reverse_nested' => [],
             'aggregations' => [
                 $termAggregation->getName() => $termAggregation->toArray(),
             ],
         ];
 
         $this->assertEquals(
-            json_encode($expectedResult),
-            json_encode($aggregation->toArray())
+            json_encode($expectedResult, JSON_THROW_ON_ERROR),
+            json_encode($aggregation->toArray(), JSON_THROW_ON_ERROR)
         );
     }
 }

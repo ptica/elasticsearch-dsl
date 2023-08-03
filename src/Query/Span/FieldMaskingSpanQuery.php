@@ -34,7 +34,6 @@ class FieldMaskingSpanQuery implements SpanQueryInterface
 
     /**
      * @param string             $field
-     * @param SpanQueryInterface $query
      */
     public function __construct($field, SpanQueryInterface $query)
     {
@@ -51,11 +50,9 @@ class FieldMaskingSpanQuery implements SpanQueryInterface
     }
 
     /**
-     * @param mixed $query
-     *
      * @return $this
      */
-    public function setQuery($query)
+    public function setQuery(mixed $query)
     {
         $this->query = $query;
 
@@ -85,7 +82,7 @@ class FieldMaskingSpanQuery implements SpanQueryInterface
     /**
      * {@inheritdoc}
      */
-    public function toArray()
+    public function toArray(): array
     {
         $output = [
             'query' => $this->getQuery()->toArray(),
@@ -100,7 +97,7 @@ class FieldMaskingSpanQuery implements SpanQueryInterface
     /**
      * {@inheritdoc}
      */
-    public function getType()
+    public function getType(): string
     {
         return 'field_masking_span';
     }

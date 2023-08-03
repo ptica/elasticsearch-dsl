@@ -11,14 +11,15 @@
 
 namespace ONGR\ElasticsearchDSL\Tests\Unit\Query\FullText;
 
+use PHPUnit\Framework\TestCase;
 use ONGR\ElasticsearchDSL\Query\FullText\SimpleQueryStringQuery;
 
-class SimpleQueryStringQueryTest extends \PHPUnit\Framework\TestCase
+class SimpleQueryStringQueryTest extends TestCase
 {
     /**
      * Tests toArray().
      */
-    public function testToArray()
+    public function testToArray(): void
     {
         $query = new SimpleQueryStringQuery('"fried eggs" +(eggplant | potato) -frittata');
         $expected = [

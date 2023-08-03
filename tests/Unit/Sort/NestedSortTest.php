@@ -11,16 +11,17 @@
 
 namespace ONGR\ElasticsearchDSL\Tests\Unit\Sort;
 
+use PHPUnit\Framework\TestCase;
 use ONGR\ElasticsearchDSL\Query\TermLevel\TermQuery;
 use ONGR\ElasticsearchDSL\Sort\NestedSort;
 
-class NestedSortTest extends \PHPUnit\Framework\TestCase
+class NestedSortTest extends TestCase
 {
     /**
      * Test for single nested.
      *
      */
-    public function testSingle()
+    public function testSingle(): void
     {
         $query = new NestedSort('somePath', new TermQuery('somePath.id', 10));
         $expected = [
@@ -39,7 +40,7 @@ class NestedSortTest extends \PHPUnit\Framework\TestCase
      * Test for single nested, no filter.
      *
      */
-    public function testNoFilter()
+    public function testNoFilter(): void
     {
         $query = new NestedSort('somePath');
         $expected = [
@@ -53,7 +54,7 @@ class NestedSortTest extends \PHPUnit\Framework\TestCase
      * Test for single nested.
      *
      */
-    public function testMultipleNesting()
+    public function testMultipleNesting(): void
     {
         $query = new NestedSort('somePath', new TermQuery('somePath.id', 10));
         $nestedFilter1 = new NestedSort('secondPath', new TermQuery('secondPath.foo', 'bar'));

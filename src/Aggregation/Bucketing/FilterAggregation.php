@@ -24,32 +24,24 @@ class FilterAggregation extends AbstractAggregation
 {
     use BucketingTrait;
 
-    /**
-     * @var BuilderInterface
-     */
-    protected $filter;
+    protected ?BuilderInterface $filter = null;
 
     /**
      * Inner aggregations container init.
-     *
-     * @param string           $name
-     * @param BuilderInterface $filter
      */
-    public function __construct($name, BuilderInterface $filter = null)
+    public function __construct(string $name, ?BuilderInterface $filter = null)
     {
         parent::__construct($name);
 
-        if ($filter !== null) {
+        if ($filter instanceof BuilderInterface) {
             $this->setFilter($filter);
         }
     }
 
     /**
-     * @param BuilderInterface $filter
-     *
      * @return $this
      */
-    public function setFilter(BuilderInterface $filter)
+    public function setFilter(BuilderInterface $filter): static
     {
         $this->filter = $filter;
 
@@ -58,10 +50,8 @@ class FilterAggregation extends AbstractAggregation
 
     /**
      * Returns a filter.
-     *
-     * @return BuilderInterface
      */
-    public function getFilter()
+    public function getFilter(): ?BuilderInterface
     {
         return $this->filter;
     }
@@ -69,7 +59,7 @@ class FilterAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function setField($field)
+    public function setField($field): void
     {
         throw new \LogicException("Filter aggregation, doesn't support `field` parameter");
     }
@@ -77,10 +67,10 @@ class FilterAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getArray()
+    public function getArray(): array
     {
         if (!$this->filter) {
-            throw new \LogicException("Filter aggregation `{$this->getName()}` has no filter added");
+            throw new \LogicException(sprintf('Filter aggregation `%s` has no filter added', $this->getName()));
         }
 
         return $this->getFilter()->toArray();
@@ -89,7 +79,7 @@ class FilterAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getType()
+    public function getType(): string
     {
         return 'filter';
     }

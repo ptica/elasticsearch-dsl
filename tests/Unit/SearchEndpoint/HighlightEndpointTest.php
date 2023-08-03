@@ -11,51 +11,52 @@
 
 namespace ONGR\ElasticsearchDSL\Tests\Unit\Unit\SearchEndpoint;
 
+use PHPUnit\Framework\TestCase;
 use ONGR\ElasticsearchDSL\Highlight\Highlight;
 use ONGR\ElasticsearchDSL\SearchEndpoint\HighlightEndpoint;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 /**
  * Class HighlightEndpointTest.
  */
-class HighlightEndpointTest extends \PHPUnit\Framework\TestCase
+class HighlightEndpointTest extends TestCase
 {
     /**
      * Tests constructor.
      */
-    public function testItCanBeInstantiated()
+    public function testItCanBeInstantiated(): void
     {
-        $this->assertInstanceOf('ONGR\ElasticsearchDSL\SearchEndpoint\HighlightEndpoint', new HighlightEndpoint());
+        $this->assertInstanceOf(HighlightEndpoint::class, new HighlightEndpoint());
     }
 
     /**
      * Tests adding builder.
      */
-    public function testNormalization()
+    public function testNormalization(): void
     {
         $instance = new HighlightEndpoint();
         /** @var NormalizerInterface|MockObject $normalizerInterface */
         $normalizerInterface = $this->getMockForAbstractClass(
-            'Symfony\Component\Serializer\Normalizer\NormalizerInterface'
+            NormalizerInterface::class
         );
 
         $this->assertNull($instance->normalize($normalizerInterface));
 
         $highlight = new Highlight();
         $highlight->addField('acme');
+
         $instance->add($highlight);
 
         $this->assertEquals(
-            json_encode($highlight->toArray()),
-            json_encode($instance->normalize($normalizerInterface))
+            json_encode($highlight->toArray(), JSON_THROW_ON_ERROR),
+            json_encode($instance->normalize($normalizerInterface), JSON_THROW_ON_ERROR)
         );
     }
 
     /**
      * Tests if endpoint returns builders.
      */
-    public function testEndpointGetter()
+    public function testEndpointGetter(): void
     {
         $highlightName = 'acme_highlight';
         $highlight = new Highlight();
@@ -63,6 +64,7 @@ class HighlightEndpointTest extends \PHPUnit\Framework\TestCase
 
         $endpoint = new HighlightEndpoint();
         $endpoint->add($highlight, $highlightName);
+
         $builders = $endpoint->getAll();
 
         $this->assertCount(1, $builders);

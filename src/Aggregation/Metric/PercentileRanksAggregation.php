@@ -44,7 +44,7 @@ class PercentileRanksAggregation extends AbstractAggregation
      * @param string $script
      * @param int    $compression
      */
-    public function __construct($name, $field = null, $values = null, $script = null, $compression = null)
+    public function __construct(string $name, $field = null, $values = null, $script = null, $compression = null)
     {
         parent::__construct($name);
 
@@ -97,7 +97,7 @@ class PercentileRanksAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getType()
+    public function getType(): string
     {
         return 'percentile_ranks';
     }
@@ -105,7 +105,7 @@ class PercentileRanksAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getArray()
+    public function getArray(): array
     {
         $out = array_filter(
             [
@@ -114,9 +114,7 @@ class PercentileRanksAggregation extends AbstractAggregation
                 'values' => $this->getValues(),
                 'compression' => $this->getCompression(),
             ],
-            function ($val) {
-                return ($val || is_numeric($val));
-            }
+            static fn($val): bool => $val || is_numeric($val)
         );
 
         $this->isRequiredParametersSet($out);
@@ -125,18 +123,18 @@ class PercentileRanksAggregation extends AbstractAggregation
     }
 
     /**
-     * @param array $a
      *
      * @return bool
      * @throws \LogicException
      */
-    private function isRequiredParametersSet($a)
+    private function isRequiredParametersSet(array $a)
     {
         if (array_key_exists('field', $a) && array_key_exists('values', $a)
             || (array_key_exists('script', $a) && array_key_exists('values', $a))
         ) {
             return true;
         }
+
         throw new \LogicException('Percentile ranks aggregation must have field and values or script and values set.');
     }
 }

@@ -32,7 +32,7 @@ class AutoDateHistogramAggregation extends AbstractAggregation
      * @param int    $buckets
      * @param string $format
      */
-    public function __construct($name, $field, $buckets = null, $format = null)
+    public function __construct(string $name, $field, $buckets = null, $format = null)
     {
         parent::__construct($name);
 
@@ -50,21 +50,19 @@ class AutoDateHistogramAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getArray()
+    public function getArray(): array
     {
-        $data = array_filter(
+        return array_filter(
             [
                 'field' => $this->getField(),
             ]
         );
-
-        return $data;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getType()
+    public function getType(): string
     {
         return 'auto_date_histogram';
     }

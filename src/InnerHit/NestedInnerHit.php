@@ -26,66 +26,40 @@ class NestedInnerHit implements NamedBuilderInterface
     use ParametersTrait;
     use NameAwareTrait;
 
-    /**
-     * @var string
-     */
-    private $path;
+    private string $path;
 
-    /**
-     * @var Search
-     */
-    private $search;
+    private ?Search $search = null;
 
     /**
      * Inner hits container init.
-     *
-     * @param string $name
-     * @param string $path
-     * @param Search $search
      */
-    public function __construct($name, $path, Search $search = null)
+    public function __construct(string $name, string $path, Search $search = null)
     {
         $this->setName($name);
         $this->setPath($path);
-        if ($search) {
+        if ($search instanceof Search) {
             $this->setSearch($search);
         }
     }
 
-    /**
-     * @return string
-     */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }
 
-    /**
-     * @param string $path
-     *
-     * @return $this
-     */
-    public function setPath($path)
+    public function setPath(string $path): static
     {
         $this->path = $path;
 
         return $this;
     }
 
-    /**
-     * @return Search
-     */
-    public function getSearch()
+    public function getSearch(): ?Search
     {
         return $this->search;
     }
 
-    /**
-     * @param Search $search
-     *
-     * @return $this
-     */
-    public function setSearch(Search $search)
+    public function setSearch(Search $search): static
     {
         $this->search = $search;
 
@@ -95,7 +69,7 @@ class NestedInnerHit implements NamedBuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function getType()
+    public function getType(): string
     {
         return 'nested';
     }
@@ -103,36 +77,26 @@ class NestedInnerHit implements NamedBuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function toArray()
+    public function toArray(): array
     {
-        $out = $this->getSearch() ? $this->getSearch()->toArray() : new \stdClass();
+        $out = $this->getSearch() ? $this->getSearch()->toArray() : [];
 
-        $out = [
+        return [
             $this->getPathType() => [
-                $this->getPath() => $out ,
+                $this->getPath() => $out,
             ],
         ];
-
-        return $out;
     }
 
     /**
      * Returns 'path' for nested and 'type' for parent inner hits
-     *
-     * @return null|string
      */
-    private function getPathType()
+    private function getPathType(): ?string
     {
-        switch ($this->getType()) {
-            case 'nested':
-                $type = 'path';
-                break;
-            case 'parent':
-                $type = 'type';
-                break;
-            default:
-                $type = null;
-        }
-        return $type;
+        return match ($this->getType()) {
+            'nested' => 'path',
+            'parent' => 'type',
+            default => null,
+        };
     }
 }

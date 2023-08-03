@@ -20,7 +20,7 @@ class MatchAllQueryTest extends AbstractElasticsearchTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getDataArray()
+    protected function getDataArray(): array
     {
         return [
             'product' => [
@@ -37,13 +37,13 @@ class MatchAllQueryTest extends AbstractElasticsearchTestCase
     /**
      * Match all test
      */
-    public function testMatchAll()
+    public function testMatchAll(): void
     {
         $search = new Search();
         $matchAll = new MatchAllQuery();
 
         $search->addQuery($matchAll);
-        $q = $search->getQueries();
+        $search->getQueries();
         $results = $this->executeSearch($search);
 
         $this->assertEquals($this->getDataArray()['product'], $results);

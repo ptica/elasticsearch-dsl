@@ -11,14 +11,15 @@
 
 namespace ONGR\ElasticsearchDSL\Tests\Unit\Query\Specialized;
 
+use PHPUnit\Framework\TestCase;
 use ONGR\ElasticsearchDSL\Query\Specialized\MoreLikeThisQuery;
 
-class MoreLikeThisQueryTest extends \PHPUnit\Framework\TestCase
+class MoreLikeThisQueryTest extends TestCase
 {
     /**
      * Tests toArray().
      */
-    public function testToArray()
+    public function testToArray(): void
     {
         $query = new MoreLikeThisQuery('this is a test', ['fields' => ['title', 'description']]);
         $expected = [

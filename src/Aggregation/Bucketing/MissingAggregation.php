@@ -25,11 +25,8 @@ class MissingAggregation extends AbstractAggregation
 
     /**
      * Inner aggregations container init.
-     *
-     * @param string $name
-     * @param string $field
      */
-    public function __construct($name, $field = null)
+    public function __construct(string $name, mixed $field = null)
     {
         parent::__construct($name);
 
@@ -39,18 +36,19 @@ class MissingAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getArray()
+    public function getArray(): array
     {
         if ($this->getField()) {
             return ['field' => $this->getField()];
         }
+
         throw new \LogicException('Missing aggregation must have a field set.');
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getType()
+    public function getType(): string
     {
         return 'missing';
     }

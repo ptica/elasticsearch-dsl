@@ -11,14 +11,15 @@
 
 namespace ONGR\ElasticsearchDSL\Tests\Unit\Query\TermLevel;
 
+use PHPUnit\Framework\TestCase;
 use ONGR\ElasticsearchDSL\Query\TermLevel\RangeQuery;
 
-class RangeQueryTest extends \PHPUnit\Framework\TestCase
+class RangeQueryTest extends TestCase
 {
     /**
      * Tests toArray().
      */
-    public function testToArray()
+    public function testToArray(): void
     {
         $query = new RangeQuery('age', ['gte' => 10, 'lte' => 20]);
         $expected = [

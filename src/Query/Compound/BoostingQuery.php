@@ -21,36 +21,16 @@ use ONGR\ElasticsearchDSL\BuilderInterface;
 class BoostingQuery implements BuilderInterface
 {
     /**
-     * @var BuilderInterface
-     */
-    private $positive;
-
-    /**
-     * @var BuilderInterface
-     */
-    private $negative;
-
-    /**
-     * @var int|float
-     */
-    private $negativeBoost;
-
-    /**
-     * @param BuilderInterface $positive
-     * @param BuilderInterface $negative
      * @param int|float        $negativeBoost
      */
-    public function __construct(BuilderInterface $positive, BuilderInterface $negative, $negativeBoost)
+    public function __construct(private readonly BuilderInterface $positive, private readonly BuilderInterface $negative, private $negativeBoost)
     {
-        $this->positive = $positive;
-        $this->negative = $negative;
-        $this->negativeBoost = $negativeBoost;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getType()
+    public function getType(): string
     {
         return 'boosting';
     }
@@ -58,7 +38,7 @@ class BoostingQuery implements BuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function toArray()
+    public function toArray(): array
     {
         $query = [
             'positive' => $this->positive->toArray(),

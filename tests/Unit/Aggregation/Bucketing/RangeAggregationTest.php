@@ -11,14 +11,15 @@
 
 namespace ONGR\ElasticsearchDSL\Tests\Unit\Bucketing\Aggregation;
 
+use PHPUnit\Framework\TestCase;
 use ONGR\ElasticsearchDSL\Aggregation\Bucketing\RangeAggregation;
 
-class RangeAggregationTest extends \PHPUnit\Framework\TestCase
+class RangeAggregationTest extends TestCase
 {
     /**
      * Test addRange method.
      */
-    public function testRangeAggregationAddRange()
+    public function testRangeAggregationAddRange(): void
     {
         $aggregation = new RangeAggregation('test_agg');
         $aggregation->setField('test_field');
@@ -43,7 +44,7 @@ class RangeAggregationTest extends \PHPUnit\Framework\TestCase
     /**
      * Test addRange method with multiple values.
      */
-    public function testRangeAggregationAddRangeMultiple()
+    public function testRangeAggregationAddRangeMultiple(): void
     {
         $aggregation = new RangeAggregation('test_agg');
         $aggregation->setField('test_field');
@@ -74,7 +75,7 @@ class RangeAggregationTest extends \PHPUnit\Framework\TestCase
     /**
      * Test addRange method with nested values.
      */
-    public function testRangeAggregationAddRangeNested()
+    public function testRangeAggregationAddRangeNested(): void
     {
         $aggregation = new RangeAggregation('test_agg');
         $aggregation->setField('test_field');
@@ -117,7 +118,7 @@ class RangeAggregationTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getType method.
      */
-    public function testRangeAggregationGetType()
+    public function testRangeAggregationGetType(): void
     {
         $agg = new RangeAggregation('foo');
         $result = $agg->getType();
@@ -127,7 +128,7 @@ class RangeAggregationTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests removeRangeByKey method.
      */
-    public function testRangeAggregationRemoveRangeByKey()
+    public function testRangeAggregationRemoveRangeByKey(): void
     {
         $aggregation = new RangeAggregation('foo');
         $aggregation->setField('price');
@@ -167,7 +168,7 @@ class RangeAggregationTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests removeRange method.
      */
-    public function testRangeAggregationRemoveRange()
+    public function testRangeAggregationRemoveRange(): void
     {
         $aggregation = new RangeAggregation('foo');
         $aggregation->setField('price');
@@ -197,7 +198,7 @@ class RangeAggregationTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests if parameter can be passed to constructor.
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $aggregation = new RangeAggregation('foo', 'fieldValue', [['from' => 'now', 'key' => 'nowkey']], true);
         $this->assertSame(
