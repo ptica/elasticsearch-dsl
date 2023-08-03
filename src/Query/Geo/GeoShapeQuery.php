@@ -124,7 +124,7 @@ class GeoShapeQuery implements BuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function toArray(): array
+    public function toArray(): array|\stdClass
     {
         $output = $this->processArray($this->fields);
 

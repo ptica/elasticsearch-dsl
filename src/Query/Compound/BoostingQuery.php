@@ -38,7 +38,7 @@ class BoostingQuery implements BuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function toArray(): array
+    public function toArray(): array|\stdClass
     {
         $query = [
             'positive' => $this->positive->toArray(),

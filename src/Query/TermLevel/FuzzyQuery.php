@@ -43,7 +43,7 @@ class FuzzyQuery implements BuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function toArray(): array
+    public function toArray(): array|\stdClass
     {
         $query = [
             'value' => $this->value,

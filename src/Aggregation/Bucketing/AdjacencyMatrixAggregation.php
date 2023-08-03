@@ -61,7 +61,7 @@ class AdjacencyMatrixAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getArray(): array
+    public function getArray(): array|\stdClass
     {
         return $this->filters;
     }

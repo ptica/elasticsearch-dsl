@@ -43,7 +43,7 @@ class ScriptQuery implements BuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function toArray(): array
+    public function toArray(): array|\stdClass
     {
         $query = ['inline' => $this->script];
         $output = $this->processArray($query);

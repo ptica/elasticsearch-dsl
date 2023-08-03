@@ -106,7 +106,7 @@ class BuilderBag
     /**
      * {@inheritdoc}
      */
-    public function toArray(): array
+    public function toArray(): array|\stdClass
     {
         $output = [];
         foreach ($this->all() as $builder) {

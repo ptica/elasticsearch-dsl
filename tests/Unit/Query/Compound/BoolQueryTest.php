@@ -136,7 +136,7 @@ class BoolQueryTest extends TestCase
     {
         $bool = new BoolQuery();
 
-        $this->assertEquals(['bool' => []], $bool->toArray());
+        $this->assertEquals(['bool' => new \stdClass()], $bool->toArray());
     }
 
     /**

@@ -98,7 +98,7 @@ class DateRangeAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getArray(): array
+    public function getArray(): array|\stdClass
     {
         if ($this->getField() && $this->getFormat() && !empty($this->ranges)) {
             return [

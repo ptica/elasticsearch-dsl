@@ -64,7 +64,7 @@ class SpanOrQuery implements SpanQueryInterface
     /**
      * {@inheritdoc}
      */
-    public function toArray(): array
+    public function toArray(): array|\stdClass
     {
         $query = [];
         foreach ($this->queries as $type) {

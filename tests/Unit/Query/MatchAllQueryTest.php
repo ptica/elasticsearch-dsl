@@ -22,7 +22,7 @@ class MatchAllQueryTest extends TestCase
     public function testToArrayWhenThereAreNoParams(): void
     {
         $query = new MatchAllQuery();
-        $this->assertEquals(['match_all' => []], $query->toArray());
+        $this->assertEquals(['match_all' => new \stdClass()], $query->toArray());
     }
 
     /**

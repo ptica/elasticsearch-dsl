@@ -121,7 +121,7 @@ class TemplateQuery implements BuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function toArray(): array
+    public function toArray(): array|\stdClass
     {
         $output = array_filter(
             [

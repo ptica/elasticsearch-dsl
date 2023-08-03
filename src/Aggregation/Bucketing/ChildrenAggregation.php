@@ -55,7 +55,7 @@ class ChildrenAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getArray(): array
+    public function getArray(): array|\stdClass
     {
         if (count($this->getAggregations()) == 0) {
             throw new \LogicException(sprintf('Children aggregation `%s` has no aggregations added', $this->getName()));

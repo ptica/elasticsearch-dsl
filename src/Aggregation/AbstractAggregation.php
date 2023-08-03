@@ -41,7 +41,7 @@ abstract class AbstractAggregation implements NamedBuilderInterface
     /**
      * @return array|\stdClass
      */
-    abstract public function getArray(): array;
+    abstract public function getArray(): array|\stdClass;
 
     /**
      * Inner aggregations container init.
@@ -122,11 +122,11 @@ abstract class AbstractAggregation implements NamedBuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function toArray(): array
+    public function toArray(): array|\stdClass
     {
         $array = $this->getArray();
         $result = [
-            $this->getType() => $this->processArray($array),
+            $this->getType() => is_array($array) ? $this->processArray($array) : $array,
         ];
 
         if ($this->supportsNesting()) {

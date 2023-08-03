@@ -95,7 +95,7 @@ class BoolQuery implements BuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function toArray(): array
+    public function toArray(): array|\stdClass
     {
         if (count($this->container) === 1 && isset($this->container[self::MUST])
                 && count($this->container[self::MUST]) === 1) {
@@ -116,7 +116,7 @@ class BoolQuery implements BuilderInterface
         $output = $this->processArray($output);
 
         if (empty($output)) {
-            $output = [];
+            $output = new \stdClass();
         }
 
         return [$this->getType() => $output];

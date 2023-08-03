@@ -28,7 +28,7 @@ class GlobalAggregationTest extends TestCase
         $aggregation = new GlobalAggregation('test_agg');
 
         $result = [
-            'global' => [],
+            'global' => new \stdClass(),
         ];
 
         $out[] = [
@@ -42,7 +42,7 @@ class GlobalAggregationTest extends TestCase
         $aggregation->addAggregation($aggregation2);
 
         $result = [
-            'global' => [],
+            'global' => new \stdClass(),
             'aggregations' => [
                 $aggregation2->getName() => $aggregation2->toArray(),
             ],

@@ -724,7 +724,7 @@ class Search
     /**
      * {@inheritdoc}
      */
-    public function toArray(): array
+    public function toArray(): array|\stdClass
     {
         $output = array_filter(static::$serializer->normalize($this->endpoints));
 

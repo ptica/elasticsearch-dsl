@@ -38,7 +38,7 @@ class SpanNotQuery implements SpanQueryInterface
     /**
      * {@inheritdoc}
      */
-    public function toArray(): array
+    public function toArray(): array|\stdClass
     {
         $query = [
             'include' => $this->include->toArray(),

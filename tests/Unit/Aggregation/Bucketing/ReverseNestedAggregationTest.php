@@ -49,7 +49,7 @@ class ReverseNestedAggregationTest extends TestCase
         $aggregation->addAggregation($termAggregation);
 
         $expectedResult = [
-            'reverse_nested' => [],
+            'reverse_nested' => new \stdClass(),
             'aggregations' => [
                 $termAggregation->getName() => $termAggregation->toArray(),
             ],

@@ -42,8 +42,8 @@ class GlobalAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getArray(): array
+    public function getArray(): array|\stdClass
     {
-        return [];
+        return new \stdClass();
     }
 }

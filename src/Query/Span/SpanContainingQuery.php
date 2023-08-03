@@ -79,7 +79,7 @@ class SpanContainingQuery implements SpanQueryInterface
     /**
      * {@inheritdoc}
      */
-    public function toArray(): array
+    public function toArray(): array|\stdClass
     {
         $output = [
             'little' => $this->getLittle()->toArray(),
