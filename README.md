@@ -1,5 +1,8 @@
 # ElasticsearchDSL
 
+[![codecov](https://codecov.io/github/bistrosk/elasticsearch-dsl/branch/master/graph/badge.svg?token=CPGXKV2LN4)](https://codecov.io/github/bistrosk/elasticsearch-dsl)
+[![Latest Stable Version](http://poser.pugx.org/bistrosk/elasticsearch-dsl/v)](https://packagist.org/packages/bistrosk/elasticsearch-dsl) [![Total Downloads](http://poser.pugx.org/bistrosk/elasticsearch-dsl/downloads)](https://packagist.org/packages/bistrosk/elasticsearch-dsl) [![Latest Unstable Version](http://poser.pugx.org/bistrosk/elasticsearch-dsl/v/unstable)](https://packagist.org/packages/bistrosk/elasticsearch-dsl) [![License](http://poser.pugx.org/bistrosk/elasticsearch-dsl/license)](https://packagist.org/packages/bistrosk/elasticsearch-dsl) [![PHP Version Require](http://poser.pugx.org/bistrosk/elasticsearch-dsl/require/php)](https://packagist.org/packages/bistrosk/elasticsearch-dsl)
+
 ## Fork of [ongr-io/ElasticsearchDSL](https://github.com/ongr-io/ElasticsearchDSL) library with updated PHP and Elasticsearch version.
 
 Introducing Elasticsearch DSL library to provide objective query builder for [elasticsearch-php](https://github.com/elastic/elasticsearch-php) client. You can easily build any Elasticsearch query and transform it to an array.
