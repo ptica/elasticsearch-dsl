@@ -23,8 +23,11 @@ class CustomReferencedNormalizer extends CustomNormalizer
     /**
      * {@inheritdoc}
      */
-    public function normalize(mixed $object, string $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
-    {
+    public function normalize(
+        mixed $object,
+        string $format = null,
+        array $context = []
+    ): array|bool|string|int|float|null|\ArrayObject {
         $object->setReferences($this->references);
         $data = parent::normalize($object, $format, $context);
         $this->references = array_merge($this->references, $object->getReferences());

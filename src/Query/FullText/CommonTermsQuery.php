@@ -35,14 +35,6 @@ class CommonTermsQuery implements BuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function getType(): string
-    {
-        return 'common';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function toArray(): array|\stdClass
     {
         $query = [
@@ -54,5 +46,13 @@ class CommonTermsQuery implements BuilderInterface
         ];
 
         return [$this->getType() => $output];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getType(): string
+    {
+        return 'common';
     }
 }

@@ -31,14 +31,6 @@ class IdsQuery implements BuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function getType(): string
-    {
-        return 'ids';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function toArray(): array|\stdClass
     {
         $query = [
@@ -48,5 +40,13 @@ class IdsQuery implements BuilderInterface
         $output = $this->processArray($query);
 
         return [$this->getType() => $output];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getType(): string
+    {
+        return 'ids';
     }
 }

@@ -21,18 +21,13 @@ use ONGR\ElasticsearchDSL\BuilderInterface;
 class BoostingQuery implements BuilderInterface
 {
     /**
-     * @param int|float        $negativeBoost
+     * @param int|float $negativeBoost
      */
-    public function __construct(private readonly BuilderInterface $positive, private readonly BuilderInterface $negative, private $negativeBoost)
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getType(): string
-    {
-        return 'boosting';
+    public function __construct(
+        private readonly BuilderInterface $positive,
+        private readonly BuilderInterface $negative,
+        private $negativeBoost
+    ) {
     }
 
     /**
@@ -47,5 +42,13 @@ class BoostingQuery implements BuilderInterface
         ];
 
         return [$this->getType() => $query];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getType(): string
+    {
+        return 'boosting';
     }
 }

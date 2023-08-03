@@ -36,21 +36,6 @@ class GeoBoundsAggregation extends AbstractAggregation
         $this->setWrapLongitude($wrapLongitude);
     }
 
-    public function isWrapLongitude(): bool
-    {
-        return $this->wrapLongitude;
-    }
-
-    /**
-     * @return $this
-     */
-    public function setWrapLongitude(bool $wrapLongitude): static
-    {
-        $this->wrapLongitude = $wrapLongitude;
-
-        return $this;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -66,6 +51,21 @@ class GeoBoundsAggregation extends AbstractAggregation
         $data['wrap_longitude'] = $this->isWrapLongitude();
 
         return $data;
+    }
+
+    public function isWrapLongitude(): bool
+    {
+        return $this->wrapLongitude;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setWrapLongitude(bool $wrapLongitude): static
+    {
+        $this->wrapLongitude = $wrapLongitude;
+
+        return $this;
     }
 
     /**

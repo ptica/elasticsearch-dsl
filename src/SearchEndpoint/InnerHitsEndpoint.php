@@ -27,8 +27,11 @@ class InnerHitsEndpoint extends AbstractSearchEndpoint
     /**
      * {@inheritdoc}
      */
-    public function normalize(NormalizerInterface $normalizer, $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
-    {
+    public function normalize(
+        NormalizerInterface $normalizer,
+        $format = null,
+        array $context = []
+    ): array|string|int|float|bool|\ArrayObject|null {
         $output = [];
         /** @var NestedInnerHit $innerHit */
         foreach ($this->getAll() as $innerHit) {

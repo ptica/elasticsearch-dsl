@@ -54,7 +54,7 @@ class CompositeAggregation extends AbstractAggregation
         $array = is_array($array) ? array_merge($array, $agg->getParameters()) : $array;
 
         $this->sources[] = [
-            $agg->getName() => [ $agg->getType() => $array ]
+            $agg->getName() => [$agg->getType() => $array],
         ];
 
         return $this;
@@ -88,6 +88,11 @@ class CompositeAggregation extends AbstractAggregation
         return 'composite';
     }
 
+    public function getSize(): ?int
+    {
+        return $this->size;
+    }
+
     public function setSize(int $size): static
     {
         $this->size = $size;
@@ -95,9 +100,9 @@ class CompositeAggregation extends AbstractAggregation
         return $this;
     }
 
-    public function getSize(): ?int
+    public function getAfter(): ?array
     {
-        return $this->size;
+        return $this->after;
     }
 
     public function setAfter(array $after): static
@@ -105,10 +110,5 @@ class CompositeAggregation extends AbstractAggregation
         $this->after = $after;
 
         return $this;
-    }
-
-    public function getAfter(): ?array
-    {
-        return $this->after;
     }
 }

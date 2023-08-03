@@ -41,13 +41,37 @@ class TemplateQuery implements BuilderInterface
     /**
      * @param string $file A template of the query
      * @param string $inline A template of the query
-     * @param array  $params Parameters to insert into template
+     * @param array $params Parameters to insert into template
      */
     public function __construct($file = null, $inline = null, array $params = [])
     {
         $this->setFile($file);
         $this->setInline($inline);
         $this->setParams($params);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function toArray(): array|\stdClass
+    {
+        $output = array_filter(
+            [
+                'file' => $this->getFile(),
+                'inline' => $this->getInline(),
+                'params' => $this->getParams(),
+            ]
+        );
+
+        if (!isset($output['file']) && !isset($output['inline'])) {
+            throw new \InvalidArgumentException(
+                'Template query requires that either `inline` or `file` parameters are set'
+            );
+        }
+
+        $output = $this->processArray($output);
+
+        return [$this->getType() => $output];
     }
 
     /**
@@ -116,29 +140,5 @@ class TemplateQuery implements BuilderInterface
     public function getType(): string
     {
         return 'template';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function toArray(): array|\stdClass
-    {
-        $output = array_filter(
-            [
-                'file' => $this->getFile(),
-                'inline' => $this->getInline(),
-                'params' => $this->getParams(),
-            ]
-        );
-
-        if (!isset($output['file']) && !isset($output['inline'])) {
-            throw new \InvalidArgumentException(
-                'Template query requires that either `inline` or `file` parameters are set'
-            );
-        }
-
-        $output = $this->processArray($output);
-
-        return [$this->getType() => $output];
     }
 }

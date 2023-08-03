@@ -24,20 +24,12 @@ class ScriptQuery implements BuilderInterface
     use ParametersTrait;
 
     /**
-     * @param string $script     Script
-     * @param array  $parameters Optional parameters
+     * @param string $script Script
+     * @param array $parameters Optional parameters
      */
     public function __construct(private $script, array $parameters = [])
     {
         $this->setParameters($parameters);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getType(): string
-    {
-        return 'script';
     }
 
     /**
@@ -49,5 +41,13 @@ class ScriptQuery implements BuilderInterface
         $output = $this->processArray($query);
 
         return [$this->getType() => ['script' => $output]];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getType(): string
+    {
+        return 'script';
     }
 }

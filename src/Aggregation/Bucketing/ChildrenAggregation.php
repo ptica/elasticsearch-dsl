@@ -32,18 +32,6 @@ class ChildrenAggregation extends AbstractAggregation
         $this->setChildren($children);
     }
 
-    public function setChildren(?string $children): static
-    {
-        $this->children = $children;
-
-        return $this;
-    }
-
-    public function getChildren(): ?string
-    {
-        return $this->children;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -62,5 +50,17 @@ class ChildrenAggregation extends AbstractAggregation
         }
 
         return ['type' => $this->getChildren()];
+    }
+
+    public function getChildren(): ?string
+    {
+        return $this->children;
+    }
+
+    public function setChildren(?string $children): static
+    {
+        $this->children = $children;
+
+        return $this;
     }
 }

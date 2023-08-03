@@ -11,7 +11,6 @@
 
 namespace ONGR\ElasticsearchDSL\Aggregation\Pipeline;
 
-use ONGR\ElasticsearchDSL\BuilderInterface;
 use ONGR\ElasticsearchDSL\Sort\FieldSort;
 
 /**
@@ -25,16 +24,11 @@ class BucketSortAggregation extends AbstractPipelineAggregation
 
     /**
      * @param string $name
-     * @param string  $bucketsPath
+     * @param string $bucketsPath
      */
     public function __construct(string $name, $bucketsPath = null)
     {
         parent::__construct($name, $bucketsPath);
-    }
-
-    public function getSort(): array
-    {
-        return $this->sort;
     }
 
     /**
@@ -43,18 +37,6 @@ class BucketSortAggregation extends AbstractPipelineAggregation
     public function addSort(FieldSort $sort): void
     {
         $this->sort[] = $sort->toArray();
-    }
-
-    /**
-     * @param string $sort
-     *
-     * @return $this
-     */
-    public function setSort(array $sort)
-    {
-        $this->sort = $sort;
-
-        return $this;
     }
 
     /**
@@ -72,9 +54,26 @@ class BucketSortAggregation extends AbstractPipelineAggregation
     {
         return array_filter(
             [
-            'buckets_path' => $this->getBucketsPath(),
-            'sort' => $this->getSort(),
+                'buckets_path' => $this->getBucketsPath(),
+                'sort' => $this->getSort(),
             ]
         );
+    }
+
+    public function getSort(): array
+    {
+        return $this->sort;
+    }
+
+    /**
+     * @param string $sort
+     *
+     * @return $this
+     */
+    public function setSort(array $sort)
+    {
+        $this->sort = $sort;
+
+        return $this;
     }
 }

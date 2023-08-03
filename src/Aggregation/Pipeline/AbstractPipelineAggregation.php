@@ -25,6 +25,14 @@ abstract class AbstractPipelineAggregation extends AbstractAggregation
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getArray(): array|\stdClass
+    {
+        return ['buckets_path' => $this->getBucketsPath()];
+    }
+
+    /**
      * @return string
      */
     public function getBucketsPath()
@@ -42,13 +50,5 @@ abstract class AbstractPipelineAggregation extends AbstractAggregation
         $this->bucketsPath = $bucketsPath;
 
         return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getArray(): array|\stdClass
-    {
-        return ['buckets_path' => $this->getBucketsPath()];
     }
 }

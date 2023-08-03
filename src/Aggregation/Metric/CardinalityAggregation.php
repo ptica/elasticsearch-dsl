@@ -56,6 +56,14 @@ class CardinalityAggregation extends AbstractAggregation
     }
 
     /**
+     * @return int
+     */
+    public function getPrecisionThreshold()
+    {
+        return $this->precisionThreshold;
+    }
+
+    /**
      * @param int $precision
      *
      * @return $this
@@ -65,14 +73,6 @@ class CardinalityAggregation extends AbstractAggregation
         $this->precisionThreshold = $precision;
 
         return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getPrecisionThreshold()
-    {
-        return $this->precisionThreshold;
     }
 
     /**
@@ -96,14 +96,6 @@ class CardinalityAggregation extends AbstractAggregation
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function getType(): string
-    {
-        return 'cardinality';
-    }
-
-    /**
      * Checks if required fields are set.
      *
      *
@@ -114,5 +106,13 @@ class CardinalityAggregation extends AbstractAggregation
         if (!array_key_exists('field', $fields) && !array_key_exists('script', $fields)) {
             throw new \LogicException('Cardinality aggregation must have field or script set.');
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getType(): string
+    {
+        return 'cardinality';
     }
 }

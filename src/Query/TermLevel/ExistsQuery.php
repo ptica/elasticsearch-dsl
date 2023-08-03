@@ -30,14 +30,6 @@ class ExistsQuery implements BuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function getType(): string
-    {
-        return 'exists';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function toArray(): array|\stdClass
     {
         return [
@@ -45,5 +37,13 @@ class ExistsQuery implements BuilderInterface
                 'field' => $this->field,
             ],
         ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getType(): string
+    {
+        return 'exists';
     }
 }

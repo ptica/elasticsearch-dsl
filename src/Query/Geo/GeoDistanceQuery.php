@@ -23,21 +23,13 @@ class GeoDistanceQuery implements BuilderInterface
 {
     use ParametersTrait;
 
-    /**
-     * @param string $field
-     * @param string $distance
-     */
-    public function __construct(private $field, private $distance, private readonly mixed $location, array $parameters = [])
-    {
+    public function __construct(
+        private string $field,
+        private string $distance,
+        private readonly mixed $location,
+        array $parameters = []
+    ) {
         $this->setParameters($parameters);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getType(): string
-    {
-        return 'geo_distance';
     }
 
     /**
@@ -52,5 +44,13 @@ class GeoDistanceQuery implements BuilderInterface
         $output = $this->processArray($query);
 
         return [$this->getType() => $output];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getType(): string
+    {
+        return 'geo_distance';
     }
 }

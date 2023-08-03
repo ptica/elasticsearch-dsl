@@ -24,19 +24,11 @@ class HasChildQuery implements BuilderInterface
     use ParametersTrait;
 
     /**
-     * @param string           $type
+     * @param string $type
      */
     public function __construct(private $type, private readonly BuilderInterface $query, array $parameters = [])
     {
         $this->setParameters($parameters);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getType(): string
-    {
-        return 'has_child';
     }
 
     /**
@@ -52,5 +44,13 @@ class HasChildQuery implements BuilderInterface
         $output = $this->processArray($query);
 
         return [$this->getType() => $output];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getType(): string
+    {
+        return 'has_child';
     }
 }

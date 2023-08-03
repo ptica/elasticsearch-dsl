@@ -32,14 +32,6 @@ class TypeQuery implements BuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function getType(): string
-    {
-        return 'type';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function toArray(): array|\stdClass
     {
         return [
@@ -47,5 +39,13 @@ class TypeQuery implements BuilderInterface
                 'value' => $this->type,
             ],
         ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getType(): string
+    {
+        return 'type';
     }
 }

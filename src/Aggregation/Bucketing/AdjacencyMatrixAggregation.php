@@ -30,13 +30,13 @@ class AdjacencyMatrixAggregation extends AbstractAggregation
      * @var BuilderInterface[]
      */
     private array $filters = [
-        self::FILTERS => []
+        self::FILTERS => [],
     ];
 
     /**
      * Inner aggregations container init.
      *
-     * @param string             $name
+     * @param string $name
      * @param BuilderInterface[] $filters
      */
     public function __construct(string $name, array $filters = [])

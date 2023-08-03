@@ -26,11 +26,16 @@ class ExtendedStatsAggregation extends AbstractAggregation
     use ScriptAwareTrait;
 
     /**
+     * @var int
+     */
+    private $sigma;
+
+    /**
      * Inner aggregations container init.
      *
      * @param string $name
      * @param string $field
-     * @param int    $sigma
+     * @param int $sigma
      * @param string $script
      */
     public function __construct(string $name, $field = null, $sigma = null, $script = null)
@@ -40,31 +45,6 @@ class ExtendedStatsAggregation extends AbstractAggregation
         $this->setField($field);
         $this->setSigma($sigma);
         $this->setScript($script);
-    }
-
-    /**
-     * @var int
-     */
-    private $sigma;
-
-    /**
-     * @return int
-     */
-    public function getSigma()
-    {
-        return $this->sigma;
-    }
-
-    /**
-     * @param int $sigma
-     *
-     * @return $this
-     */
-    public function setSigma($sigma)
-    {
-        $this->sigma = $sigma;
-
-        return $this;
     }
 
     /**
@@ -88,5 +68,25 @@ class ExtendedStatsAggregation extends AbstractAggregation
             ],
             static fn($val): bool => $val || is_numeric($val)
         );
+    }
+
+    /**
+     * @return int
+     */
+    public function getSigma()
+    {
+        return $this->sigma;
+    }
+
+    /**
+     * @param int $sigma
+     *
+     * @return $this
+     */
+    public function setSigma($sigma)
+    {
+        $this->sigma = $sigma;
+
+        return $this;
     }
 }

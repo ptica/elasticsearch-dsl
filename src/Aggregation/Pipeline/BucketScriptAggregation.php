@@ -27,21 +27,6 @@ class BucketScriptAggregation extends AbstractPipelineAggregation
     }
 
     /**
-     * @return string
-     */
-    public function getScript(): mixed
-    {
-        return $this->script;
-    }
-
-    public function setScript(mixed $script): static
-    {
-        $this->script = $script;
-
-        return $this;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function getType(): string
@@ -67,5 +52,20 @@ class BucketScriptAggregation extends AbstractPipelineAggregation
             'buckets_path' => $this->getBucketsPath(),
             'script' => $this->getScript(),
         ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getScript(): mixed
+    {
+        return $this->script;
+    }
+
+    public function setScript(mixed $script): static
+    {
+        $this->script = $script;
+
+        return $this;
     }
 }

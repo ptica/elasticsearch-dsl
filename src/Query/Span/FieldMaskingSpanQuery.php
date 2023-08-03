@@ -33,12 +33,27 @@ class FieldMaskingSpanQuery implements SpanQueryInterface
     private $field;
 
     /**
-     * @param string             $field
+     * @param string $field
      */
     public function __construct($field, SpanQueryInterface $query)
     {
         $this->setQuery($query);
         $this->setField($field);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function toArray(): array|\stdClass
+    {
+        $output = [
+            'query' => $this->getQuery()->toArray(),
+            'field' => $this->getField(),
+        ];
+
+        $output = $this->processArray($output);
+
+        return [$this->getType() => $output];
     }
 
     /**
@@ -77,21 +92,6 @@ class FieldMaskingSpanQuery implements SpanQueryInterface
         $this->field = $field;
 
         return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function toArray(): array|\stdClass
-    {
-        $output = [
-            'query' => $this->getQuery()->toArray(),
-            'field' => $this->getField(),
-        ];
-
-        $output = $this->processArray($output);
-
-        return [$this->getType() => $output];
     }
 
     /**

@@ -22,23 +22,13 @@ class OrderedSerializer extends Serializer
     /**
      * {@inheritdoc}
      */
-    public function normalize($data, string $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
-    {
+    public function normalize(
+        $data,
+        string $format = null,
+        array $context = []
+    ): array|bool|string|int|float|null|\ArrayObject {
         return parent::normalize(
             is_array($data) ? $this->order($data) : $data,
-            $format,
-            $context
-        );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function denormalize($data, string $type, string $format = null, array $context = []): mixed
-    {
-        return parent::denormalize(
-            is_array($data) ? $this->order($data) : $data,
-            $type,
             $format,
             $context
         );
@@ -54,7 +44,8 @@ class OrderedSerializer extends Serializer
         if (!empty($filteredData)) {
             uasort(
                 $filteredData,
-                static fn(OrderedNormalizerInterface $a, OrderedNormalizerInterface $b): bool => $a->getOrder() > $b->getOrder()
+                static fn(OrderedNormalizerInterface $a, OrderedNormalizerInterface $b):
+                bool => $a->getOrder() > $b->getOrder()
             );
 
             return array_merge($filteredData, array_diff_key($data, $filteredData));
@@ -73,6 +64,19 @@ class OrderedSerializer extends Serializer
         return array_filter(
             $array,
             static fn($value): bool => $value instanceof OrderedNormalizerInterface
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function denormalize($data, string $type, string $format = null, array $context = []): mixed
+    {
+        return parent::denormalize(
+            is_array($data) ? $this->order($data) : $data,
+            $type,
+            $format,
+            $context
         );
     }
 }

@@ -36,6 +36,27 @@ class ReverseNestedAggregation extends AbstractAggregation
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getType(): string
+    {
+        return 'reverse_nested';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getArray(): array|\stdClass
+    {
+        $output = new \stdClass();
+        if ($this->getPath()) {
+            $output = ['path' => $this->getPath()];
+        }
+
+        return $output;
+    }
+
+    /**
      * Return path.
      *
      * @return string
@@ -55,26 +76,5 @@ class ReverseNestedAggregation extends AbstractAggregation
         $this->path = $path;
 
         return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getType(): string
-    {
-        return 'reverse_nested';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getArray(): array|\stdClass
-    {
-        $output = new \stdClass();
-        if ($this->getPath()) {
-            $output = ['path' => $this->getPath()];
-        }
-
-        return $output;
     }
 }

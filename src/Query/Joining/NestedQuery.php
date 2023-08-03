@@ -24,19 +24,11 @@ class NestedQuery implements BuilderInterface
     use ParametersTrait;
 
     /**
-     * @param string           $path
+     * @param string $path
      */
     public function __construct(private $path, private readonly BuilderInterface $query, array $parameters = [])
     {
         $this->parameters = $parameters;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getType(): string
-    {
-        return 'nested';
     }
 
     /**
@@ -50,8 +42,16 @@ class NestedQuery implements BuilderInterface
                     'path' => $this->path,
                     'query' => $this->query->toArray(),
                 ]
-            )
+            ),
         ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getType(): string
+    {
+        return 'nested';
     }
 
     /**

@@ -45,34 +45,6 @@ class MatrixStatsAggregation extends AbstractAggregation
     }
 
     /**
-     * @return string
-     */
-    public function getMode()
-    {
-        return $this->mode;
-    }
-
-    /**
-     * @param string $mode
-     *
-     * @return $this
-     */
-    public function setMode($mode)
-    {
-        $this->mode = $mode;
-
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getMissing()
-    {
-        return $this->missing;
-    }
-
-    /**
      * @param array $missing
      *
      * @return $this
@@ -109,5 +81,33 @@ class MatrixStatsAggregation extends AbstractAggregation
         }
 
         return $out;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMode()
+    {
+        return $this->mode;
+    }
+
+    /**
+     * @param string $mode
+     *
+     * @return $this
+     */
+    public function setMode($mode)
+    {
+        $this->mode = $mode;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMissing()
+    {
+        return $this->missing;
     }
 }

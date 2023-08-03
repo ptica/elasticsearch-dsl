@@ -45,24 +45,6 @@ class DiversifiedSamplerAggregation extends AbstractAggregation
     }
 
     /**
-     * @return mixed
-     */
-    public function getShardSize()
-    {
-        return $this->shardSize;
-    }
-
-    /**
-     * @return $this
-     */
-    public function setShardSize(mixed $shardSize)
-    {
-        $this->shardSize = $shardSize;
-
-        return $this;
-    }
-
-    /**
      * @inheritdoc
      */
     public function getType(): string
@@ -81,5 +63,23 @@ class DiversifiedSamplerAggregation extends AbstractAggregation
                 'shard_size' => $this->getShardSize(),
             ]
         );
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getShardSize()
+    {
+        return $this->shardSize;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setShardSize(mixed $shardSize)
+    {
+        $this->shardSize = $shardSize;
+
+        return $this;
     }
 }

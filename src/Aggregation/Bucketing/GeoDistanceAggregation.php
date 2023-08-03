@@ -33,13 +33,19 @@ class GeoDistanceAggregation extends AbstractAggregation
      *
      * @param string $name
      * @param string $field
-     * @param mixed  $origin
-     * @param array  $ranges
+     * @param mixed $origin
+     * @param array $ranges
      * @param string $unit
      * @param string $distanceType
      */
-    public function __construct(string $name, ?string $field = null, mixed $origin = null, array $ranges = [], ?string $unit = null, ?string $distanceType = null)
-    {
+    public function __construct(
+        string $name,
+        ?string $field = null,
+        mixed $origin = null,
+        array $ranges = [],
+        ?string $unit = null,
+        ?string $distanceType = null
+    ) {
         parent::__construct($name);
 
         $this->setField($field);
@@ -52,47 +58,6 @@ class GeoDistanceAggregation extends AbstractAggregation
 
         $this->setUnit($unit);
         $this->setDistanceType($distanceType);
-    }
-
-    public function getOrigin(): ?string
-    {
-        return $this->origin;
-    }
-
-    public function setOrigin(mixed $origin): static
-    {
-        $this->origin = $origin;
-
-        return $this;
-    }
-
-    public function getDistanceType(): ?string
-    {
-        return $this->distanceType;
-    }
-
-    public function setDistanceType(?string $distanceType): static
-    {
-        $this->distanceType = $distanceType;
-
-        return $this;
-    }
-
-    public function getUnit(): ?string
-    {
-        return $this->unit;
-    }
-
-    /**
-     * @param string $unit
-     *
-     * @return $this
-     */
-    public function setUnit(?string $unit): static
-    {
-        $this->unit = $unit;
-
-        return $this;
     }
 
     /**
@@ -149,6 +114,47 @@ class GeoDistanceAggregation extends AbstractAggregation
         $data['ranges'] = $this->ranges;
 
         return $data;
+    }
+
+    public function getOrigin(): ?string
+    {
+        return $this->origin;
+    }
+
+    public function setOrigin(mixed $origin): static
+    {
+        $this->origin = $origin;
+
+        return $this;
+    }
+
+    public function getUnit(): ?string
+    {
+        return $this->unit;
+    }
+
+    /**
+     * @param string $unit
+     *
+     * @return $this
+     */
+    public function setUnit(?string $unit): static
+    {
+        $this->unit = $unit;
+
+        return $this;
+    }
+
+    public function getDistanceType(): ?string
+    {
+        return $this->distanceType;
+    }
+
+    public function setDistanceType(?string $distanceType): static
+    {
+        $this->distanceType = $distanceType;
+
+        return $this;
     }
 
     /**

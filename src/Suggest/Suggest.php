@@ -35,11 +35,17 @@ class Suggest implements NamedBuilderInterface
         $this->setParameters($parameters);
     }
 
-    public function setName(string $name): static
+    /**
+     * {@inheritdoc}
+     */
+    public function toArray(): array|\stdClass
     {
-        $this->name = $name;
-
-        return $this;
+        return [
+            $this->getName() => [
+                'text' => $this->getText(),
+                $this->getType() => $this->processArray(['field' => $this->getField()]),
+            ],
+        ];
     }
 
     public function getName(): string
@@ -47,14 +53,9 @@ class Suggest implements NamedBuilderInterface
         return $this->name;
     }
 
-    public function getType(): string
+    public function setName(string $name): static
     {
-        return $this->type;
-    }
-
-    public function setType(string $type): static
-    {
-        $this->type = $type;
+        $this->name = $name;
 
         return $this;
     }
@@ -71,6 +72,18 @@ class Suggest implements NamedBuilderInterface
         return $this;
     }
 
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): static
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
     public function getField(): string
     {
         return $this->field;
@@ -81,18 +94,5 @@ class Suggest implements NamedBuilderInterface
         $this->field = $field;
 
         return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function toArray(): array|\stdClass
-    {
-        return [
-            $this->getName() => [
-                'text' => $this->getText(),
-                $this->getType() => $this->processArray(['field' => $this->getField()]),
-            ]
-        ];
     }
 }

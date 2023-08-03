@@ -33,10 +33,8 @@ class BuilderBag
 
     /**
      * Adds a builder.
-     *
-     * @return string
      */
-    public function add(BuilderInterface $builder)
+    public function add(BuilderInterface $builder): string
     {
         $name = method_exists($builder, 'getName') ? $builder->getName() : bin2hex(random_bytes(30));
 
@@ -47,22 +45,16 @@ class BuilderBag
 
     /**
      * Checks if builder exists by a specific name.
-     *
-     * @param string $name Builder name.
-     *
-     * @return bool
      */
-    public function has($name)
+    public function has(string $name): bool
     {
         return isset($this->bag[$name]);
     }
 
     /**
      * Removes a builder by name.
-     *
-     * @param string $name Builder name.
      */
-    public function remove($name): void
+    public function remove(string $name): void
     {
         unset($this->bag[$name]);
     }
@@ -77,30 +69,10 @@ class BuilderBag
 
     /**
      * Returns a builder by name.
-     *
-     * @param string $name Builder name.
-     *
-     * @return BuilderInterface
      */
-    public function get($name)
+    public function get(string $name): ?BuilderInterface
     {
-        return $this->bag[$name];
-    }
-
-    /**
-     * Returns all builders contained.
-     *
-     * @param string|null $type Builder type.
-     *
-     * @return BuilderInterface[]
-     */
-    public function all($type = null): array
-    {
-        return array_filter(
-            $this->bag,
-            /** @var BuilderInterface $builder */
-            static fn(BuilderInterface $builder): bool => $type === null || $builder->getType() == $type
-        );
+        return $this->bag[$name] ?? null;
     }
 
     /**
@@ -114,5 +86,19 @@ class BuilderBag
         }
 
         return $output;
+    }
+
+    /**
+     * Returns all builders contained.
+     *
+     * @return BuilderInterface[]
+     */
+    public function all(mixed $type = null): array
+    {
+        return array_filter(
+            $this->bag,
+            /** @var BuilderInterface $builder */
+            static fn(BuilderInterface $builder): bool => $type === null || $builder->getType() == $type
+        );
     }
 }

@@ -23,14 +23,6 @@ class ParentIdQuery implements BuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function getType(): string
-    {
-        return 'parent_id';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function toArray(): array|\stdClass
     {
         $query = [
@@ -40,5 +32,13 @@ class ParentIdQuery implements BuilderInterface
         $output = $this->processArray($query);
 
         return [$this->getType() => $output];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getType(): string
+    {
+        return 'parent_id';
     }
 }

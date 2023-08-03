@@ -34,17 +34,17 @@ class MatchAllQuery implements BuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function getType(): string
+    public function toArray(): array|\stdClass
     {
-        return 'match_all';
+        $params = $this->getParameters();
+        return [$this->getType() => !empty($params) ? $params : new \stdClass()];
     }
 
     /**
      * {@inheritdoc}
      */
-    public function toArray(): array|\stdClass
+    public function getType(): string
     {
-        $params = $this->getParameters();
-        return [$this->getType() => !empty($params) ? $params : new \stdClass()];
+        return 'match_all';
     }
 }

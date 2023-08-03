@@ -40,18 +40,10 @@ class NestedSort implements BuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function getType(): string
-    {
-        return 'nested';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function toArray(): array|\stdClass
     {
         $output = [
-            'path'   => $this->path,
+            'path' => $this->path,
         ];
 
         if ($this->filter instanceof BuilderInterface) {
@@ -63,6 +55,14 @@ class NestedSort implements BuilderInterface
         }
 
         return $this->processArray($output);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getType(): string
+    {
+        return 'nested';
     }
 
     /**

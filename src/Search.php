@@ -24,34 +24,32 @@ use ONGR\ElasticsearchDSL\SearchEndpoint\QueryEndpoint;
 use ONGR\ElasticsearchDSL\SearchEndpoint\SearchEndpointFactory;
 use ONGR\ElasticsearchDSL\SearchEndpoint\SearchEndpointInterface;
 use ONGR\ElasticsearchDSL\SearchEndpoint\SortEndpoint;
+use ONGR\ElasticsearchDSL\SearchEndpoint\SuggestEndpoint;
 use ONGR\ElasticsearchDSL\Serializer\Normalizer\CustomReferencedNormalizer;
 use ONGR\ElasticsearchDSL\Serializer\OrderedSerializer;
 use Symfony\Component\Serializer\Normalizer\CustomNormalizer;
-use ONGR\ElasticsearchDSL\SearchEndpoint\SuggestEndpoint;
 
 /**
  * Search object that can be executed by a manager.
  */
 class Search
 {
+    private static ?OrderedSerializer $serializer = null;
     /**
      * If you don’t need to track the total number of hits at all you can improve
      * query times by setting this option to false. Defaults to true.
      */
     private ?bool $trackTotalHits = null;
-
     /**
      * To retrieve hits from a certain offset. Defaults to 0.
      */
     private ?int $from = null;
-
     /**
      * The number of hits to return. Defaults to 10. If you do not care about getting some
      * hits back but only about the number of matches and/or aggregations, setting the value
      * to 0 will help performance.
      */
     private ?int $size = null;
-
     /**
      * Allows to control how the _source field is returned with every hit. By default
      * operations return the contents of the _source field unless you have used the
@@ -60,12 +58,10 @@ class Search
      * @var bool
      */
     private $source;
-
     /**
      * Allows to selectively load specific stored fields for each document represented by a search hit.
      */
     private ?array $storedFields = null;
-
     /**
      * Allows to return a script evaluation (based on different fields) for each hit.
      * Script fields can work on fields that are not stored, and allow to return custom
@@ -74,7 +70,6 @@ class Search
      * to be returned from it (can be an "object" type).
      */
     private ?array $scriptFields = null;
-
     /**
      * Allows to return the doc value representation of a field for each hit. Doc value
      * fields can work on fields that are not stored. Note that if the fields parameter
@@ -83,35 +78,30 @@ class Search
      * result in more memory consumption.
      */
     private ?array $docValueFields = null;
-
     /**
      * Enables explanation for each hit on how its score was computed.
      *
      * @var bool
      */
     private ?bool $explain = null;
-
     /**
      * Returns a version for each search hit.
      *
      * @var bool
      */
     private ?bool $version = null;
-
     /**
      * Allows to configure different boost level per index when searching across more
      * than one indices. This is very handy when hits coming from one index matter more
      * than hits coming from another index (think social graph where each user has an index).
      */
     private ?array $indicesBoost = null;
-
     /**
      * Exclude documents which have a _score less than the minimum specified in min_score.
      *
      * @var int
      */
     private ?int $minScore = null;
-
     /**
      * Pagination of results can be done by using the from and size but the cost becomes
      * prohibitive when the deep pagination is reached. The index.max_result_window which
@@ -123,14 +113,12 @@ class Search
      * help the retrieval of the next page.
      */
     private ?array $searchAfter = null;
-
     /**
      * URI parameters alongside Request body search.
      *
      * @link https://www.elastic.co/guide/en/elasticsearch/reference/current/search-uri-request.html
      */
     private ?array $uriParams = null;
-
     /**
      * While a search request returns a single “page” of results, the scroll API can be used to retrieve
      * large numbers of results (or even all results) from a single search request, in much the same way
@@ -139,9 +127,6 @@ class Search
      * of one index into a new index with a different configuration.
      */
     private ?string $scroll = null;
-
-    private static ?OrderedSerializer $serializer = null;
-
     /**
      * @var SearchEndpointInterface[]
      */
@@ -151,14 +136,6 @@ class Search
      * Constructor to initialize static properties
      */
     public function __construct()
-    {
-        $this->initializeSerializer();
-    }
-
-    /**
-     * Wakeup method to initialize static properties
-     */
-    public function __wakeup()
     {
         $this->initializeSerializer();
     }
@@ -176,6 +153,14 @@ class Search
                 ]
             );
         }
+    }
+
+    /**
+     * Wakeup method to initialize static properties
+     */
+    public function __wakeup()
+    {
+        $this->initializeSerializer();
     }
 
     /**
@@ -259,12 +244,12 @@ class Search
     /**
      * Adds a post filter to search.
      *
-     * @param BuilderInterface $filter   Filter.
-     * @param string           $boolType Example boolType values:
+     * @param BuilderInterface $filter Filter.
+     * @param string $boolType Example boolType values:
      *                                   - must
      *                                   - must_not
      *                                   - should.
-     * @param string           $key
+     * @param string $key
      *
      * @return $this.
      */
@@ -399,12 +384,12 @@ class Search
     }
 
     /**
-    * Adds suggest into search.
-    *
-    * @param BuilderInterface $suggest
-    *
-    * @return $this
-    */
+     * Adds suggest into search.
+     *
+     * @param BuilderInterface $suggest
+     *
+     * @return $this
+     */
     public function addSuggest(NamedBuilderInterface $suggest): static
     {
         $this->getEndpoint(SuggestEndpoint::NAME)->add($suggest, $suggest->getName());
@@ -413,10 +398,10 @@ class Search
     }
 
     /**
-    * Returns all suggests.
-    *
-    * @return BuilderInterface[]
-    */
+     * Returns all suggests.
+     *
+     * @return BuilderInterface[]
+     */
     public function getSuggests()
     {
         return $this->getEndpoint(SuggestEndpoint::NAME)->getAll();

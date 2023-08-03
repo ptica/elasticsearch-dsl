@@ -24,6 +24,22 @@ class SpanNearQuery extends SpanOrQuery implements SpanQueryInterface
     private $slop;
 
     /**
+     * {@inheritdoc}
+     */
+    public function toArray(): array|\stdClass
+    {
+        $query = [];
+        foreach ($this->getQueries() as $type) {
+            $query['clauses'][] = $type->toArray();
+        }
+
+        $query['slop'] = $this->getSlop();
+        $output = $this->processArray($query);
+
+        return [$this->getType() => $output];
+    }
+
+    /**
      * @return int
      */
     public function getSlop()
@@ -49,21 +65,5 @@ class SpanNearQuery extends SpanOrQuery implements SpanQueryInterface
     public function getType(): string
     {
         return 'span_near';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function toArray(): array|\stdClass
-    {
-        $query = [];
-        foreach ($this->getQueries() as $type) {
-            $query['clauses'][] = $type->toArray();
-        }
-
-        $query['slop'] = $this->getSlop();
-        $output = $this->processArray($query);
-
-        return [$this->getType() => $output];
     }
 }

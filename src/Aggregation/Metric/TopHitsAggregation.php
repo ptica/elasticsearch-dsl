@@ -57,53 +57,9 @@ class TopHitsAggregation extends AbstractAggregation
         }
     }
 
-    public function getFrom(): ?int
-    {
-        return $this->from;
-    }
-
-    public function setFrom($from): static
-    {
-        $this->from = $from;
-
-        return $this;
-    }
-
-    /**
-     * @return BuilderInterface[]
-     */
-    public function getSorts(): array
-    {
-        return $this->sorts;
-    }
-
-    /**
-     * @param BuilderInterface[] $sorts
-     *
-     * @return $this
-     */
-    public function setSorts(array $sorts): static
-    {
-        $this->sorts = $sorts;
-
-        return $this;
-    }
-
     public function addSort(BuilderInterface $sort): void
     {
         $this->sorts[] = $sort;
-    }
-
-    public function setSize(int $size): static
-    {
-        $this->size = $size;
-
-        return $this;
-    }
-
-    public function getSize(): ?int
-    {
-        return $this->size;
     }
 
     /**
@@ -137,5 +93,49 @@ class TopHitsAggregation extends AbstractAggregation
         );
 
         return empty($output) ? new \stdClass() : $output;
+    }
+
+    /**
+     * @return BuilderInterface[]
+     */
+    public function getSorts(): array
+    {
+        return $this->sorts;
+    }
+
+    /**
+     * @param BuilderInterface[] $sorts
+     *
+     * @return $this
+     */
+    public function setSorts(array $sorts): static
+    {
+        $this->sorts = $sorts;
+
+        return $this;
+    }
+
+    public function getSize(): ?int
+    {
+        return $this->size;
+    }
+
+    public function setSize(int $size): static
+    {
+        $this->size = $size;
+
+        return $this;
+    }
+
+    public function getFrom(): ?int
+    {
+        return $this->from;
+    }
+
+    public function setFrom($from): static
+    {
+        $this->from = $from;
+
+        return $this;
     }
 }

@@ -39,24 +39,6 @@ class FilterAggregation extends AbstractAggregation
     }
 
     /**
-     * @return $this
-     */
-    public function setFilter(BuilderInterface $filter): static
-    {
-        $this->filter = $filter;
-
-        return $this;
-    }
-
-    /**
-     * Returns a filter.
-     */
-    public function getFilter(): ?BuilderInterface
-    {
-        return $this->filter;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function setField($field): void
@@ -74,6 +56,24 @@ class FilterAggregation extends AbstractAggregation
         }
 
         return $this->getFilter()->toArray();
+    }
+
+    /**
+     * Returns a filter.
+     */
+    public function getFilter(): ?BuilderInterface
+    {
+        return $this->filter;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setFilter(BuilderInterface $filter): static
+    {
+        $this->filter = $filter;
+
+        return $this;
     }
 
     /**

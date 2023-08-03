@@ -87,6 +87,29 @@ class FunctionScoreQuery implements BuilderInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function toArray(): array|\stdClass
+    {
+        $query = [
+            'query' => $this->query->toArray(),
+            'functions' => $this->functions,
+        ];
+
+        $output = $this->processArray($query);
+
+        return [$this->getType() => $output];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getType(): string
+    {
+        return 'function_score';
+    }
+
+    /**
      * Add decay function to function score. Weight and query are optional.
      *
      * @param string $type
@@ -205,28 +228,5 @@ class FunctionScoreQuery implements BuilderInterface
         $this->functions[] = $function;
 
         return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function toArray(): array|\stdClass
-    {
-        $query = [
-            'query' => $this->query->toArray(),
-            'functions' => $this->functions,
-        ];
-
-        $output = $this->processArray($query);
-
-        return [$this->getType() => $output];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getType(): string
-    {
-        return 'function_score';
     }
 }

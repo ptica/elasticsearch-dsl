@@ -27,9 +27,9 @@ class FieldSort implements BuilderInterface
     private ?BuilderInterface $nestedFilter = null;
 
     /**
-     * @param string $field  Field name.
-     * @param string $order  Order direction.
-     * @param array  $params Params that can be set to field sort.
+     * @param string $field Field name.
+     * @param string $order Order direction.
+     * @param array $params Params that can be set to field sort.
      */
     public function __construct(private string $field, private ?string $order = null, array $params = [])
     {

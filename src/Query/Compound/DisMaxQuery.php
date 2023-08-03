@@ -52,14 +52,6 @@ class DisMaxQuery implements BuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function getType(): string
-    {
-        return 'dis_max';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function toArray(): array|\stdClass
     {
         $query = [];
@@ -70,5 +62,13 @@ class DisMaxQuery implements BuilderInterface
         $output = $this->processArray(['queries' => $query]);
 
         return [$this->getType() => $output];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getType(): string
+    {
+        return 'dis_max';
     }
 }

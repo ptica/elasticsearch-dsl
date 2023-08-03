@@ -31,14 +31,6 @@ class TermQuery implements BuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function getType(): string
-    {
-        return 'term';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function toArray(): array|\stdClass
     {
         $query = $this->processArray();
@@ -54,5 +46,13 @@ class TermQuery implements BuilderInterface
         ];
 
         return [$this->getType() => $output];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getType(): string
+    {
+        return 'term';
     }
 }

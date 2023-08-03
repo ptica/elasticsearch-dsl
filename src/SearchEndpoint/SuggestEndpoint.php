@@ -27,8 +27,11 @@ class SuggestEndpoint extends AbstractSearchEndpoint
     /**
      * {@inheritdoc}
      */
-    public function normalize(NormalizerInterface $normalizer, $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
-    {
+    public function normalize(
+        NormalizerInterface $normalizer,
+        $format = null,
+        array $context = []
+    ): array|string|int|float|bool|\ArrayObject|null {
         $output = [];
         /** @var TermSuggest $suggest */
         foreach ($this->getAll() as $suggest) {

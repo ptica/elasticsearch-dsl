@@ -61,13 +61,13 @@ class HistogramAggregation extends AbstractAggregation
      *
      * @param string $name
      * @param string $field
-     * @param int    $interval
-     * @param int    $minDocCount
+     * @param int $interval
+     * @param int $minDocCount
      * @param string $orderMode
      * @param string $orderDirection
-     * @param int    $extendedBoundsMin
-     * @param int    $extendedBoundsMax
-     * @param bool   $keyed
+     * @param int $extendedBoundsMin
+     * @param int $extendedBoundsMax
+     * @param bool $keyed
      */
     public function __construct(
         $name,
@@ -91,28 +91,6 @@ class HistogramAggregation extends AbstractAggregation
     }
 
     /**
-     * @return bool
-     */
-    public function isKeyed()
-    {
-        return $this->keyed;
-    }
-
-    /**
-     * Get response as a hash instead keyed by the buckets keys.
-     *
-     * @param bool $keyed
-     *
-     * @return $this
-     */
-    public function setKeyed($keyed)
-    {
-        $this->keyed = $keyed;
-
-        return $this;
-    }
-
-    /**
      * Sets buckets ordering.
      *
      * @param string $mode
@@ -129,15 +107,32 @@ class HistogramAggregation extends AbstractAggregation
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
-    public function getOrder()
+    public function getType(): string
     {
-        if ($this->orderMode && $this->orderDirection) {
-            return [$this->orderMode => $this->orderDirection];
-        } else {
-            return null;
-        }
+        return 'histogram';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getArray(): array|\stdClass
+    {
+        $out = array_filter(
+            [
+                'field' => $this->getField(),
+                'interval' => $this->getInterval(),
+                'min_doc_count' => $this->getMinDocCount(),
+                'extended_bounds' => $this->getExtendedBounds(),
+                'keyed' => $this->isKeyed(),
+                'order' => $this->getOrder(),
+            ],
+            static fn($val): bool => $val || is_numeric($val)
+        );
+        $this->checkRequiredParameters($out, ['field', 'interval']);
+
+        return $out;
     }
 
     /**
@@ -208,32 +203,37 @@ class HistogramAggregation extends AbstractAggregation
     }
 
     /**
-     * {@inheritdoc}
+     * @return bool
      */
-    public function getType(): string
+    public function isKeyed()
     {
-        return 'histogram';
+        return $this->keyed;
     }
 
     /**
-     * {@inheritdoc}
+     * Get response as a hash instead keyed by the buckets keys.
+     *
+     * @param bool $keyed
+     *
+     * @return $this
      */
-    public function getArray(): array|\stdClass
+    public function setKeyed($keyed)
     {
-        $out = array_filter(
-            [
-                'field' => $this->getField(),
-                'interval' => $this->getInterval(),
-                'min_doc_count' => $this->getMinDocCount(),
-                'extended_bounds' => $this->getExtendedBounds(),
-                'keyed' => $this->isKeyed(),
-                'order' => $this->getOrder(),
-            ],
-            static fn($val): bool => $val || is_numeric($val)
-        );
-        $this->checkRequiredParameters($out, ['field', 'interval']);
+        $this->keyed = $keyed;
 
-        return $out;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getOrder()
+    {
+        if ($this->orderMode && $this->orderDirection) {
+            return [$this->orderMode => $this->orderDirection];
+        } else {
+            return null;
+        }
     }
 
     /**

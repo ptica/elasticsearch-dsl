@@ -38,18 +38,6 @@ class DateHistogramAggregation extends AbstractAggregation
         $this->setFormat($format);
     }
 
-    public function getInterval(): ?string
-    {
-        return $this->interval;
-    }
-
-    public function setInterval(?string $interval): static
-    {
-        $this->interval = $interval;
-
-        return $this;
-    }
-
     public function setFormat(?string $format): static
     {
         $this->format = $format;
@@ -84,5 +72,17 @@ class DateHistogramAggregation extends AbstractAggregation
         }
 
         return $out;
+    }
+
+    public function getInterval(): ?string
+    {
+        return $this->interval;
+    }
+
+    public function setInterval(?string $interval): static
+    {
+        $this->interval = $interval;
+
+        return $this;
     }
 }

@@ -34,7 +34,7 @@ class SamplerAggregation extends AbstractAggregation
      *
      * @param string $name
      * @param string $field
-     * @param int    $shardSize
+     * @param int $shardSize
      */
     public function __construct(string $name, $field = null, $shardSize = null)
     {
@@ -42,26 +42,6 @@ class SamplerAggregation extends AbstractAggregation
 
         $this->setField($field);
         $this->setShardSize($shardSize);
-    }
-
-    /**
-     * @return int
-     */
-    public function getShardSize()
-    {
-        return $this->shardSize;
-    }
-
-    /**
-     * @param int $shardSize
-     *
-     * @return $this
-     */
-    public function setShardSize($shardSize)
-    {
-        $this->shardSize = $shardSize;
-
-        return $this;
     }
 
     /**
@@ -83,5 +63,25 @@ class SamplerAggregation extends AbstractAggregation
                 'shard_size' => $this->getShardSize(),
             ]
         );
+    }
+
+    /**
+     * @return int
+     */
+    public function getShardSize()
+    {
+        return $this->shardSize;
+    }
+
+    /**
+     * @param int $shardSize
+     *
+     * @return $this
+     */
+    public function setShardSize($shardSize)
+    {
+        $this->shardSize = $shardSize;
+
+        return $this;
     }
 }

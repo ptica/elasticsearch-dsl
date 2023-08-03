@@ -27,8 +27,11 @@ class AggregationsEndpoint extends AbstractSearchEndpoint
     /**
      * {@inheritdoc}
      */
-    public function normalize(NormalizerInterface $normalizer, $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
-    {
+    public function normalize(
+        NormalizerInterface $normalizer,
+        $format = null,
+        array $context = []
+    ): array|string|int|float|bool|\ArrayObject|null {
         $output = [];
         /** @var AbstractAggregation $aggregation */
         foreach ($this->getAll() as $aggregation) {

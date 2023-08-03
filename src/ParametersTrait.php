@@ -19,14 +19,6 @@ trait ParametersTrait
     private array $parameters = [];
 
     /**
-     * Checks if parameter exists.
-     */
-    public function hasParameter(string $name): bool
-    {
-        return isset($this->parameters[$name]);
-    }
-
-    /**
      * Removes parameter.
      */
     public function removeParameter(string $name): void
@@ -34,6 +26,14 @@ trait ParametersTrait
         if ($this->hasParameter($name)) {
             unset($this->parameters[$name]);
         }
+    }
+
+    /**
+     * Checks if parameter exists.
+     */
+    public function hasParameter(string $name): bool
+    {
+        return isset($this->parameters[$name]);
     }
 
     /**
@@ -52,16 +52,16 @@ trait ParametersTrait
         return $this->parameters;
     }
 
-    public function addParameter(string $name, mixed $value): void
-    {
-        $this->parameters[$name] = $value;
-    }
-
     public function setParameters(array $parameters): static
     {
         $this->parameters = $parameters;
 
         return $this;
+    }
+
+    public function addParameter(string $name, mixed $value): void
+    {
+        $this->parameters[$name] = $value;
     }
 
     /**

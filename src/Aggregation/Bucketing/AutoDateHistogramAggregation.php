@@ -13,7 +13,6 @@ namespace ONGR\ElasticsearchDSL\Aggregation\Bucketing;
 
 use ONGR\ElasticsearchDSL\Aggregation\AbstractAggregation;
 use ONGR\ElasticsearchDSL\Aggregation\Type\BucketingTrait;
-use ONGR\ElasticsearchDSL\BuilderInterface;
 
 /**
  * Class representing AutoDateHistogramAggregation.
@@ -29,7 +28,7 @@ class AutoDateHistogramAggregation extends AbstractAggregation
      *
      * @param string $name
      * @param string $field
-     * @param int    $buckets
+     * @param int $buckets
      * @param string $format
      */
     public function __construct(string $name, $field, $buckets = null, $format = null)

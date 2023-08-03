@@ -27,8 +27,13 @@ class DateRangeAggregation extends AbstractAggregation
     private array $ranges = [];
     private bool $keyed = false;
 
-    public function __construct(string $name, ?string $field = null, ?string $format = null, array $ranges = [], bool $keyed = false)
-    {
+    public function __construct(
+        string $name,
+        ?string $field = null,
+        ?string $format = null,
+        array $ranges = [],
+        bool $keyed = false
+    ) {
         parent::__construct($name);
 
         $this->setField($field);
@@ -52,16 +57,6 @@ class DateRangeAggregation extends AbstractAggregation
         $this->keyed = $keyed;
 
         return $this;
-    }
-
-    public function getFormat(): ?string
-    {
-        return $this->format;
-    }
-
-    public function setFormat(?string $format): void
-    {
-        $this->format = $format;
     }
 
     /**
@@ -110,6 +105,16 @@ class DateRangeAggregation extends AbstractAggregation
         }
 
         throw new \LogicException('Date range aggregation must have field, format set and range added.');
+    }
+
+    public function getFormat(): ?string
+    {
+        return $this->format;
+    }
+
+    public function setFormat(?string $format): void
+    {
+        $this->format = $format;
     }
 
     /**

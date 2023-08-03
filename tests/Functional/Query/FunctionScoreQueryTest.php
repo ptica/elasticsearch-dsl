@@ -37,7 +37,7 @@ class FunctionScoreQueryTest extends AbstractElasticsearchTestCase
                     'title' => 'bar',
                     'price' => 10,
                 ],
-            ]
+            ],
         ];
     }
 
@@ -55,7 +55,10 @@ class FunctionScoreQueryTest extends AbstractElasticsearchTestCase
 
         $results = $this->executeSearch($search);
 
-        $this->assertEquals(is_countable($this->getDataArray()['product']) ? count($this->getDataArray()['product']) : 0, count($results));
+        $this->assertEquals(
+            is_countable($this->getDataArray()['product']) ? count($this->getDataArray()['product']) : 0,
+            count($results)
+        );
     }
 
     public function testScriptScore(): void

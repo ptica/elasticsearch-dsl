@@ -34,9 +34,9 @@ class FiltersAggregation extends AbstractAggregation
     /**
      * Inner aggregations container init.
      *
-     * @param string             $name
+     * @param string $name
      * @param BuilderInterface[] $filters
-     * @param bool               $anonymous
+     * @param bool $anonymous
      */
     public function __construct(string $name, array $filters = [], bool $anonymous = false)
     {

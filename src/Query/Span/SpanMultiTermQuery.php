@@ -33,14 +33,6 @@ class SpanMultiTermQuery implements SpanQueryInterface
 
     /**
      * {@inheritdoc}
-     */
-    public function getType(): string
-    {
-        return 'span_multi';
-    }
-
-    /**
-     * {@inheritdoc}
      *
      * @throws \InvalidArgumentException
      */
@@ -51,5 +43,13 @@ class SpanMultiTermQuery implements SpanQueryInterface
         $output = $this->processArray($query);
 
         return [$this->getType() => $output];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getType(): string
+    {
+        return 'span_multi';
     }
 }

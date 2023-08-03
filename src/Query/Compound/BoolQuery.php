@@ -45,33 +45,11 @@ class BoolQuery implements BuilderInterface
     }
 
     /**
-     * Returns the query instances (by bool type).
-     *
-     * @param  string|null $boolType
-     *
-     * @return array
-     */
-    public function getQueries($boolType = null)
-    {
-        if ($boolType === null) {
-            $queries = [];
-
-            foreach ($this->container as $item) {
-                $queries = array_merge($queries, $item);
-            }
-
-            return $queries;
-        }
-
-        return $this->container[$boolType] ?? [];
-    }
-
-    /**
      * Add BuilderInterface object to bool operator.
      *
      * @param BuilderInterface $query Query add to the bool.
-     * @param string           $type  Bool type. Example: must, must_not, should.
-     * @param string           $key   Key that indicates a builder id.
+     * @param string $type Bool type. Example: must, must_not, should.
+     * @param string $key Key that indicates a builder id.
      *
      * @return string Key of added builder.
      *
@@ -93,12 +71,34 @@ class BoolQuery implements BuilderInterface
     }
 
     /**
+     * Returns the query instances (by bool type).
+     *
+     * @param string|null $boolType
+     *
+     * @return array
+     */
+    public function getQueries($boolType = null)
+    {
+        if ($boolType === null) {
+            $queries = [];
+
+            foreach ($this->container as $item) {
+                $queries = array_merge($queries, $item);
+            }
+
+            return $queries;
+        }
+
+        return $this->container[$boolType] ?? [];
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function toArray(): array|\stdClass
     {
         if (count($this->container) === 1 && isset($this->container[self::MUST])
-                && count($this->container[self::MUST]) === 1) {
+            && count($this->container[self::MUST]) === 1) {
             $query = reset($this->container[self::MUST]);
 
             return $query->toArray();

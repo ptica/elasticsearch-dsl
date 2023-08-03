@@ -43,9 +43,9 @@ class GeoHashGridAggregation extends AbstractAggregation
      *
      * @param string $name
      * @param string $field
-     * @param int    $precision
-     * @param int    $size
-     * @param int    $shardSize
+     * @param int $precision
+     * @param int $size
+     * @param int $shardSize
      */
     public function __construct(string $name, $field = null, $precision = null, $size = null, $shardSize = null)
     {
@@ -55,6 +55,34 @@ class GeoHashGridAggregation extends AbstractAggregation
         $this->setPrecision($precision);
         $this->setSize($size);
         $this->setShardSize($shardSize);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getArray(): array|\stdClass
+    {
+        $data = [];
+
+        if ($this->getField()) {
+            $data['field'] = $this->getField();
+        } else {
+            throw new \LogicException('Geo bounds aggregation must have a field set.');
+        }
+
+        if ($this->getPrecision()) {
+            $data['precision'] = $this->getPrecision();
+        }
+
+        if ($this->getSize()) {
+            $data['size'] = $this->getSize();
+        }
+
+        if ($this->getShardSize()) {
+            $data['shard_size'] = $this->getShardSize();
+        }
+
+        return $data;
     }
 
     /**
@@ -115,34 +143,6 @@ class GeoHashGridAggregation extends AbstractAggregation
         $this->shardSize = $shardSize;
 
         return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getArray(): array|\stdClass
-    {
-        $data = [];
-
-        if ($this->getField()) {
-            $data['field'] = $this->getField();
-        } else {
-            throw new \LogicException('Geo bounds aggregation must have a field set.');
-        }
-
-        if ($this->getPrecision()) {
-            $data['precision'] = $this->getPrecision();
-        }
-
-        if ($this->getSize()) {
-            $data['size'] = $this->getSize();
-        }
-
-        if ($this->getShardSize()) {
-            $data['shard_size'] = $this->getShardSize();
-        }
-
-        return $data;
     }
 
     /**

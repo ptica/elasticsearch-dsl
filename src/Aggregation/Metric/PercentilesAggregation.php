@@ -40,9 +40,9 @@ class PercentilesAggregation extends AbstractAggregation
      *
      * @param string $name
      * @param string $field
-     * @param array  $percents
+     * @param array $percents
      * @param string $script
-     * @param int    $compression
+     * @param int $compression
      */
     public function __construct(string $name, $field = null, $percents = null, $script = null, $compression = null)
     {
@@ -52,46 +52,6 @@ class PercentilesAggregation extends AbstractAggregation
         $this->setPercents($percents);
         $this->setScript($script);
         $this->setCompression($compression);
-    }
-
-    /**
-     * @return array
-     */
-    public function getPercents()
-    {
-        return $this->percents;
-    }
-
-    /**
-     * @param array $percents
-     *
-     * @return $this
-     */
-    public function setPercents($percents)
-    {
-        $this->percents = $percents;
-
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getCompression()
-    {
-        return $this->compression;
-    }
-
-    /**
-     * @param int $compression
-     *
-     * @return $this
-     */
-    public function setCompression($compression)
-    {
-        $this->compression = $compression;
-
-        return $this;
     }
 
     /**
@@ -120,6 +80,46 @@ class PercentilesAggregation extends AbstractAggregation
         $this->isRequiredParametersSet($out);
 
         return $out;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCompression()
+    {
+        return $this->compression;
+    }
+
+    /**
+     * @param int $compression
+     *
+     * @return $this
+     */
+    public function setCompression($compression)
+    {
+        $this->compression = $compression;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPercents()
+    {
+        return $this->percents;
+    }
+
+    /**
+     * @param array $percents
+     *
+     * @return $this
+     */
+    public function setPercents($percents)
+    {
+        $this->percents = $percents;
+
+        return $this;
     }
 
     /**

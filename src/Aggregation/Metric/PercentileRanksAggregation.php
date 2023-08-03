@@ -40,9 +40,9 @@ class PercentileRanksAggregation extends AbstractAggregation
      *
      * @param string $name
      * @param string $field
-     * @param array  $values
+     * @param array $values
      * @param string $script
-     * @param int    $compression
+     * @param int $compression
      */
     public function __construct(string $name, $field = null, $values = null, $script = null, $compression = null)
     {
@@ -52,6 +52,34 @@ class PercentileRanksAggregation extends AbstractAggregation
         $this->setValues($values);
         $this->setScript($script);
         $this->setCompression($compression);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getType(): string
+    {
+        return 'percentile_ranks';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getArray(): array|\stdClass
+    {
+        $out = array_filter(
+            [
+                'field' => $this->getField(),
+                'script' => $this->getScript(),
+                'values' => $this->getValues(),
+                'compression' => $this->getCompression(),
+            ],
+            static fn($val): bool => $val || is_numeric($val)
+        );
+
+        $this->isRequiredParametersSet($out);
+
+        return $out;
     }
 
     /**
@@ -92,34 +120,6 @@ class PercentileRanksAggregation extends AbstractAggregation
         $this->compression = $compression;
 
         return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getType(): string
-    {
-        return 'percentile_ranks';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getArray(): array|\stdClass
-    {
-        $out = array_filter(
-            [
-                'field' => $this->getField(),
-                'script' => $this->getScript(),
-                'values' => $this->getValues(),
-                'compression' => $this->getCompression(),
-            ],
-            static fn($val): bool => $val || is_numeric($val)
-        );
-
-        $this->isRequiredParametersSet($out);
-
-        return $out;
     }
 
     /**

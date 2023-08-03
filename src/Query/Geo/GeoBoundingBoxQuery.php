@@ -25,7 +25,7 @@ class GeoBoundingBoxQuery implements BuilderInterface
 
     /**
      * @param string $field
-     * @param array  $values
+     * @param array $values
      */
     public function __construct(private $field, private $values, array $parameters = [])
     {
@@ -35,19 +35,19 @@ class GeoBoundingBoxQuery implements BuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function getType(): string
+    public function toArray(): array|\stdClass
     {
-        return 'geo_bounding_box';
+        return [
+            $this->getType() => $this->processArray([$this->field => $this->points()]),
+        ];
     }
 
     /**
      * {@inheritdoc}
      */
-    public function toArray(): array|\stdClass
+    public function getType(): string
     {
-        return [
-            $this->getType() => $this->processArray([$this->field => $this->points()])
-        ];
+        return 'geo_bounding_box';
     }
 
     /**

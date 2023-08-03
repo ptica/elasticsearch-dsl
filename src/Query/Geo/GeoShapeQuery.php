@@ -24,11 +24,8 @@ class GeoShapeQuery implements BuilderInterface
     use ParametersTrait;
 
     final public const INTERSECTS = 'intersects';
-
     final public const DISJOINT = 'disjoint';
-
     final public const WITHIN = 'within';
-
     final public const CONTAINS = 'contains';
 
     private array $fields = [];
@@ -46,17 +43,36 @@ class GeoShapeQuery implements BuilderInterface
         return 'geo_shape';
     }
 
+    public function addGeometry(
+        string $field,
+        mixed $geometry,
+        string $relation = self::INTERSECTS,
+        array $parameters = []
+    ): static {
+        $this->fields[$field] = [
+                'shape' => $geometry,
+                'relation' => $relation,
+            ] + $parameters;
+
+        return $this;
+    }
+
     /**
      * Add geo-shape provided filter.
      *
-     * @param string $field       Field name.
-     * @param string $type        Shape type.
-     * @param array  $coordinates Shape coordinates.
-     * @param string $relation    Spatial relation.
-     * @param array  $parameters  Additional parameters.
+     * @param string $field Field name.
+     * @param string $type Shape type.
+     * @param array $coordinates Shape coordinates.
+     * @param string $relation Spatial relation.
+     * @param array $parameters Additional parameters.
      */
-    public function addShape($field, $type, array $coordinates, $relation = self::INTERSECTS, array $parameters = []): void
-    {
+    public function addShape(
+        string $field,
+        string $type,
+        array $coordinates,
+        $relation = self::INTERSECTS,
+        array $parameters = []
+    ): static {
         // TODO: remove this in the next major version
         if (is_array($relation)) {
             $parameters = $relation;
@@ -76,28 +92,30 @@ class GeoShapeQuery implements BuilderInterface
             'shape' => $filter,
             'relation' => $relation,
         ];
+
+        return $this;
     }
 
     /**
      * Add geo-shape pre-indexed filter.
      *
-     * @param string $field      Field name.
-     * @param string $id         The ID of the document that containing the pre-indexed shape.
-     * @param string $type       Name of the index where the pre-indexed shape is.
-     * @param string $index      Index type where the pre-indexed shape is.
-     * @param string $relation   Spatial relation.
-     * @param string $path       The field specified as path containing the pre-indexed shape.
-     * @param array  $parameters Additional parameters.
+     * @param string $field Field name.
+     * @param string $id The ID of the document that containing the pre-indexed shape.
+     * @param string $type Name of the index where the pre-indexed shape is.
+     * @param string $index Index type where the pre-indexed shape is.
+     * @param string $relation Spatial relation.
+     * @param string $path The field specified as path containing the pre-indexed shape.
+     * @param array $parameters Additional parameters.
      */
     public function addPreIndexedShape(
-        $field,
-        $id,
-        $type,
-        $index,
-        $path,
+        string $field,
+        string $id,
+        string $type,
+        string $index,
+        string $path,
         $relation = self::INTERSECTS,
         array $parameters = []
-    ): void {
+    ): static {
         // TODO: remove this in the next major version
         if (is_array($relation)) {
             $parameters = $relation;
@@ -119,12 +137,14 @@ class GeoShapeQuery implements BuilderInterface
             'indexed_shape' => $filter,
             'relation' => $relation,
         ];
+
+        return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function toArray(): array|\stdClass
+    public function toArray(): array
     {
         $output = $this->processArray($this->fields);
 
