@@ -1,4 +1,10 @@
 # CHANGELOG
+v8.0.2 (2023-08-03)
+---
+- Complete code refactor to **PHP 8.1**
+- Update symfony/serializer to **^6.0**
+- Added `RankFeaturQuery` and updated `GeoShapeQuery`
+
 v6.0.0 (2017-01-30)
 ---
 - Added support for the Elasticsearch 6
