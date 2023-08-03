@@ -1,0 +1,52 @@
+name: PHP CI
+
+on:
+  push:
+  pull_request:
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+#      - name: Configure sysctl limits
+#        run: |
+#          # sudo swapoff -a
+#          sudo sysctl -w vm.swappiness=1
+#          sudo sysctl -w fs.file-max=262144
+#          sudo sysctl -w vm.max_map_count=262144
+
+#      - name: Runs Elasticsearch
+#        uses: elastic/elastic-github-actions/elasticsearch@master
+#        with:
+#          stack-version: 8.9.0
+
+      - name: Install composer and dependencies
+        uses: php-actions/composer@v6
+
+      - name: PHPUnit Tests
+        uses: php-actions/phpunit@v3
+        env:
+          XDEBUG_MODE: coverage
+        with:
+          bootstrap: vendor/autoload.php
+          configuration: phpunit.xml.dist
+          php_extensions: xdebug
+          args: tests --coverage-clover ./coverage.xml
+
+      - name: Upload to Codecov
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        with:
+          files: ./coverage.xml
+          verbose: true
+
+      - name: Run PHP CodeSniffer
+        run: vendor/bin/phpcs -p --standard=PSR2 --ignore=vendor/ ./
