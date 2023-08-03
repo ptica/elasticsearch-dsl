@@ -58,7 +58,7 @@ class Highlight implements BuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function toArray(): array
+    public function toArray(): array|\stdClass
     {
         $output = [];
 
@@ -69,7 +69,7 @@ class Highlight implements BuilderInterface
         $output = $this->processArray($output);
 
         foreach ($this->fields as $field => $params) {
-            $output['fields'][$field] = count($params) ? $params : [];
+            $output['fields'][$field] = count($params) ? $params : new \stdClass();
         }
 
         return $output;

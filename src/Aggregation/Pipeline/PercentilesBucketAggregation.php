@@ -49,7 +49,7 @@ class PercentilesBucketAggregation extends AbstractPipelineAggregation
     /**
      * {@inheritdoc}
      */
-    public function getArray(): array
+    public function getArray(): array|\stdClass
     {
         $data = ['buckets_path' => $this->getBucketsPath()];
 

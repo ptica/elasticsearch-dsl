@@ -120,7 +120,7 @@ class GeoHashGridAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getArray(): array
+    public function getArray(): array|\stdClass
     {
         $data = [];
 

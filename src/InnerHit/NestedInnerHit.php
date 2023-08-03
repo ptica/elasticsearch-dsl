@@ -77,9 +77,9 @@ class NestedInnerHit implements NamedBuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function toArray(): array
+    public function toArray(): array|\stdClass
     {
-        $out = $this->getSearch() ? $this->getSearch()->toArray() : [];
+        $out = $this->getSearch() ? $this->getSearch()->toArray() : new \stdClass();
 
         return [
             $this->getPathType() => [

@@ -43,7 +43,7 @@ class SpanFirstQuery implements SpanQueryInterface
     /**
      * {@inheritdoc}
      */
-    public function toArray(): array
+    public function toArray(): array|\stdClass
     {
         $query = [];
         $query['match'] = $this->query->toArray();

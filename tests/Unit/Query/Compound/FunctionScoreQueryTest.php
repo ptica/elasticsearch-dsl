@@ -36,7 +36,7 @@ class FunctionScoreQueryTest extends TestCase
                     'query' => [],
                     'functions' => [
                         [
-                            'random_score' => [],
+                            'random_score' => new \stdClass(),
                         ],
                     ],
                 ],

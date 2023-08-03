@@ -112,7 +112,7 @@ class RangeAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getArray(): array
+    public function getArray(): array|\stdClass
     {
         $data = [
             'keyed' => $this->keyed,

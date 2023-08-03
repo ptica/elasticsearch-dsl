@@ -67,7 +67,7 @@ class FilterAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getArray(): array
+    public function getArray(): array|\stdClass
     {
         if (!$this->filter) {
             throw new \LogicException(sprintf('Filter aggregation `%s` has no filter added', $this->getName()));

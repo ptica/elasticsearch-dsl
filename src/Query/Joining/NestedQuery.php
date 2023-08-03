@@ -42,7 +42,7 @@ class NestedQuery implements BuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function toArray(): array
+    public function toArray(): array|\stdClass
     {
         return [
             $this->getType() => $this->processArray(

@@ -21,7 +21,7 @@ interface BuilderInterface
      *
      * @return array
      */
-    public function toArray(): array;
+    public function toArray(): array|\stdClass;
 
     /**
      * Returns element type.

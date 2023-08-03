@@ -83,7 +83,7 @@ class FieldSort implements BuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function toArray(): array
+    public function toArray(): array|\stdClass
     {
         if ($this->order) {
             $this->addParameter('order', $this->order);
@@ -94,7 +94,7 @@ class FieldSort implements BuilderInterface
         }
 
         return [
-            $this->field => $this->getParameters() ?: [],
+            $this->field => $this->getParameters() ?: new \stdClass(),
         ];
     }
 }

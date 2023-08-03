@@ -42,7 +42,7 @@ class QueryStringQuery implements BuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function toArray(): array
+    public function toArray(): array|\stdClass
     {
         $query = [
             'query' => $this->query,

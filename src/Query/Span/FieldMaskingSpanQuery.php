@@ -82,7 +82,7 @@ class FieldMaskingSpanQuery implements SpanQueryInterface
     /**
      * {@inheritdoc}
      */
-    public function toArray(): array
+    public function toArray(): array|\stdClass
     {
         $output = [
             'query' => $this->getQuery()->toArray(),

@@ -47,7 +47,7 @@ abstract class AbstractPipelineAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getArray(): array
+    public function getArray(): array|\stdClass
     {
         return ['buckets_path' => $this->getBucketsPath()];
     }

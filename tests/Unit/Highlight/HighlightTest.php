@@ -99,7 +99,7 @@ class HighlightTest extends TestCase
         $result = $highlight->toArray();
         $expectedResult = [
             'fields' => [
-                'ok' => [],
+                'ok' => new \stdClass(),
             ],
             '_source' => [
                 'include' => [

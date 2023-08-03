@@ -38,7 +38,7 @@ class NestedInnerHitTest extends TestCase
             $emptyInnerHit,
             [
                 'path' => [
-                    'foo' => [],
+                    'foo' => new \stdClass(),
                 ],
             ],
         ];

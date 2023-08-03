@@ -218,7 +218,7 @@ class HistogramAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getArray(): array
+    public function getArray(): array|\stdClass
     {
         $out = array_filter(
             [

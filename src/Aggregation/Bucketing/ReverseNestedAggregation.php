@@ -68,9 +68,9 @@ class ReverseNestedAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getArray(): array
+    public function getArray(): array|\stdClass
     {
-        $output = [];
+        $output = new \stdClass();
         if ($this->getPath()) {
             $output = ['path' => $this->getPath()];
         }

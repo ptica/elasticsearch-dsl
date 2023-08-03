@@ -61,7 +61,7 @@ class RangeQuery implements BuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function toArray(): array
+    public function toArray(): array|\stdClass
     {
         $output = [
             $this->field => $this->getParameters(),

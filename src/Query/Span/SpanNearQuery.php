@@ -54,7 +54,7 @@ class SpanNearQuery extends SpanOrQuery implements SpanQueryInterface
     /**
      * {@inheritdoc}
      */
-    public function toArray(): array
+    public function toArray(): array|\stdClass
     {
         $query = [];
         foreach ($this->getQueries() as $type) {

@@ -46,7 +46,7 @@ class TermsQuery implements BuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function toArray(): array
+    public function toArray(): array|\stdClass
     {
         $query = [
             $this->field => $this->terms,

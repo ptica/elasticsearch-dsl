@@ -52,7 +52,7 @@ class BucketScriptAggregation extends AbstractPipelineAggregation
     /**
      * {@inheritdoc}
      */
-    public function getArray(): array
+    public function getArray(): array|\stdClass
     {
         if (!$this->getScript()) {
             throw new \LogicException(

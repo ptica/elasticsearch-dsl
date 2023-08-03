@@ -83,7 +83,7 @@ class Ipv4RangeAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function getArray(): array
+    public function getArray(): array|\stdClass
     {
         if ($this->getField() && !empty($this->ranges)) {
             return [
