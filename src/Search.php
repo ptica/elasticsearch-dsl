@@ -254,8 +254,11 @@ class Search
      *                                   - must_not
      *                                   - should.
      */
-    public function addPostFilter(BuilderInterface $filter, string $boolType = BoolQuery::MUST, mixed $key = null): static
-    {
+    public function addPostFilter(
+        BuilderInterface $filter,
+        string $boolType = BoolQuery::MUST,
+        mixed $key = null
+    ): static {
         $this
             ->getEndpoint(PostFilterEndpoint::NAME)
             ->addToBool($filter, $boolType, $key);

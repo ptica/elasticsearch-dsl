@@ -111,6 +111,4 @@ class DateHistogramAggregation extends AbstractAggregation
 
         return $out;
     }
-
-
 }
