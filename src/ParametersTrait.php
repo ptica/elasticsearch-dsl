@@ -21,11 +21,13 @@ trait ParametersTrait
     /**
      * Removes parameter.
      */
-    public function removeParameter(string $name): void
+    public function removeParameter(string $name): static
     {
         if ($this->hasParameter($name)) {
             unset($this->parameters[$name]);
         }
+
+        return $this;
     }
 
     /**
@@ -59,9 +61,11 @@ trait ParametersTrait
         return $this;
     }
 
-    public function addParameter(string $name, mixed $value): void
+    public function addParameter(string $name, mixed $value): static
     {
         $this->parameters[$name] = $value;
+
+        return $this;
     }
 
     /**

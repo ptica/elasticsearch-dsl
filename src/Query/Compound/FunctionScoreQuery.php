@@ -23,9 +23,6 @@ class FunctionScoreQuery implements BuilderInterface
 {
     use ParametersTrait;
 
-    /**
-     * @var mixed[][]|null
-     */
     private ?array $functions = null;
 
     public function __construct(private readonly BuilderInterface $query, array $parameters = [])
@@ -35,8 +32,6 @@ class FunctionScoreQuery implements BuilderInterface
 
     /**
      * Returns the query instance.
-     *
-     * @return BuilderInterface object
      */
     public function getQuery(): BuilderInterface
     {
@@ -45,19 +40,14 @@ class FunctionScoreQuery implements BuilderInterface
 
     /**
      * Creates field_value_factor function.
-     *
-     * @param string $field
-     * @param float $factor
-     * @param string $modifier
-     * @return $this
      */
     public function addFieldValueFactorFunction(
-        $field,
-        $factor,
-        $modifier = 'none',
+        string $field,
+        float $factor,
+        string $modifier = 'none',
         BuilderInterface $query = null,
         mixed $missing = null
-    ) {
+    ): static {
         $function = [
             'field_value_factor' => array_filter(
                 [
@@ -111,21 +101,15 @@ class FunctionScoreQuery implements BuilderInterface
 
     /**
      * Add decay function to function score. Weight and query are optional.
-     *
-     * @param string $type
-     * @param string $field
-     * @param int $weight
-     *
-     * @return $this
      */
     public function addDecayFunction(
-        $type,
-        $field,
+        string $type,
+        string $field,
         array $function,
         array $options = [],
         BuilderInterface $query = null,
-        $weight = null
-    ) {
+        ?int $weight = null
+    ): static {
         $function = array_filter(
             [
                 $type => array_merge(
@@ -145,12 +129,8 @@ class FunctionScoreQuery implements BuilderInterface
 
     /**
      * Adds function to function score without decay function. Influence search score only for specific query.
-     *
-     * @param float $weight
-     *
-     * @return $this
      */
-    public function addWeightFunction($weight, BuilderInterface $query = null)
+    public function addWeightFunction(float $weight, BuilderInterface $query = null): static
     {
         $function = [
             'weight' => $weight,
@@ -165,11 +145,8 @@ class FunctionScoreQuery implements BuilderInterface
 
     /**
      * Adds random score function. Seed is optional.
-     *
-     *
-     * @return $this
      */
-    public function addRandomFunction(mixed $seed = null, BuilderInterface $query = null)
+    public function addRandomFunction(mixed $seed = null, BuilderInterface $query = null): static
     {
         $function = [
             'random_score' => $seed ? ['seed' => $seed] : new \stdClass(),
@@ -184,17 +161,13 @@ class FunctionScoreQuery implements BuilderInterface
 
     /**
      * Adds script score function.
-     *
-     * @param string $inline
-     *
-     * @return $this
      */
     public function addScriptScoreFunction(
-        $inline,
+        string $source,
         array $params = [],
         array $options = [],
         BuilderInterface $query = null
-    ) {
+    ): static {
         $function = [
             'script_score' => [
                 'script' =>
@@ -202,7 +175,7 @@ class FunctionScoreQuery implements BuilderInterface
                         array_merge(
                             [
                                 'lang' => 'painless',
-                                'inline' => $inline,
+                                'source' => $source,
                                 'params' => $params,
                             ],
                             $options
@@ -219,11 +192,8 @@ class FunctionScoreQuery implements BuilderInterface
 
     /**
      * Adds custom simple function. You can add to the array whatever you want.
-     *
-     *
-     * @return $this
      */
-    public function addSimpleFunction(array $function)
+    public function addSimpleFunction(array $function): static
     {
         $this->functions[] = $function;
 

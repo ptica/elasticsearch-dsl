@@ -26,7 +26,7 @@ class GlobalAggregation extends AbstractAggregation
     /**
      * {@inheritdoc}
      */
-    public function setField($field): void
+    public function setField(?string $field): static
     {
         throw new \LogicException("Global aggregation, doesn't support `field` parameter");
     }

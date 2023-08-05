@@ -70,16 +70,9 @@ class GeoShapeQuery implements BuilderInterface
         string $field,
         string $type,
         array $coordinates,
-        $relation = self::INTERSECTS,
+        string $relation = self::INTERSECTS,
         array $parameters = []
     ): static {
-        // TODO: remove this in the next major version
-        if (is_array($relation)) {
-            $parameters = $relation;
-            $relation = self::INTERSECTS;
-            trigger_error('$parameters as parameter 4 in addShape is deprecated', E_USER_DEPRECATED);
-        }
-
         $filter = array_merge(
             $parameters,
             [
@@ -113,16 +106,9 @@ class GeoShapeQuery implements BuilderInterface
         string $type,
         string $index,
         string $path,
-        $relation = self::INTERSECTS,
+        string $relation = self::INTERSECTS,
         array $parameters = []
     ): static {
-        // TODO: remove this in the next major version
-        if (is_array($relation)) {
-            $parameters = $relation;
-            $relation = self::INTERSECTS;
-            trigger_error('$parameters as parameter 6 in addShape is deprecated', E_USER_DEPRECATED);
-        }
-
         $filter = array_merge(
             $parameters,
             [

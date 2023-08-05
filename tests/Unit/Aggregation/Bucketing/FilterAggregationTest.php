@@ -118,19 +118,37 @@ class FilterAggregationTest extends TestCase
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('has no filter added');
         $aggregation = new FilterAggregation('test_agg');
-        $aggregation->toArray();
+        $result = $aggregation->toArray();
+        $this->assertEquals(
+            [
+                'aggregation' => [
+                    'test_agg' => [
+                        'filter' => []
+                    ]
+                ]
+            ],
+            $result
+        );
     }
 
     /**
      * Test for toArray() with setting a filter.
      */
-    #[DoesNotPerformAssertions]
     public function testToArrayWithFilter(): void
     {
         $aggregation = new FilterAggregation('test_agg');
-
         $aggregation->setFilter(new ExistsQuery('test'));
-        $aggregation->toArray();
+        $result = $aggregation->toArray();
+        $this->assertEquals(
+            [
+                'filter' => [
+                    'exists' => [
+                        'field' => 'test'
+                    ]
+                ]
+            ],
+            $result
+        );
     }
 
     /**

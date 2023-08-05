@@ -44,5 +44,10 @@
         "allow-plugins": {
             "php-http/discovery": true
         }
+    },
+    "scripts": {
+        "run-tests": [
+            "XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-text"
+        ]
     }
 }

@@ -8,4 +8,5 @@ es::
           -e ES_JAVA_OPTS="-Xms1g -Xmx1g"\
           -e xpack.security.enabled=false \
           -it \
+          --rm \
           docker.elastic.co/elasticsearch/elasticsearch:8.9.0

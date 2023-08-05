@@ -24,15 +24,12 @@ class HighlightEndpoint extends AbstractSearchEndpoint
      */
     final public const NAME = 'highlight';
 
-    /**
-     * @var BuilderInterface
-     */
-    private $highlight;
+    private ?BuilderInterface $highlight = null;
 
     /**
-     * @var string Key for highlight storing.
+     * @var mixed Key for highlight storing.
      */
-    private $key;
+    private mixed $key;
 
     /**
      * {@inheritdoc}
@@ -42,17 +39,13 @@ class HighlightEndpoint extends AbstractSearchEndpoint
         $format = null,
         array $context = []
     ): array|string|int|float|bool|\ArrayObject|null {
-        if ($this->highlight) {
-            return $this->highlight->toArray();
-        }
-
-        return null;
+        return $this->highlight?->toArray();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function add(BuilderInterface $builder, $key = null)
+    public function add(BuilderInterface $builder, mixed $key = null): mixed
     {
         if ($this->highlight) {
             throw new \OverflowException('Only one highlight can be set');
@@ -60,20 +53,19 @@ class HighlightEndpoint extends AbstractSearchEndpoint
 
         $this->key = $key;
         $this->highlight = $builder;
+
+        return $key;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getAll($boolType = null): array
+    public function getAll(?string $boolType = null): array
     {
         return [$this->key => $this->highlight];
     }
 
-    /**
-     * @return BuilderInterface
-     */
-    public function getHighlight()
+    public function getHighlight(): ?BuilderInterface
     {
         return $this->highlight;
     }

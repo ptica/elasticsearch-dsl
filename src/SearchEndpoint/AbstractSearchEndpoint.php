@@ -13,6 +13,7 @@ namespace ONGR\ElasticsearchDSL\SearchEndpoint;
 
 use ONGR\ElasticsearchDSL\BuilderInterface;
 use ONGR\ElasticsearchDSL\ParametersTrait;
+use ONGR\ElasticsearchDSL\Query\Compound\BoolQuery;
 use ONGR\ElasticsearchDSL\Serializer\Normalizer\AbstractNormalizable;
 
 /**
@@ -30,7 +31,7 @@ abstract class AbstractSearchEndpoint extends AbstractNormalizable implements Se
     /**
      * {@inheritdoc}
      */
-    public function add(BuilderInterface $builder, $key = null)
+    public function add(BuilderInterface $builder, mixed $key = null): mixed
     {
         if (array_key_exists($key, $this->container)) {
             throw new \OverflowException(sprintf('Builder with %s name for endpoint has already been added!', $key));
@@ -48,7 +49,7 @@ abstract class AbstractSearchEndpoint extends AbstractNormalizable implements Se
     /**
      * {@inheritdoc}
      */
-    public function addToBool(BuilderInterface $builder, ?string $boolType = null, mixed $key = null)
+    public function addToBool(BuilderInterface $builder, ?string $boolType = null, mixed $key = null): mixed
     {
         throw new \BadFunctionCallException(sprintf("Endpoint %s doesn't support bool statements", static::NAME));
     }
@@ -56,7 +57,7 @@ abstract class AbstractSearchEndpoint extends AbstractNormalizable implements Se
     /**
      * {@inheritdoc}
      */
-    public function remove($key)
+    public function remove(mixed $key): static
     {
         if ($this->has($key)) {
             unset($this->container[$key]);
@@ -70,7 +71,7 @@ abstract class AbstractSearchEndpoint extends AbstractNormalizable implements Se
      *
      * @param string $key Key to check if it exists in container.
      */
-    public function has($key): bool
+    public function has(mixed $key): bool
     {
         return array_key_exists($key, $this->container);
     }
@@ -78,7 +79,7 @@ abstract class AbstractSearchEndpoint extends AbstractNormalizable implements Se
     /**
      * {@inheritdoc}
      */
-    public function get($key)
+    public function get(mixed $key): ?BuilderInterface
     {
         if ($this->has($key)) {
             return $this->container[$key];
@@ -90,7 +91,7 @@ abstract class AbstractSearchEndpoint extends AbstractNormalizable implements Se
     /**
      * {@inheritdoc}
      */
-    public function getAll($boolType = null)
+    public function getAll(?string $boolType = null): array
     {
         return $this->container;
     }
@@ -98,7 +99,7 @@ abstract class AbstractSearchEndpoint extends AbstractNormalizable implements Se
     /**
      * {@inheritdoc}
      */
-    public function getBool()
+    public function getBool(): ?BoolQuery
     {
         throw new \BadFunctionCallException(sprintf("Endpoint %s doesn't support bool statements", static::NAME));
     }

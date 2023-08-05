@@ -41,6 +41,16 @@ class DateHistogramAggregationTest extends TestCase
     }
 
     /**
+     * Tests if ChildrenAggregation#getArray throws exception when expected.
+     */
+    public function testGetArrayExceptionWhenDontSendInterval()
+    {
+        $this->expectException(\LogicException::class);
+        $aggregation = new DateHistogramAggregation('foo', 'date');
+        $aggregation->getArray();
+    }
+
+    /**
      * Tests getArray method.
      */
     public function testChildrenAggregationGetArray(): void
@@ -51,10 +61,36 @@ class DateHistogramAggregationTest extends TestCase
         $aggregation = new DateHistogramAggregation('foo');
         $aggregation->addAggregation($mock);
         $aggregation->setField('date');
-        $aggregation->setInterval('month');
+        $aggregation->setCalendarInterval('month');
 
         $result = $aggregation->getArray();
-        $expected = ['field' => 'date', 'interval' => 'month'];
+        $expected = ['field' => 'date', 'calendar_interval' => 'month'];
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * Tests getArray method.
+     */
+    public function testCalendarIntervalGetArray()
+    {
+        $aggregation = new DateHistogramAggregation('foo');
+        $aggregation->setField('date');
+        $aggregation->setCalendarInterval('month');
+        $result = $aggregation->getArray();
+        $expected = ['field' => 'date', 'calendar_interval' => 'month'];
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * Tests getArray method.
+     */
+    public function testFixedIntervalGetArray()
+    {
+        $aggregation = new DateHistogramAggregation('foo');
+        $aggregation->setField('date');
+        $aggregation->setFixedInterval('month');
+        $result = $aggregation->getArray();
+        $expected = ['field' => 'date', 'fixed_interval' => 'month'];
         $this->assertEquals($expected, $result);
     }
 }

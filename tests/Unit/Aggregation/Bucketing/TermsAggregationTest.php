@@ -179,12 +179,12 @@ class TermsAggregationTest extends TestCase
         // Case #7 terms aggregation with order term mode, desc direction.
         $aggregation = new TermsAggregation('test_agg');
         $aggregation->setField('test_field');
-        $aggregation->addParameter('order', ['_term' => 'desc']);
+        $aggregation->addParameter('order', ['_key' => 'desc']);
 
         $result = [
             'terms' => [
                 'field' => 'test_field',
-                'order' => ['_term' => 'desc'],
+                'order' => ['_key' => 'desc'],
             ],
         ];
 

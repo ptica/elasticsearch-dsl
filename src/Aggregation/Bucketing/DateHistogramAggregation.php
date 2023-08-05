@@ -23,18 +23,23 @@ class DateHistogramAggregation extends AbstractAggregation
 {
     use BucketingTrait;
 
-    protected ?string $interval;
-    protected ?string $format;
+    protected ?string $calendarInterval = null;
+    protected ?string $fixedInterval = null;
+    protected ?string $format = null;
 
     /**
      * Inner aggregations container init.
      */
-    public function __construct(string $name, ?string $field = null, ?string $interval = null, ?string $format = null)
-    {
+    public function __construct(
+        string $name,
+        ?string $field = null,
+        ?string $calendarInterval = null,
+        ?string $format = null
+    ) {
         parent::__construct($name);
 
         $this->setField($field);
-        $this->setInterval($interval);
+        $this->setCalendarInterval($calendarInterval);
         $this->setFormat($format);
     }
 
@@ -43,6 +48,34 @@ class DateHistogramAggregation extends AbstractAggregation
         $this->format = $format;
 
         return $this;
+    }
+
+    public function getCalendarInterval(): ?string
+    {
+        return $this->calendarInterval;
+    }
+
+    public function setCalendarInterval(?string $calendarInterval): static
+    {
+        $this->calendarInterval = $calendarInterval;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getFixedInterval(): ?string
+    {
+        return $this->fixedInterval;
+    }
+
+    /**
+     * @param string|null $fixedInterval
+     */
+    public function setFixedInterval(?string $fixedInterval): void
+    {
+        $this->fixedInterval = $fixedInterval;
     }
 
     /**
@@ -58,14 +91,19 @@ class DateHistogramAggregation extends AbstractAggregation
      */
     public function getArray(): array|\stdClass
     {
-        if (!$this->getField() || !$this->getInterval()) {
-            throw new \LogicException('Date histogram aggregation must have field and interval set.');
+        if (!$this->getField() || !($this->getCalendarInterval() || $this->getFixedInterval())) {
+            throw new \LogicException('Date histogram aggregation must have field and calendar_interval set.');
         }
 
         $out = [
             'field' => $this->getField(),
-            'interval' => $this->getInterval(),
         ];
+
+        if ($this->getCalendarInterval()) {
+            $out['calendar_interval'] = $this->getCalendarInterval();
+        } elseif ($this->getFixedInterval()) {
+            $out['fixed_interval'] = $this->getFixedInterval();
+        }
 
         if (!empty($this->format)) {
             $out['format'] = $this->format;
@@ -74,15 +112,5 @@ class DateHistogramAggregation extends AbstractAggregation
         return $out;
     }
 
-    public function getInterval(): ?string
-    {
-        return $this->interval;
-    }
 
-    public function setInterval(?string $interval): static
-    {
-        $this->interval = $interval;
-
-        return $this;
-    }
 }
