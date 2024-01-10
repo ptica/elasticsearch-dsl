@@ -56,7 +56,7 @@ class RangeAggregation extends AbstractAggregation
     /**
      * Add range to aggregation.
      */
-    public function addRange(mixed $from = null, mixed $to = null, string $key = ''): static
+    public function addRange(mixed $from = null, mixed $to = null, ?string $key = null): static
     {
         $range = array_filter(
             [
