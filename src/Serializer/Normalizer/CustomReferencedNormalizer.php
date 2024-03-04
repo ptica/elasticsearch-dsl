@@ -12,34 +12,75 @@
 namespace ONGR\ElasticsearchDSL\Serializer\Normalizer;
 
 use Symfony\Component\Serializer\Normalizer\CustomNormalizer;
+use Symfony\Component\Serializer\Normalizer\DenormalizableInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizableInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+use Symfony\Component\Serializer\SerializerAwareInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Normalizer used with referenced normalized objects.
  */
-class CustomReferencedNormalizer extends CustomNormalizer
+final class CustomReferencedNormalizer implements NormalizerInterface, DenormalizerInterface, SerializerAwareInterface
 {
+    private CustomNormalizer $customNormalizer;
+
     private array $references = [];
 
-    /**
-     * {@inheritdoc}
-     */
-    public function normalize(
-        mixed $object,
-        string $format = null,
-        array $context = []
-    ): array|bool|string|int|float|null|\ArrayObject {
-        $object->setReferences($this->references);
-        $data = parent::normalize($object, $format, $context);
-        $this->references = array_merge($this->references, $object->getReferences());
+    public function __construct()
+    {
+        $this->customNormalizer = new CustomNormalizer();
+    }
 
-        return $data;
+    public function normalize(mixed $object, string $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    {
+        if ($this->supportsNormalization($object, $format)) {
+            $object->setReferences($this->references);
+            $data = $this->customNormalizer->normalize($object, $format, $context);
+            $this->references = array_merge($this->references, $object->getReferences());
+
+            return $data;
+        }
+        throw new \InvalidArgumentException('Unsupported object type for normalization.');
+    }
+
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
+    {
+        return $this->customNormalizer->denormalize($data, $type, $format, $context);
+    }
+
+    public function setSerializer(SerializerInterface $serializer): void
+    {
+        if ($this->customNormalizer instanceof SerializerAwareInterface) {
+            $this->customNormalizer->setSerializer($serializer);
+        }
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            NormalizableInterface::class => true,
+            DenormalizableInterface::class => true,
+        ];
     }
 
     /**
-     * {@inheritdoc}
+     * @param mixed       $data   Data to denormalize from
+     * @param string      $type   The class to which the data should be denormalized
+     * @param string|null $format The format being deserialized from
      */
-    public function supportsNormalization($data, $format = null): bool
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
-        return $data instanceof AbstractNormalizable;
+        return $this->customNormalizer->supportsDenormalization($data, $type, $format, $context);
+    }
+
+    /**
+     * @param mixed       $data   Data to normalize
+     * @param string|null $format The format being (de-)serialized from or into
+     */
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+    {
+        return $this->customNormalizer->supportsNormalization($data, $format, $context);
     }
 }
